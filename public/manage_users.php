@@ -1,6 +1,6 @@
 <?php require_once("../includes/initialize.php"); ?>
+<?php confirm_logged_in(); ?>
 <?php
-	confirm_logged_in();
 	$users = User::find_all();
 ?>
 
