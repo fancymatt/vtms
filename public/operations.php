@@ -31,7 +31,8 @@
 	$moveable_lessons = count(Lesson::find_all_moveable_lessons());
 	$language_checked_lessons = count(Lesson::find_all_ready_to_video_check_lessons());
 	
-	$qa_lessons = Lesson::find_all_checkable_lessons();
+	$sort_by = $db->escape_value($_GET['sort']);	
+	$qa_lessons = Lesson::find_all_checkable_lessons($sort_by);
 ?>
 
 <?php include_layout_template('header.php'); ?>
@@ -52,7 +53,7 @@
 	<div id="get-these-checked">
 	<h3>Waiting for Language Check</h3>
 		<table>
-			<tr><th>Lesson</th><th>QA Status</th><th>Actions</th><th>Exported Time</th></tr>
+			<tr><th><a href='operations.php?sort=abc'>Lesson</a></th><th>QA Status</th><th>Actions</th><th><a href='operations.php?sort=export'>Exported Time</a></th><th><a href='operations.php?sort=pub'>Publish Date</a></th></tr>
 				<?php 
 				if(!$qa_lessons) {
 					echo "<td>No lessons</td>";
@@ -72,6 +73,7 @@
 						echo "Issues: ".count($issues);
 						echo "<input type='hidden' name='qa_lesson_id' value='{$qa_lesson->id}'><input type='submit' name='marked_lesson_language_checked' value='Mark Language Checked'></form></td>";
 						echo "<td>{$qa_lesson->exported_time}</td>";
+						echo "<td>{$qa_lesson->publish_date}</td>";
 						echo "</tr>";
 					} 
 				 } ?>		

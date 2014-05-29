@@ -123,6 +123,11 @@ th {
 	background: #222;
 }
 
+th a {
+	color: yellow;
+	text-decoration: none;
+}
+
 td.active {
 	color: #1330b0;
 	font-weight: bold;

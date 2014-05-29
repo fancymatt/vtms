@@ -15,7 +15,8 @@
 	}
 	
 	$moveable_lessons = Lesson::find_all_moveable_lessons();
-	$language_checked_lessons = Lesson::find_all_ready_to_video_check_lessons();
+	$sort_by = $db->escape_value($_GET['sort']);
+	$language_checked_lessons = Lesson::find_all_ready_to_video_check_lessons($sort_by);
 ?>
 
 <?php include_layout_template('header.php'); ?>
@@ -41,7 +42,7 @@
 						echo "<td><form action='videoCheck.php' method='post'>";
 						echo "<input type='hidden' name='qa_lesson_id' value='{$qa_lesson->id}'><input type='submit' name='move_lesson' value='Files Moved'></form>";
 						echo "</td>";
-						echo "<td>{$qa_lesson->date_due}</td>";
+						echo "<td>{$qa_lesson->publish_date}</td>";
 						echo "</tr>";
 					} 
 				 } ?>		
@@ -51,7 +52,7 @@
 	<div id="check-these">
 		<h3>Check These</h3>
 		<table>
-			<tr><th>Lesson</th><th>Actions</th><th>Due Date</th></tr>
+			<tr><th><a href='videoCheck.php?sort=abc'>Lesson</th><th>Actions</th><th><a href='videoCheck.php?sort=pub'>Due Date</a></th></tr>
 				<?php 
 				if(!$language_checked_lessons) {
 					echo "<td>No lessons</td>";
@@ -65,7 +66,7 @@
 						echo "<form action='videoCheck.php' method='post'>";
 						echo "<input type='hidden' name='qa_lesson_id' value='{$qa_lesson->id}'><input type='submit' name='mark_lesson_as_checked' value='Mark as Checked'></form>";
 						echo "</td>";
-						echo "<td>{$qa_lesson->date_due}</td>";
+						echo "<td>{$qa_lesson->publish_date}</td>";
 						echo "</tr>";
 					} 
 				 } ?>		

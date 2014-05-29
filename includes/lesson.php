@@ -240,7 +240,7 @@ class Lesson extends DatabaseObject {
 		return static::find_by_sql($sql);
 	}
 	
-	public static function find_all_ready_to_video_check_lessons() {
+	public static function find_all_ready_to_video_check_lessons($sort_by='abc') {
 		// detect the latest task completion time and issue fixed time
 		// and there are no more missing tasks
 		$sql  = "SELECT ";		
@@ -292,14 +292,18 @@ class Lesson extends DatabaseObject {
 		$sql .= "			JOIN task ";
 		$sql .= "				 ON sub_lesson.id=task.fkLesson ";
 		$sql .= "		WHERE sub_lesson.id=lesson.id) ";
-		
-		// Order
-		$sql .= "ORDER BY language.name, series.title, level.id, lesson.number ";
+		if ($sort_by=='abc') {
+			$sql .= "ORDER BY language.name, series.title, level.id, lesson.number ASC ";
+		} else if ($sort_by=='pub') {
+			$sql .= "ORDER BY lesson.publishDateSite ASC ";	
+		} else {
+			$sql .= "ORDER BY lesson.exportedTime DESC ";
+		}
 		
 		return static::find_by_sql($sql);
 	}
 	
-	public static function find_all_checkable_lessons() {
+	public static function find_all_checkable_lessons($sort_by='abc') {
 		// Now doing double duty as the method that checks for operations and qa page
 		// When there are no issues on a lesson, it is not appearing
 		
@@ -368,21 +372,17 @@ class Lesson extends DatabaseObject {
 		$sql .= "        languageSeries.fkSeries = series.id ";
 		$sql .= "         WHERE  lesson.id = sub_lesson_series.id ";
 		$sql .= "			) ";
-		$sql .= "ORDER BY lesson.exportedTime DESC ";
-		
-		
+		if ($sort_by=='abc') {
+			$sql .= "ORDER BY language.name, series.title, level.id, lesson.number ASC ";
+		} else if ($sort_by=='pub') {
+			$sql .= "ORDER BY lesson.publishDateSite ASC ";	
+		} else {
+			$sql .= "ORDER BY lesson.exportedTime DESC ";
+		}
 		return static::find_by_sql($sql);
 	}
 	
-	public static function find_qa_lessons() {
-		// Now doing double duty as the method that checks for operations and qa page
-		// When there are no issues on a lesson, it is not appearing
-		
-		// $findQALessons->addFindCriterion('Completion Value Total', '>19');
-		// $findQALessons->addFindCriterion('Exported Last Time', '*');
-		// $findQALessons->addFindCriterion('QA URL', '*');
-		// $findQALessons->addSortRule('Language::Language Name', 1, FILEMAKER_SORT_ASCEND);
-
+	public static function find_qa_lessons($sort_by='abc') {
 		$sql  = "SELECT ";		
 		foreach (self::$db_view_fields as $k => $v) {
 			$sql .= $k." AS ".$v;
@@ -435,7 +435,11 @@ class Lesson extends DatabaseObject {
 		$sql .= "        languageSeries.fkSeries = series.id ";
 		$sql .= "         WHERE  lesson.id = sub_lesson_series.id ";
 		$sql .= "			) ";
-		$sql .= "ORDER BY language.name, series.title, level.id, lesson.number ASC ";
+		if($sort_by == 'pub') {
+			$sql .= "ORDER BY lesson.publishDateSite ASC ";
+		} else {
+			$sql .= "ORDER BY language.name, series.title, level.id, lesson.number ASC ";
+		}
 		
 		return static::find_by_sql($sql);
 	}

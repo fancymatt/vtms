@@ -8,6 +8,8 @@ class Session {
 	public $message;
 
 	function __construct() {
+		$lifetime = 60*60*24*7;
+		session_set_cookie_params($lifetime);
 		session_start();
 		$this->check_message();
 		$this->check_login();

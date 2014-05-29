@@ -10,7 +10,8 @@
 		$lesson->update();
 	}
 	
-	$qa_lessons = Lesson::find_qa_lessons();
+	$sort_by = $db->escape_value($_GET['sort']);
+	$qa_lessons = Lesson::find_qa_lessons($sort_by);
 ?>
 
 <?php include_layout_template('header.php'); ?>
@@ -20,7 +21,7 @@
 			echo "<p>{$message}</p>";
 		} ?>
 		<table>
-			<tr><th>Lesson</th><th>QA Status</th><th>Actions</th><th>Publish Date</th></tr>
+			<tr><th><a href='qa.php?sort=abc'>Lesson</a></th><th>QA Status</th><th>Actions</th><th><a href='qa.php?sort=pub'>Publish Date</a></th></tr>
 				<?php 
 				if(!$qa_lessons) {
 					echo "<td>No lessons</td>";
