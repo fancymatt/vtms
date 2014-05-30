@@ -8,7 +8,7 @@
 		<div>
 		<?php echo $session->message(); ?>
 		<h2>Manage Users</h2>
-		<p>Warming, this functionality is not currently working. Please talk to Matt for user administration.</p>
+		<p>Warning, this functionality is not currently working. Please talk to Matt for user administration.</p>
 		<table>
 			<tr><th>User ID</th><th>Privilege Type</th><th>Team Member</th><th>Edit</th><th>Delete</th></tr>
 			<?php foreach($users as $user) {
