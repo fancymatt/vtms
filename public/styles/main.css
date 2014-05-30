@@ -107,6 +107,15 @@ table {
 	width: 900px;
 }
 
+table.script tr {
+	border: black;
+	border-width: thin;
+	border-style: dashed;
+	border-color: black;
+	border-collapse: collapse;
+	width: 900px;
+}
+
 td {
 	width: auto;
 	line-height: normal;

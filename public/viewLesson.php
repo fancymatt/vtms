@@ -125,7 +125,7 @@
 		?>
 		<div id="script">
 		<h2>Script</h2>
-		<table>
+		<table class="script">
 			<th>Section</th><th>Shot</th><th>Script</th><th>Script English</th>
 			<?php 
 				foreach($shots as $shot) {
