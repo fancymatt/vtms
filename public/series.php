@@ -19,7 +19,7 @@
 					echo "<td>".$series->total_trt."</td>";
 					echo "<td><a href='admin-language-series.php?series={$series->series_id}&id={$series->id}'>View</a>";
 					if ($session->is_admin()) {
-						echo " | <a href='edit-admin-language-series.php?id={$series->id}'>Edit</a>";
+						echo " | <a href='edit-language-series.php?id={$series->id}'>Edit</a>";
 					}
 					echo "</td></tr>";
 				}

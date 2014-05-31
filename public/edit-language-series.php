@@ -57,7 +57,7 @@
 		<?php echo $session->form_errors($errors); ?>
 		<h2>Edit: <?php echo $current_language_series->language_series_title; ?></h2>
 		<p><?php echo "({$current_language_series->language_name} {$current_language_series->series_name})"; ?></p>
-		<form action="edit-admin-language-series.php?id=<?php echo $current_language_series_id; ?>" method="POST">
+		<form action="edit-language-series.php?id=<?php echo $current_language_series_id; ?>" method="POST">
 			<p><label for="edited_langauge_series_name">Series Name: </label><input type="text" size="80" name="edited_language_series_name" value="<?php echo $current_language_series->language_series_title; ?>"></p>
 			<p>Language: <select name="edited_language_series_language_id" id="edited_language_series_language_id">
 				<?php foreach($languages as $language) {
@@ -81,7 +81,7 @@
 			<p><input type="submit" name="edited_language_series" id="edited_language_series"></p>
 		</form>
 	</div>
-	<form action="edit-admin-language-series.php?id=<?php echo $current_language_series_id; ?>" method="POST">
+	<form action="edit-language-series.php?id=<?php echo $current_language_series_id; ?>" method="POST">
 		<input type="hidden" name="deleted_language_series_id" id="deleted_language_series_id" value="<?php echo $current_language_series->id; ?>">
 		<input type="submit" name="deleted_language_series" id="deleted_language_series" value="Delete Language Series" onclick="return confirm('Are you sure you want to delete this?')">
 	</form>
