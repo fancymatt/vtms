@@ -24,7 +24,7 @@
 					echo "</td></tr>";
 				}
 				if ($session->is_admin()) {
-					echo "<tr><td><a href='new-admin-language-series.php?inSeries={$db->escape_value($_GET['id'])}'>Add New Language Series</a></td></tr>";
+					echo "<tr><td><a href='new-language-series.php?inSeries={$db->escape_value($_GET['id'])}'>Add New Language Series</a></td></tr>";
 				} ?>
 		</table>
 		<p><a href="lesson-db.php"><- Return to Series List</a></p>

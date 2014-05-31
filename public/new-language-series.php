@@ -66,7 +66,7 @@
 		<?php $errors = $session->errors(); ?>
 		<?php echo $session->form_errors($errors); ?>
 		<h2>Create New Language Series in <?php echo Series::get_series_title_from_id($series_id); ?></h2>
-		<form action="new-admin-language-series.php?inSeries=<?php echo $series_id; ?>" method="POST">
+		<form action="new-language-series.php?inSeries=<?php echo $series_id; ?>" method="POST">
 			<p><label for="new_langauge_series_name">Full Series Name: </label><input type="text" size="80" name="new_language_series_name"></p>
 			<p>Language: <select name="new_language_series_language_id" id="new_language_series_language_id">
 				<?php foreach($languages as $language) {
