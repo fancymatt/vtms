@@ -8,7 +8,7 @@
 		
 		<div id="content">
 			<h1>SQL Connection Test</h1>
-			<form action="seriesList.php" method="POST">
+			<form action="lesson-db.php" method="POST">
 				<fieldset class="center">
 					<input type="submit" value="Connect to MySQL" />
 				</fieldset>

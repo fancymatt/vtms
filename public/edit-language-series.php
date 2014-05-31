@@ -17,7 +17,7 @@
 		$edited_language_series->language_series_title = $edited_language_series_name;
 		$edited_language_series->level_id = $edited_language_series_level_id;
 		$edited_language_series->update();
-		redirect_to("viewLanguageSeries.php?series={$edited_language_series->series_id}&id={$edited_language_series_id}");	
+		redirect_to("admin-language-series.php?series={$edited_language_series->series_id}&id={$edited_language_series_id}");	
 		
 		if(!empty($session->errors)) {
 			$_SESSION["errors"] = $errors;
@@ -38,13 +38,13 @@
 			$lesson->delete();
 		}
 		$deleted_language_series->delete();
-		redirect_to("seriesList.php");
+		redirect_to("lesson-db.php");
 	}
 	
 	$current_language_series_id = $_GET['id'];
 	$current_language_series = LanguageSeries::find_by_id($current_language_series_id);
 	if (!$current_language_series->series_name) {
-		redirect_to("seriesList.php");
+		redirect_to("lesson-db.php");
 	}	
 	$languages = Language::find_all();
 	$levels = Level::find_all();
@@ -57,7 +57,7 @@
 		<?php echo $session->form_errors($errors); ?>
 		<h2>Edit: <?php echo $current_language_series->language_series_title; ?></h2>
 		<p><?php echo "({$current_language_series->language_name} {$current_language_series->series_name})"; ?></p>
-		<form action="editLanguageSeries.php?id=<?php echo $current_language_series_id; ?>" method="POST">
+		<form action="edit-admin-language-series.php?id=<?php echo $current_language_series_id; ?>" method="POST">
 			<p><label for="edited_langauge_series_name">Series Name: </label><input type="text" size="80" name="edited_language_series_name" value="<?php echo $current_language_series->language_series_title; ?>"></p>
 			<p>Language: <select name="edited_language_series_language_id" id="edited_language_series_language_id">
 				<?php foreach($languages as $language) {
@@ -81,7 +81,7 @@
 			<p><input type="submit" name="edited_language_series" id="edited_language_series"></p>
 		</form>
 	</div>
-	<form action="editLanguageSeries.php?id=<?php echo $current_language_series_id; ?>" method="POST">
+	<form action="edit-admin-language-series.php?id=<?php echo $current_language_series_id; ?>" method="POST">
 		<input type="hidden" name="deleted_language_series_id" id="deleted_language_series_id" value="<?php echo $current_language_series->id; ?>">
 		<input type="submit" name="deleted_language_series" id="deleted_language_series" value="Delete Language Series" onclick="return confirm('Are you sure you want to delete this?')">
 	</form>

@@ -17,7 +17,7 @@
 			$user->time_zone = $db->escape_value($_POST['time_zone']);
 		
 			$user->create();
-			redirect_to("manage_users.php");
+			redirect_to("admin-manage-users.php");
 		}
 	}
 ?>
@@ -27,7 +27,7 @@
 		<?php $errors = $session->errors(); ?>
 		<?php echo $session->form_errors($errors); ?>
 		<h2>New User</h2>
-		<form action="new_user.php" method="POST">
+		<form action="new-user.php" method="POST">
 			<p><label for="user_name">Username:</label> <input type="text" size="20" name="user_name" value=""></p>
 			<p><label for="password">Password:</label> <input type="password" size="20" name="password"></p>
 			<p><label for="privilege">Privilege Set:</label> <select name="privilege">

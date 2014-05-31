@@ -43,7 +43,7 @@
 			<?php endforeach; ?>
 		</table>
 	</div>
-		<p>Current QA Log: <form action='reportIssuesForQALesson.php?id=<?php echo $current_lesson->id; ?>' method='post'><input type='text' size=70 name='qa_log' value='<?php echo $current_lesson->qa_log; ?>'>
+		<p>Current QA Log: <form action='issues-for-lesson.php?id=<?php echo $current_lesson->id; ?>' method='post'><input type='text' size=70 name='qa_log' value='<?php echo $current_lesson->qa_log; ?>'>
 					<input type='hidden' name='qa_lesson_id' value='<?php echo $current_lesson->id; ?>'>
 					<input type='submit' name='changed_qa_log'>
 					</form></p>
@@ -52,7 +52,7 @@
 		<?php foreach($tasks as $task) {
 			$global_task = GlobalTask::find_by_id($task->global_task_id);
 			if ($global_task->can_add_issues) { ?>
-				<li><a href="reportIssuesForQATask.php?id=<?php echo $task->id; ?>"><?php echo $global_task->issue_reporting_friendly_text; ?></a></li>
+				<li><a href="issues-for-task.php?id=<?php echo $task->id; ?>"><?php echo $global_task->issue_reporting_friendly_text; ?></a></li>
 			<?php }
 		} ?>
 		</ul>

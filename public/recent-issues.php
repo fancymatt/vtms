@@ -48,14 +48,14 @@
 						echo "<tr>";
 						echo "<td>";
 						if($session->is_admin()) {
-							echo "<a href='taskSheet.php?member={$task->team_member_id}'>{$task->team_member_name}</a>";
+							echo "<a href='task-sheet.php?member={$task->team_member_id}'>{$task->team_member_name}</a>";
 						} else {
 							echo $task->team_member_name;
 						}
 						echo "</td>";
 						echo "<td>";
 						echo "<img src='images/{$task->level_code}.png'> ";
-						echo "<a href='viewLesson.php?series=".$task->series_id."&langSeries=".$task->language_series_id."&lesson=".$task->lesson_id."'>";
+						echo "<a href='lesson.php?series=".$task->series_id."&langSeries=".$task->language_series_id."&lesson=".$task->lesson_id."'>";
 						echo $task->language_name . " - " . $task->series_name . " #" . $task->lesson_number;
 						echo "</a>";
 						echo "</td>";

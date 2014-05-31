@@ -20,7 +20,7 @@
 				if($found_user->team_member_id == 5) {
 					redirect_to("qa.php");
 				} else {
-					redirect_to("taskSheet.php?member=".$found_user->team_member_id);
+					redirect_to("task-sheet.php?member=".$found_user->team_member_id);
 				}
 			} else {
 				$message .= "Username or password was wrong.";

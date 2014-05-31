@@ -13,13 +13,13 @@
 				echo "<tr>";
 				echo "<td>{$row->title}</td>";
 				echo "<td>".$row->series_trt."</td>";
-				echo "<td><a href='viewSeries.php?id={$row->id}'>View</a>";
+				echo "<td><a href='series.php?id={$row->id}'>View</a>";
 				if ($session->is_admin()) {
-					echo " | <a href='editSeries.php?id={$row->id}'>Edit</a>";
+					echo " | <a href='edit-series.php?id={$row->id}'>Edit</a>";
 				}
 				echo "</td></tr>";
 			} ?>
-			<tr><td><a href="newSeries.php">Add new Series</a></td><td></td></tr>
+			<tr><td><a href="new-series.php">Add new Series</a></td><td></td></tr>
 		</table>
 		</div>
 

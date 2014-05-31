@@ -50,7 +50,7 @@ class LanguageSeries extends DatabaseObject {
 	
 	public function display_full_language_series() {
 		echo "<img src='images/{$this->level_code}.png'> ";
-		echo "<a href='viewLanguageSeries.php?series=".$this->series_id."&id=".$this->id."'>";
+		echo "<a href='admin-language-series.php?series=".$this->series_id."&id=".$this->id."'>";
 		echo $this->language_series_title;
 		echo "</a>";
 	}

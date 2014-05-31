@@ -470,14 +470,14 @@ class Lesson extends DatabaseObject {
 	
 	public function display_full_lesson() {
 		echo "<img src='images/{$this->level_code}.png'> ";
-		echo "<a href='viewLesson.php?series=".$this->series_id."&langSeries=".$this->language_series_id."&lesson=".$this->id."'>";
+		echo "<a href='lesson.php?series=".$this->series_id."&langSeries=".$this->language_series_id."&lesson=".$this->id."'>";
 		echo $this->language_name . " - " . $this->series_name . " #" . $this->number;
 		echo "</a>";
 	}
 	
 	public function display_list_of_issues_with_link() {
 		$issues = Issue::get_unfinished_issues_for_lesson($this->id);
-		echo "<a href='reportIssuesForQALesson.php?id=".$this->id."'>Issues: ".count($issues)."</a>";
+		echo "<a href='issues-for-lesson.php?id=".$this->id."'>Issues: ".count($issues)."</a>";
 	}
 }
 ?>

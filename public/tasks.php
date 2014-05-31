@@ -22,7 +22,7 @@
 					echo "<tr>";
 					echo "<td>";
 					if($session->is_admin()) {
-						echo "<a href='taskSheet.php?member={$task->team_member_id}'>{$task->team_member_name}</a>";
+						echo "<a href='task-sheet.php?member={$task->team_member_id}'>{$task->team_member_name}</a>";
 					} else {
 						echo $task->team_member_name;
 					}
@@ -53,7 +53,7 @@
 					echo "<tr>";
 					echo "<td>";
 					if($session->is_admin()) {
-						echo "<a href='taskSheet.php?member={$task->team_member_id}'>{$task->team_member_name}</a>";
+						echo "<a href='task-sheet.php?member={$task->team_member_id}'>{$task->team_member_name}</a>";
 					} else {
 						echo $task->team_member_name;
 					}
@@ -87,7 +87,7 @@
 						echo ">";
 				echo "<td>";
 					if($session->is_admin()) {
-						echo "<a href='taskSheet.php?member={$task->team_member_id}'>{$task->team_member_name}</a>";
+						echo "<a href='task-sheet.php?member={$task->team_member_id}'>{$task->team_member_name}</a>";
 					} else {
 						echo $task->team_member_name;
 					}

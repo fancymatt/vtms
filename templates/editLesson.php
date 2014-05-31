@@ -11,7 +11,7 @@
 	<p><?php echo $parent->attribute; ?></p>
 </div>
 <div id="list">
-	<p><a href="seriesList.php"><- Return to Parent List</a></p>
+	<p><a href="lesson-db.php"><- Return to Parent List</a></p>
 	<table>
 		<tr><th>Title</th><th>Attribute</th><th>Actions</th></tr>
 		<?php 
@@ -26,6 +26,6 @@
 			echo "</td></tr>";
 		} ?>
 	</table>
-	<p><a href="seriesList.php"><- Return to Parent List</a></p>
+	<p><a href="lesson-db.php"><- Return to Parent List</a></p>
 </div>
 <?php include_layout_template('footer.php'); ?>

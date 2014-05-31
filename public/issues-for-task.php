@@ -18,28 +18,28 @@
 		$issue->issue_body = $issue_body;
 		$issue->create();
 		if($_POST['submitted_issue']) {
-			redirect_to("reportIssuesForQALesson.php?id={$current_task->lesson_id}");
+			redirect_to("issues-for-lesson.php?id={$current_task->lesson_id}");
 		}
 				
 	} 
 
 	if (!$current_task->id) {
-		redirect_to("reportIssuesForQALesson.php?id={$current_task->lesson_id}");
+		redirect_to("issues-for-lesson.php?id={$current_task->lesson_id}");
 	}	
 ?>
 
 <?php include_layout_template('header.php'); ?>
 	<div>
-		<p><a href="reportIssuesForQALesson.php?id=<?php echo $current_task->lesson_id; ?>"><- Return to Lesson</a></p>
+		<p><a href="issues-for-lesson.php?id=<?php echo $current_task->lesson_id; ?>"><- Return to Lesson</a></p>
 		<h2>Add an issue: <?php echo $current_lesson->title; ?></h2>
-		<form action='reportIssuesForQATask.php?id=<?php echo $current_task_id; ?>' method='post'>
+		<form action='issues-for-task.php?id=<?php echo $current_task_id; ?>' method='post'>
 		<p><label for="timecode">Timecode: </label><input type="text" placeholder="ex: 2:25" name="timecode"></p>
 		<p><label for="creator">Creator: </label><input type="text" value="Checker" name="creator"></p>
 		<p><label for="body">Issue: </label><input type="text" placeholder="ex: Change 'das' to 'der'" name="body" size="120"></p>
 		<input type="hidden" name="submitted_issue_task_id" value="<?php echo $current_task->id; ?>">
 		<p><input type="submit" name="submitted_issue" value="Report and Go Back">
 		<input type="submit" name="submitted_issue_and_repeat" value="Report and Continue"></p>
-		<p><a href="reportIssuesForQALesson.php?id=<?php echo $current_task->lesson_id; ?>"><- Return to Lesson</a></p>
+		<p><a href="issues-for-lesson.php?id=<?php echo $current_task->lesson_id; ?>"><- Return to Lesson</a></p>
 		<br />
 	</div>
 		

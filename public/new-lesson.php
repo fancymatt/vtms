@@ -37,7 +37,7 @@
 			$new_task->create();
 		}
 		
-		redirect_to("viewLanguageSeries.php?id={$language_series_id}");
+		redirect_to("admin-language-series.php?id={$language_series_id}");
 	}
 ?>
 
@@ -46,7 +46,7 @@
 		<?php $errors = $session->errors(); ?>
 		<?php echo $session->form_errors($errors); ?>
 		<h2>Create New Lesson in <?php echo LanguageSeries::get_language_series_title_from_id($language_series_id); ?></h2>
-		<form action="newLesson.php?inLanguageSeries=<?php echo $language_series_id; ?>" method="POST">
+		<form action="new-lesson.php?inLanguageSeries=<?php echo $language_series_id; ?>" method="POST">
 			<p><label for="new_lesson_name">Lesson Name: </label><input type="text" size="80" name="new_lesson_name"></p>
 			<p><label for="new_lesson_number">Lesson Number: </label><input type="number" size="5" name="new_lesson_number"></p>
 			<input type="hidden" name="new_lesson_language_series" id="new_lesson_language_series" value="<?php echo $language_series_id; ?>">

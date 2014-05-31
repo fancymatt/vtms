@@ -30,7 +30,7 @@
 						echo "</td>";
 						echo "<td>{$task->task_name}</td>";
 						echo "<td>{$task->team_member_name}</td>";
-						echo "<td><form action='dropbox.php' method='post'>";
+						echo "<td><form action='admin-dropbox.php' method='post'>";
 						echo "<input type='hidden' name='dropbox_lesson_id' value='{$task->lesson_id}'><input type='submit' name='add_to_dropbox' value='Add to Dropbox'></form></td>";
 						echo "</tr>";
 					} 

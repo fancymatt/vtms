@@ -15,12 +15,12 @@
 		$deleted_record_id = $database->escape_value($_POST['deleted_record_id']);
 		$deleted_record = Object::find_by_id($deleted_record_id);
 		$deleted_record->delete();
-		redirect_to("seriesList.php");
+		redirect_to("lesson-db.php");
 	} else { // Page is displaying for first time
 		$current_record_id = $_GET['id'];
 		$current_record = Object::find_by_id($current_record_id);
 		if (!$current_record->name) {
-			redirect_to("seriesList.php");
+			redirect_to("lesson-db.php");
 		}	
 	}
 ?>

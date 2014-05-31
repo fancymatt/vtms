@@ -16,11 +16,11 @@
 				echo "<td>{$user->user_name}</td>";
 				echo "<td>{$user->privilege_type}</td>";
 				echo "<td>{$user->member_name}</td>";
-				echo "<td><a href='edit_user.php?user={$user->id}'>Edit</a></td>"; ?>
-				<td><a href="delete_user.php?user=<?php echo $user->id; ?>" onclick="return confirm('Are you sure?');">Delete</a></td></tr>
+				echo "<td><a href='edit-user.php?user={$user->id}'>Edit</a></td>"; ?>
+				<td><a href="delete-user.php?user=<?php echo $user->id; ?>" onclick="return confirm('Are you sure?');">Delete</a></td></tr>
 				<?php
 				} ?>
-			<tr><td><a href="new_user.php">Add New User</a></td><td></td><td></td></tr>
+			<tr><td><a href="new-user.php">Add New User</a></td><td></td><td></td></tr>
 			</table>
 		</div>
 <?php include_layout_template('footer.php'); ?>

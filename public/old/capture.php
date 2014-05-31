@@ -34,7 +34,7 @@
 		<?php if ($message) {
 			echo "<p>{$message}</p>";
 		} ?>
-		<p><a href="seriesList.php"><- Return to Top</a></p>
+		<p><a href="lesson-db.php"><- Return to Top</a></p>
 		<table>
 			<tr><th>Language</th><th>Series</th><th>#</th><th>Task</th><th>Team Member</th></tr>
 			<?php while ($row = mysql_fetch_array($result)) {
@@ -47,7 +47,7 @@
 				echo "</tr>";
 				} ?>
 		</table>
-		<p><a href="seriesList.php"><- Return to Top</a></p>
+		<p><a href="lesson-db.php"><- Return to Top</a></p>
 		</div>
 	</body>
 </html>

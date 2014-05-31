@@ -49,7 +49,7 @@
 			echo $asset->display_full_task_lesson()."</h2>";
 		} ?>
 		
-		<form action="editImagesForAsset.php?id=<?php echo $asset->id;?>" method="POST">
+		<form action="edit-images-for-asset.php?id=<?php echo $asset->id;?>" method="POST">
 			<?php
 			if($images) {
 				foreach($images as $image) {

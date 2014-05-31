@@ -36,13 +36,13 @@
 					foreach($qa_lessons as $qa_lesson) {
 						echo "<tr>";
 						echo "<td>{$qa_lesson->language_name} {$qa_lesson->series_name} #{$qa_lesson->number} ({$qa_lesson->level_code})";
-						echo "<td><form action='admin_qa.php' method='post'>";
+						echo "<td><form action='admin-qa.php' method='post'>";
 						echo "<input type='text' size=70 name='qa_log' value='{$qa_lesson->qa_log}'>";
 						echo "<input type='hidden' name='qa_lesson_id' value='{$qa_lesson->id}'><input type='submit' name='changed_qa_log'></form>";
-						echo "<form action='admin_qa.php' method='post'>";
+						echo "<form action='admin-qa.php' method='post'>";
 						echo "<input type='text' size=70 name='qa_url' value='{$qa_lesson->qa_url}'>";
 						echo "<input type='hidden' name='qa_lesson_id' value='{$qa_lesson->id}'><input type='submit' name='changed_qa_url'></form></td>";
-						echo "<td><a href='reportIssuesForQALesson.php?id=" . $qa_lesson->id . "'>Add Issue</a>";
+						echo "<td><a href='issues-for-lesson.php?id=" . $qa_lesson->id . "'>Add Issue</a>";
 						echo "</td>";
 						echo "<td>{$qa_lesson->date_due}</td>";
 						echo "</tr>";

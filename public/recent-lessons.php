@@ -41,11 +41,11 @@
 						echo "<img src='";
 						echo $upcoming_lesson->files_moved ? "images/is_moved.png" : "images/not_moved.png";
 						echo "'>";
-						echo " <a href='reportIssuesForQALesson.php?id=".$upcoming_lesson->id."'>Issues: ".count($issues)."</a>";					
+						echo " <a href='issues-for-lesson.php?id=".$upcoming_lesson->id."'>Issues: ".count($issues)."</a>";					
 						echo "</td>";
-						echo "<td><a href='viewLesson.php?series={$upcoming_lesson->series_id}&langSeries={$upcoming_lesson->language_series_id}&lesson={$upcoming_lesson->id}'>View</a>";
+						echo "<td><a href='lesson.php?series={$upcoming_lesson->series_id}&langSeries={$upcoming_lesson->language_series_id}&lesson={$upcoming_lesson->id}'>View</a>";
 						if ($session->is_admin()) {
-							echo " | <a href='editLesson.php?id={$upcoming_lesson->id}'>Edit</a>";
+							echo " | <a href='edit-lesson.php?id={$upcoming_lesson->id}'>Edit</a>";
 						}
 						echo "</td>";
 						echo "<td>{$upcoming_lesson->publish_date}</td>";

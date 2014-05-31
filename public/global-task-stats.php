@@ -11,7 +11,7 @@
 		<h2><?php echo "{$global_task->task_name}"; ?>
 		</h2>
 		<?php echo $session->message(); ?>
-		<p><a href="editSeries.php?id=<?php echo $global_task->series_id; ?>"><- Return to Series Page</a></p>
+		<p><a href="edit-series.php?id=<?php echo $global_task->series_id; ?>"><- Return to Series Page</a></p>
 		<p>Task Name: <?php echo $global_task->task_name; ?></p>
 		<p>Actionable At: <?php echo $global_task->actionable_at; ?></p>
 		<p>Completion Value: <?php echo $global_task->completion_value; ?></p>
@@ -39,7 +39,7 @@
 			} ?>
 		</table>
 		
-		<p><a href="editSeries.php?id=<?php echo $global_task->series_id; ?>><- Return to Series Page</a></p>
+		<p><a href="edit-series.php?id=<?php echo $global_task->series_id; ?>><- Return to Series Page</a></p>
 		</div>
 <?php include_layout_template('footer.php'); ?>
 	

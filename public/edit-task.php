@@ -12,7 +12,7 @@
 		}
 		$task->team_member_id = $db->escape_value($_POST['team_member_id']);
 		$task->update();
-		redirect_to("viewLesson.php?series={$task->series_id}&langSeries={$task->language_series_id}&lesson={$task->lesson_id}");
+		redirect_to("lesson.php?series={$task->series_id}&langSeries={$task->language_series_id}&lesson={$task->lesson_id}");
 	}
 
 	$team_members = Member::find_all_members();
@@ -24,8 +24,8 @@
 		<h2><?php echo $task->display_full_task_lesson(). " - " .$task->task_name; ?>
 		</h2>
 		<?php echo $session->message(); ?>
-		<p><a href="viewLesson.php?series=<?php echo $lesson->series_id; ?>&langSeries=<?php echo $lesson->language_series_id; ?>&lesson=<?php echo $task->lesson_id; ?>"><- Return to Lesson Page</a></p>
-		<form action="editTask.php?id=<?php echo $task->id; ?>" method="post">
+		<p><a href="lesson.php?series=<?php echo $lesson->series_id; ?>&langSeries=<?php echo $lesson->language_series_id; ?>&lesson=<?php echo $task->lesson_id; ?>"><- Return to Lesson Page</a></p>
+		<form action="edit-task.php?id=<?php echo $task->id; ?>" method="post">
 			<p><label for="is_completed">Completed?</label><input type="checkbox" name="is_completed" value="1" <?php echo $task->is_completed ? "checked" : ""; ?>></p>
 			<?php if ($task->is_asset) { ?>
 				<p><label for="is_delivered">Delivered?</label><input type="checkbox" name="is_delivered" value="1" <?php echo $task->is_delivered ? "checked" : ""; ?>></p>
@@ -46,7 +46,7 @@
 			</select></p>
 			<p><input type="submit" value="Edit" name="edited_task"></p>
 		</form>
-		<p><a href="viewLesson.php?series=<?php echo $lesson->series_id; ?>&langSeries=<?php echo $lesson->language_series_id; ?>&lesson=<?php echo $task->lesson_id; ?>"><- Return to Lesson Page</a></p>
+		<p><a href="lesson.php?series=<?php echo $lesson->series_id; ?>&langSeries=<?php echo $lesson->language_series_id; ?>&lesson=<?php echo $task->lesson_id; ?>"><- Return to Lesson Page</a></p>
 		</div>
 <?php include_layout_template('footer.php'); ?>
 	

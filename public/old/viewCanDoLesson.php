@@ -49,7 +49,7 @@
 		<?php if ($message) {
 			echo "<p>{$message}</p>";
 		} ?>
-		<p><a href="viewLanguageSeries.php?series=<?php echo $series_id; ?>&langSeries=<?php echo $langSeries_id; ?>"><- Return to Language Series List</a></p>
+		<p><a href="admin-language-series.php?series=<?php echo $series_id; ?>&langSeries=<?php echo $langSeries_id; ?>"><- Return to Language Series List</a></p>
 		<table>
 			<tr><th>Task Name</th><th>Team Member</th><th>Actionable?</th><th>Active?</th><th>Time Spent</th></tr>
 			<?php 
@@ -70,18 +70,18 @@
 			if(empty($lesson['ytCode'])) {
 				echo "<p>No YouTube code added.</p>";
 				?>
-				<form method="post" action="viewLesson.php?series=<?php echo $series_id; ?>&langSeries=<?php echo $langSeries_id; ?>&lesson=<?php echo $lesson_id; ?>">
+				<form method="post" action="lesson.php?series=<?php echo $series_id; ?>&langSeries=<?php echo $langSeries_id; ?>&lesson=<?php echo $lesson_id; ?>">
 					<input type="text" size="11" name="yt-code">
 					<input type="submit" name="submit-yt-code">
 				</form>
 			<?php
 			} else {
 				echo embed_youtube_video($lesson['ytCode']);
-				echo '<br><br><a href="viewLesson.php?series=' . $series_id . '&langSeries=' . $langSeries_id . '&lesson=' . $lesson_id . '&removeYtCode=yes">Clear YouTube Code</a>';
+				echo '<br><br><a href="lesson.php?series=' . $series_id . '&langSeries=' . $langSeries_id . '&lesson=' . $lesson_id . '&removeYtCode=yes">Clear YouTube Code</a>';
 			}
 		?>
 				
 		</div>
-		<p><a href="viewLanguageSeries.php?series=<?php echo $series_id; ?>&langSeries=<?php echo $langSeries_id; ?>"><- Return to Language Series List</a></p>
+		<p><a href="admin-language-series.php?series=<?php echo $series_id; ?>&langSeries=<?php echo $langSeries_id; ?>"><- Return to Language Series List</a></p>
 
 <?php include("includes/footer.php"); ?>

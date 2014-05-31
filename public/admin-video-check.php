@@ -62,7 +62,7 @@
 						echo "<td>";
 						echo $qa_lesson->display_full_lesson();
 						echo "</td>";
-						echo "<td><a href='reportIssuesForQALesson.php?id=" . $qa_lesson->id . "'>Add Issue</a> | ";
+						echo "<td><a href='issues-for-lesson.php?id=" . $qa_lesson->id . "'>Add Issue</a> | ";
 						echo "<form action='videoCheck.php' method='post'>";
 						echo "<input type='hidden' name='qa_lesson_id' value='{$qa_lesson->id}'><input type='submit' name='mark_lesson_as_checked' value='Mark as Checked'></form>";
 						echo "</td>";

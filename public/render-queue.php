@@ -64,7 +64,7 @@
 						echo "<td>";
 						echo $qa_lesson->display_full_lesson();
 						echo "</td>";
-						echo "<td><form action='export.php' method='post'>";
+						echo "<td><form action='render-queue.php' method='post'>";
 						echo "<input type='hidden' name='qa_lesson_id' value='{$qa_lesson->id}'><input type='submit' name='add_lesson_to_queue' value='Add To Queue'></form></td>";
 						echo "<td>{$qa_lesson->publish_date}</td>";
 						echo "</tr>";
@@ -87,7 +87,7 @@
 						echo $qa_lesson->display_full_lesson();
 						echo "</td>";
 						echo "<td>".$logged_in_user->local_time($qa_lesson->queued_time)."</td>";
-						echo "<td><form action='export.php' method='post'>";
+						echo "<td><form action='render-queue.php' method='post'>";
 						if($qa_lesson->checked_language) {
 							echo "<input type='hidden' name='qa_lesson_id' value='{$qa_lesson->id}'><input type='submit' name='mark_lesson_as_exported' value='Exported'></form>";
 						} else {
@@ -95,7 +95,7 @@
 							echo "URL: <input type='text' size=60 name='qa_url' value='{$qa_lesson->qa_url}'>";
 							echo "<input type='hidden' name='qa_lesson_id' value='{$qa_lesson->id}'><input type='submit' name='mark_lesson_as_exported_and_updated' value='Exported & Updated'></form>";
 						}
-						echo "<form action='export.php' method='post'><input type='hidden' name='qa_lesson_id' value='{$qa_lesson->id}'><input type='submit' name='unqueue_lesson' value='Unqueue!'></form>";
+						echo "<form action='render-queue.php' method='post'><input type='hidden' name='qa_lesson_id' value='{$qa_lesson->id}'><input type='submit' name='unqueue_lesson' value='Unqueue!'></form>";
 						echo "</tr>";
 					} 
 				 } ?>		

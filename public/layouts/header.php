@@ -16,7 +16,7 @@
 		$logged_in_user = User::find_by_id($session->user_id);
 		echo "<p>You're logged in as {$logged_in_user->user_name}";
 			if ($logged_in_user->id > 0) {
-				echo " | <a href='taskSheet.php?member=";
+				echo " | <a href='task-sheet.php?member=";
 				echo $logged_in_user->team_member_id;
 				echo "'>Your Task Sheet</a> | ";
 				echo '<a href="logout.php">Log Out</a>';
@@ -31,15 +31,15 @@
 	<?php //echo "<p>".print_r($_SESSION)."</p>"; ?>
 	<p><h4>
 		Lesson DB: 
-		<a href="seriesList.php">Series List</a> | 
+		<a href="lesson-db.php">Series List</a> | 
 		<a href="tasks.php">Tasks</a> | 
-		<a href="assets.php">Assets</a> | 
-		<a href="issues.php">Issues</a>
+		<a href="recent-assets.php">Assets</a> | 
+		<a href="recent-issues.php">Issues</a>
 		<br />
 		<?php if($session->is_admin()) {
 			?>
 		Management: 
-		<a href="lessons.php">Lessons</a> |
+		<a href="recent-lessons.php">Lessons</a> |
 		<a href="qa.php">QA</a> |
 		<a href="operations.php">Operations</a><br />
 		<?php } ?>
@@ -49,11 +49,11 @@
 		echo "Task Sheets: ";
 		$members = Member::find_all_members();
 		foreach($members as $member) {
-			echo "<a href='taskSheet.php?member={$member->id}'>{$member->first_name}</a> | ";
+			echo "<a href='task-sheet.php?member={$member->id}'>{$member->first_name}</a> | ";
 		}
 		echo "<br />";
 		echo "Admin: ";
-		echo "<a href='manage_users.php'>Manage Users</a> ";
+		echo "<a href='admin-manage-users.php'>Manage Users</a> ";
 	} ?>
 	</h4></p>
 	</div>

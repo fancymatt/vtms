@@ -9,7 +9,7 @@
 		<div>
 		<h2><?php echo LanguageSeries::get_language_series_title_from_id($language_series_id); ?></h2>
 		<?php echo $session->message(); ?>
-		<p><a href="viewSeries.php?id=<?php echo $series_id; ?>"><- Return to Language Series List</a></p>
+		<p><a href="series.php?id=<?php echo $series_id; ?>"><- Return to Language Series List</a></p>
 		<table>
 			<tr><th></th><th>Lesson Name</th><th>Status</th><th>TRT</th><th>Publish Date</th><th>View</th></tr>
 				<?php 
@@ -44,18 +44,18 @@
 						echo "</td>";
 						echo "<td>".seconds_to_timecode($series_lesson->trt)."</td>";
 						echo "<td>".$series_lesson->publish_date ."</td>";
-						echo "<td><a href='viewLesson.php?series={$series_lesson->series_id}&langSeries={$series_lesson->language_series_id}&lesson={$series_lesson->id}'>View</a>";
+						echo "<td><a href='lesson.php?series={$series_lesson->series_id}&langSeries={$series_lesson->language_series_id}&lesson={$series_lesson->id}'>View</a>";
 						if ($session->is_admin()) {
-							echo " | <a href='editLesson.php?id={$series_lesson->id}'>Edit</a>";
+							echo " | <a href='edit-lesson.php?id={$series_lesson->id}'>Edit</a>";
 						}
 						echo "</td></tr>";
 					}
 				}
 				if ($session->is_admin()) {
-					echo "<tr><td><a href='newLesson.php?inLanguageSeries={$language_series_id}'>Add New Lesson</a></td></tr>";	
+					echo "<tr><td><a href='new-lesson.php?inLanguageSeries={$language_series_id}'>Add New Lesson</a></td></tr>";	
 				} ?>	
 		</table>
-		<p><a href="viewSeries.php?id=<?php echo $series_id; ?>"><- Return to Language Series List</a></p>
+		<p><a href="series.php?id=<?php echo $series_id; ?>"><- Return to Language Series List</a></p>
 		</div>
 
 <?php include_layout_template('footer.php'); ?>

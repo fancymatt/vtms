@@ -23,7 +23,7 @@
 					echo "<tr>";
 					echo "<td>";
 					if($session->is_admin()) {
-						echo "<a href='taskSheet.php?member={$task->team_member_id}'>{$task->team_member_name}</a>";
+						echo "<a href='task-sheet.php?member={$task->team_member_id}'>{$task->team_member_name}</a>";
 					} else {
 						echo $task->team_member_name;
 					}
@@ -53,7 +53,7 @@
 				echo "<tr>";
 				echo "<td>";
 					if($session->is_admin()) {
-						echo "<a href='taskSheet.php?member={$task->team_member_id}'>{$task->team_member_name}</a>";
+						echo "<a href='task-sheet.php?member={$task->team_member_id}'>{$task->team_member_name}</a>";
 					} else {
 						echo $task->team_member_name;
 					}
@@ -83,7 +83,7 @@
 				echo "<tr>";
 				echo "<td>";
 					if($session->is_admin()) {
-						echo "<a href='taskSheet.php?member={$task->team_member_id}'>{$task->team_member_name}</a>";
+						echo "<a href='task-sheet.php?member={$task->team_member_id}'>{$task->team_member_name}</a>";
 					} else {
 						echo $task->team_member_name;
 					}
@@ -96,9 +96,9 @@
 				if($task->global_task_id == 50 && $session->is_admin()) {
 					$images = Link::get_links_for_asset($task->id);
 					if($images) {
-						echo " (<a href='editImagesForAsset.php?id=".$task->id."'>Edit Images</a>)";
+						echo " (<a href='edit-images-for-asset.php?id=".$task->id."'>Edit Images</a>)";
 					} else {
-						echo " (<strong><a href='editImagesForAsset.php?id=".$task->id."'>Add Images</a></strong>)";
+						echo " (<strong><a href='edit-images-for-asset.php?id=".$task->id."'>Add Images</a></strong>)";
 					}
 					
 				}

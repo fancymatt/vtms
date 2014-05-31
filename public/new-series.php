@@ -11,13 +11,13 @@
 		
 		if(!empty($errors)) {
 			$_SESSION["errors"] = $errors;
-			redirect_to("newSeries.php");
+			redirect_to("new-series.php");
 		}
 		$sql  = "INSERT INTO series (title, code) ";
 		$sql .= "VALUES ('{$new_series_name}', '{$new_series_code}') ";
 		$result = $database->query($sql);
 		$new_series_id = mysql_insert_id();
-		redirect_to("viewSeries.php?series={$new_series_id}");
+		redirect_to("series.php?series={$new_series_id}");
 	}
 ?>
 
@@ -27,7 +27,7 @@
 		<p><span id="errorMessage"></span></p>
 		<?php echo $session->form_errors($errors); ?>
 		<h2>Add New Series</h2>
-		<form action="newSeries.php" method="POST" id="new_series_form">
+		<form action="new-series.php" method="POST" id="new_series_form">
 			<p><label for="series_name">Name:</label> <input type="text" size="50" name="series_name" id="series_name"></p>
 			<p><label for="series_code">Code:</label> <input type="text" name="series_code"></p>
 			<p><input type="submit" name="submit_new_series" id="submit_new_series"></p>

@@ -43,12 +43,12 @@
 	<div id="export-queue" class="panel">
 		<p>Ready to Render: <strong><?php echo $exportable_lessons; ?></strong></p>
 		<p>Currently in Queue: <strong><?php echo $queued_lessons; ?></strong></p>
-		<p><a href="export.php">Go to Render Page</a></p>
+		<p><a href="render-queue.php">Go to Render Page</a></p>
 	</div>
 	<div id="video-checking" class="panel">
 		<p>Files to Archive: <strong><?php echo $moveable_lessons; ?></strong></p>
 		<p>Ready to Check: <strong><?php echo $language_checked_lessons; ?></strong></p>
-		<p><a href="videoCheck.php">Go to Video Check Page</a></p>
+		<p><a href="admin-video-check.php">Go to Video Check Page</a></p>
 	</div>
 	<div id="get-these-checked">
 	<h3>Waiting for Language Check</h3>
