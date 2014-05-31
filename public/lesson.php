@@ -88,7 +88,7 @@
 		<?php if($session->is_admin()) { ?>
 		<div>
 			<h3><?php $lesson->display_list_of_issues_with_link(); ?></h3>
-			<form action='viewLesson.php?series=<?php echo $lesson->series_id; ?>&langSeries=<?php echo $lesson->language_series_id;  ?>&lesson=<?php echo $lesson->id; ?>' method='post'>
+			<form action='lesson.php?series=<?php echo $lesson->series_id; ?>&langSeries=<?php echo $lesson->language_series_id;  ?>&lesson=<?php echo $lesson->id; ?>' method='post'>
 				<p>Log: <input type='text' size=60 name='edited_qa_log' value='<?php echo $lesson->qa_log; ?>'></p>
 				<p>URL: <input type='text' size=60 name='edited_qa_url' value='<?php echo $lesson->qa_url; ?>'></p>
 				<p><label for="edited_lesson_title">Title:</label> <input type="text" size="50" name="edited_lesson_title" value="<?php echo $lesson->title; ?>"></p>

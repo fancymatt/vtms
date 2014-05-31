@@ -39,7 +39,7 @@
 						echo "<td>";
 						echo $qa_lesson->display_full_lesson();
 						echo "</td>";
-						echo "<td><form action='videoCheck.php' method='post'>";
+						echo "<td><form action='admin-video-check.php' method='post'>";
 						echo "<input type='hidden' name='qa_lesson_id' value='{$qa_lesson->id}'><input type='submit' name='move_lesson' value='Files Moved'></form>";
 						echo "</td>";
 						echo "<td>{$qa_lesson->publish_date}</td>";
@@ -52,7 +52,7 @@
 	<div id="check-these">
 		<h3>Check These</h3>
 		<table>
-			<tr><th><a href='videoCheck.php?sort=abc'>Lesson</th><th>Actions</th><th><a href='videoCheck.php?sort=pub'>Due Date</a></th></tr>
+			<tr><th><a href='admin-video-check.php?sort=abc'>Lesson</th><th>Actions</th><th><a href='admin-video-check.php?sort=pub'>Due Date</a></th></tr>
 				<?php 
 				if(!$language_checked_lessons) {
 					echo "<td>No lessons</td>";
@@ -63,7 +63,7 @@
 						echo $qa_lesson->display_full_lesson();
 						echo "</td>";
 						echo "<td><a href='issues-for-lesson.php?id=" . $qa_lesson->id . "'>Add Issue</a> | ";
-						echo "<form action='videoCheck.php' method='post'>";
+						echo "<form action='admin-video-check.php' method='post'>";
 						echo "<input type='hidden' name='qa_lesson_id' value='{$qa_lesson->id}'><input type='submit' name='mark_lesson_as_checked' value='Mark as Checked'></form>";
 						echo "</td>";
 						echo "<td>{$qa_lesson->publish_date}</td>";
