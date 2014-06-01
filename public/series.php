@@ -17,7 +17,7 @@
 					echo $series->display_full_language_series();
 					echo "</td>";
 					echo "<td>".$series->total_trt."</td>";
-					echo "<td><a href='admin-language-series.php?series={$series->series_id}&id={$series->id}'>View</a>";
+					echo "<td><a href='language-series.php?series={$series->series_id}&id={$series->id}'>View</a>";
 					if ($session->is_admin()) {
 						echo " | <a href='edit-language-series.php?id={$series->id}'>Edit</a>";
 					}
