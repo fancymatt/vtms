@@ -19,6 +19,7 @@
 				echo " | <a href='task-sheet.php?member=";
 				echo $logged_in_user->team_member_id;
 				echo "'>Your Task Sheet</a> | ";
+				echo "<a href='user-dashboard.php'>Your Dashboard</a> | ";
 				echo '<a href="logout.php">Log Out</a>';
 			}
 		echo "</p>";
