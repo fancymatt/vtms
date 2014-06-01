@@ -37,7 +37,7 @@
 			$new_task->create();
 		}
 		
-		redirect_to("admin-language-series.php?id={$language_series_id}");
+		redirect_to("language-series.php?id={$language_series_id}");
 	}
 ?>
 

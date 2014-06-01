@@ -17,7 +17,7 @@
 		$edited_language_series->language_series_title = $edited_language_series_name;
 		$edited_language_series->level_id = $edited_language_series_level_id;
 		$edited_language_series->update();
-		redirect_to("admin-language-series.php?series={$edited_language_series->series_id}&id={$edited_language_series_id}");	
+		redirect_to("language-series.php?series={$edited_language_series->series_id}&id={$edited_language_series_id}");	
 		
 		if(!empty($session->errors)) {
 			$_SESSION["errors"] = $errors;

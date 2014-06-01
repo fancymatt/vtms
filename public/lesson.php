@@ -32,7 +32,7 @@
 		<div>
 		<h2><?php echo $lesson->display_full_lesson().": ".$lesson->title; ?></h2>
 		<?php echo $session->message(); ?>
-		<p><a href="admin-language-series.php?series=<?php echo $series_id; ?>&id=<?php echo $langSeries_id; ?>"><- Return to Lesson List</a></p>
+		<p><a href="language-series.php?series=<?php echo $series_id; ?>&id=<?php echo $langSeries_id; ?>"><- Return to Lesson List</a></p>
 		<h2>Assets and Tasks</h2>
 		<table>
 			<tr><th>Asset Name</th><th>Team Member</th><th>Actionable?</th><th>Completed?</th><th>Delivered?</th><th>Time Spent</th><?php if($session->is_admin()) echo "<th>Actions</th>";?></tr>
@@ -142,6 +142,6 @@
 		</table>
 		</div>
 		<?php } ?> <!-- End of if($shots) -->
-		<p><a href="admin-language-series.php?series=<?php echo $series_id; ?>&id=<?php echo $langSeries_id; ?>"><- Return to Language Series List</a></p>
+		<p><a href="language-series.php?series=<?php echo $series_id; ?>&id=<?php echo $langSeries_id; ?>"><- Return to Language Series List</a></p>
 
 <?php include_layout_template('footer.php'); ?>

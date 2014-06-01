@@ -49,7 +49,7 @@
 		<?php if ($message) {
 			echo "<p>{$message}</p>";
 		} ?>
-		<p><a href="admin-language-series.php?series=<?php echo $series_id; ?>&langSeries=<?php echo $langSeries_id; ?>"><- Return to Language Series List</a></p>
+		<p><a href="language-series.php?series=<?php echo $series_id; ?>&langSeries=<?php echo $langSeries_id; ?>"><- Return to Language Series List</a></p>
 		<table>
 			<tr><th>Task Name</th><th>Team Member</th><th>Actionable?</th><th>Active?</th><th>Time Spent</th></tr>
 			<?php 
@@ -82,6 +82,6 @@
 		?>
 				
 		</div>
-		<p><a href="admin-language-series.php?series=<?php echo $series_id; ?>&langSeries=<?php echo $langSeries_id; ?>"><- Return to Language Series List</a></p>
+		<p><a href="language-series.php?series=<?php echo $series_id; ?>&langSeries=<?php echo $langSeries_id; ?>"><- Return to Language Series List</a></p>
 
 <?php include("includes/footer.php"); ?>

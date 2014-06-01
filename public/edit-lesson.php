@@ -12,7 +12,7 @@
 		$edited_lesson->files_moved = $database->escape_value($_POST['edited_lesson_files_moved']);
 		$edited_lesson->publish_date = $database->escape_value($_POST['edited_lesson_publish_date']);
 		$edited_lesson->update();
-		redirect_to("admin-language-series.php?series={$edited_lesson->series_id}&id={$edited_lesson->language_series_id}");
+		redirect_to("language-series.php?series={$edited_lesson->series_id}&id={$edited_lesson->language_series_id}");
 		if(!empty($session->errors)) {
 			$_SESSION["errors"] = $errors;
 		}
@@ -24,7 +24,7 @@
 				$task->delete();
 			}
 		$deleted_record->delete();
-		redirect_to("admin-language-series.php?series={$deleted_record->series_id}&id={$deleted_record->language_series_id}");
+		redirect_to("language-series.php?series={$deleted_record->series_id}&id={$deleted_record->language_series_id}");
 	} else { // Page is displaying for first time
 		$current_record_id = $_GET['id'];
 		$current_record = Lesson::find_by_id($current_record_id);
@@ -32,7 +32,7 @@
 		$trt_minutes = (int) ($trt/60);
 		$trt_seconds = $trt%60;
 		if (!$current_record->title) {
-			redirect_to("admin-language-series.php?series={$current_record->series_id}&id={$current_record->language_series_id}.php");
+			redirect_to("language-series.php?series={$current_record->series_id}&id={$current_record->language_series_id}.php");
 		}	
 	}
 ?>
