@@ -23,8 +23,8 @@
 		<?php foreach($assets as $asset): ?>
 			<div class="panel">
 				<h3><?php echo $asset->task_name; ?></h3>
-				<p>Total Shots: X</p>
-				<p>Total Done: X</p>
+				<p>Total Shots: <?php echo count(Shot::find_all_shots_for_asset($asset->id)); ?></p>
+				<p>Total Done: <?php echo count(Shot::find_all_completed_shots_for_asset($asset->id)); ?></p>
 			</div>
 		<?php endforeach; ?>
 		<div id="script">

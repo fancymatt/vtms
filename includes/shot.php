@@ -13,7 +13,8 @@ class Shot extends DatabaseObject {
 										'shot.scriptEnglish' => 'script_english',
 										'shot.scriptVideo' => 'script_video',
 										'shot.type' => 'type',
-										'shot.speaker' => 'speaker'
+										'shot.speaker' => 'speaker',
+										'shot.isCompleted' => 'is_completed'
 										);
 										
 	protected static $db_edit_fields = array('shot.id' => 'id',
@@ -26,7 +27,8 @@ class Shot extends DatabaseObject {
 											'shot.scriptEnglish' => 'script_english',
 											'shot.scriptVideo' => 'script_video',
 											'shot.type' => 'type',
-											'shot.speaker' => 'speaker'
+											'shot.speaker' => 'speaker',
+											'shot.isCompleted' => 'is_completed'
 											);
 										
 	protected static $db_join_fields = array( );
@@ -41,6 +43,7 @@ class Shot extends DatabaseObject {
 	public $script_english;
 	public $script_video;
 	public $type;
+	public $is_completed;
 	
 	public static function find_all_shots_for_lesson($lesson_id) {
 	global $db;
@@ -55,6 +58,45 @@ class Shot extends DatabaseObject {
 			$sql .= "JOIN ".$k." ON ".$v." ";
 		}
 		$sql .= "WHERE shot.fkLesson={$lesson_id} ";
+		$sql .= "GROUP BY id ";
+		$sql .= "ORDER BY section, shot ";
+		return static::find_by_sql($sql);
+	}
+	
+	public static function find_all_shots_for_asset($asset_id) {
+	global $db;
+		$sql  = "SELECT ";		
+		$i = 0;
+		foreach (self::$db_view_fields as $k => $v) {
+			$sql .= $k." AS ".$v;
+			$i++;
+			$i <= count(self::$db_view_fields) - 1 ? $sql .= ", " : $sql .= " ";
+		}
+		$sql .= "FROM ".self::$table_name." ";
+		foreach (self::$db_join_fields as $k => $v) {
+			$sql .= "JOIN ".$k." ON ".$v." ";
+		}
+		$sql .= "WHERE shot.fkAsset={$asset_id} ";
+		$sql .= "GROUP BY id ";
+		$sql .= "ORDER BY section, shot ";
+		return static::find_by_sql($sql);
+	}
+	
+	public static function find_all_completed_shots_for_asset($asset_id) {
+	global $db;
+		$sql  = "SELECT ";		
+		$i = 0;
+		foreach (self::$db_view_fields as $k => $v) {
+			$sql .= $k." AS ".$v;
+			$i++;
+			$i <= count(self::$db_view_fields) - 1 ? $sql .= ", " : $sql .= " ";
+		}
+		$sql .= "FROM ".self::$table_name." ";
+		foreach (self::$db_join_fields as $k => $v) {
+			$sql .= "JOIN ".$k." ON ".$v." ";
+		}
+		$sql .= "WHERE shot.fkAsset={$asset_id} ";
+		$sql .= "AND shot.isCompleted=1 ";
 		$sql .= "GROUP BY id ";
 		$sql .= "ORDER BY section, shot ";
 		return static::find_by_sql($sql);
