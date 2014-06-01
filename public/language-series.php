@@ -2,12 +2,13 @@
 <?php	
 	$series_id = $db->escape_value($_GET['series']);
 	$language_series_id = $db->escape_value($_GET['id']);
+	$language_series = LanguageSeries::find_by_id($language_series_id);
 	$series_lessons = Lesson::find_all_lessons_for_language_series($db->escape_value($_GET['id']));
 ?>
 
 <?php include_layout_template('header.php'); ?>
 		<div>
-		<h2><?php echo LanguageSeries::get_language_series_title_from_id($language_series_id); ?></h2>
+		<h2><?php $language_series->display_full_language_series(); ?></h2>
 		<?php echo $session->message(); ?>
 		<p><a href="series.php?id=<?php echo $series_id; ?>"><- Return to Language Series List</a></p>
 		<table>
