@@ -31,8 +31,9 @@ class Member extends DatabaseObject {
 		return self::find_all_limit(0);
 	}
 	
-	public static function find_all_members($only_active=YES) {
+	public static function find_all_members($only_active=true) {
 		$sql  = "SELECT ";
+		$i = 0;
 		foreach (self::$db_view_fields as $k => $v) {
 			$sql .= $k." AS ".$v;
 			$i++;

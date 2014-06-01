@@ -34,6 +34,7 @@ class User extends DatabaseObject {
 	
 	public static function find_by_id($id=0) {
 		$sql  = "SELECT ";		
+		$i = 0;
 		foreach (static::$db_view_fields as $k => $v) {
 			$sql .= $k." AS ".$v;
 			$i++;
@@ -62,6 +63,7 @@ class User extends DatabaseObject {
 				// password matches
 				return $user;
 			} else {
+				// password does not match
 				return false;
 			}
 		} else {
@@ -72,6 +74,7 @@ class User extends DatabaseObject {
 	
 	public static function find_user_by_username($username) {
 		$sql  = "SELECT ";		
+		$i = 0;
 		foreach (self::$db_view_fields as $k => $v) {
 			$sql .= $k." AS ".$v;
 			$i++;

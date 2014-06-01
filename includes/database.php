@@ -79,6 +79,27 @@ class MySQLDatabase {
 			die( $output );
 		}
 	}
+	
+	public function password_encrypt($password) {
+		$hash_format = "$2y$10$";
+		$salt = $this->generate_salt(22);
+		$format_and_salt = $hash_format . $salt;
+		$hash = crypt($password, $format_and_salt);
+		return $hash;
+	}
+	
+	protected function generate_salt($length) {
+		$unique_random_string = md5(uniqid(mt_rand(), true));
+		// Valid characters for a salt are [a-zA-Z0-9./]
+		$base64_string = base64_encode($unique_random_string);
+		// But not '+' which is valid in base64 encoding
+		$modified_base64_string = str_replace('+', '.', $base64_string);
+		// Truncate string to the correct length
+		$salt = substr($modified_base64_string, 0, $length);
+		
+		return $salt;
+	}
+	
 }
 
 $database = new MySQLDatabase();
