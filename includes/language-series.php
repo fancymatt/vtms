@@ -55,5 +55,16 @@ class LanguageSeries extends DatabaseObject {
 		echo "</a>";
 	}
 	
+	public function display_full_language_series_navigation() {
+		echo "<a href='series.php?id=".$this->series_id."'>";
+		echo $this->series_name;
+		echo "</a>";
+		echo " > ";
+		echo "<img src='images/{$this->level_code}.png'> ";
+		echo "<a href='language-series.php?series=".$this->series_id."&id=".$this->id."'>";
+		echo $this->language_series_title;
+		echo "</a>";
+	}
+	
 }
 ?>

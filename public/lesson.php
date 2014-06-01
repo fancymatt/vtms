@@ -30,7 +30,7 @@
 
 <?php include_layout_template('header.php'); ?>
 		<div>
-		<h2><?php echo $lesson->display_full_lesson().": ".$lesson->title; ?></h2>
+		<h3><?php $lesson->display_full_lesson_navigation(); ?></h3>
 		<?php echo $session->message(); ?>
 		<p><a href="language-series.php?series=<?php echo $series_id; ?>&id=<?php echo $langSeries_id; ?>"><- Return to Lesson List</a></p>
 		<h2>Assets and Tasks</h2>

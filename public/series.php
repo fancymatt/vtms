@@ -6,7 +6,7 @@
 		<div>
 		
 		
-		<h2><?php echo Series::get_series_title_from_id($db->escape_value($_GET['id'])); ?></h2>
+		<h3><?php echo Series::get_series_title_from_id($db->escape_value($_GET['id'])); ?></h3>
 		<p><a href="lesson-db.php"><- Return to Series List</a></p>
 		<table>
 			<tr><th>Title</th><th>Series TRT</th><th>Actions</th></tr>

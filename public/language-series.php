@@ -8,7 +8,7 @@
 
 <?php include_layout_template('header.php'); ?>
 		<div>
-		<h2><?php $language_series->display_full_language_series(); ?></h2>
+		<h3><?php $language_series->display_full_language_series_navigation(); ?></h3>
 		<?php echo $session->message(); ?>
 		<p><a href="series.php?id=<?php echo $series_id; ?>"><- Return to Language Series List</a></p>
 		<table>

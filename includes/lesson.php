@@ -7,6 +7,7 @@ class Lesson extends DatabaseObject {
 										'series.id' => 'series_id',
 										'series.title' => 'series_name',
 										'lesson.fkLanguageSeries' => 'language_series_id',
+										'languageSeries.seriesTitle' => 'language_series_title',
 										'language.id' => 'language_id',
 										'language.name' => 'language_name',
 										'lesson.number' => 'number',
@@ -58,6 +59,7 @@ class Lesson extends DatabaseObject {
 	public $series_id;
 	public $series_name;
 	public $language_series_id;
+	public $language_series_title;
 	public $language_id;
 	public $language_name;
 	public $comp_value;
@@ -479,5 +481,19 @@ class Lesson extends DatabaseObject {
 		$issues = Issue::get_unfinished_issues_for_lesson($this->id);
 		echo "<a href='issues-for-lesson.php?id=".$this->id."'>Issues: ".count($issues)."</a>";
 	}
+	
+	public function display_full_lesson_navigation() {
+		echo "<a href='series.php?id=".$this->series_id."'>";
+		echo $this->series_name;
+		echo "</a>";
+		echo " > ";
+		echo "<img src='images/{$this->level_code}.png'> ";
+		echo "<a href='language-series.php?series=".$this->series_id."&id=".$this->language_series_id."'>";
+		echo $this->language_series_title;
+		echo "</a>";
+		echo " > ";
+		echo "#{$this->number} {$this->title}";
+	}
+	
 }
 ?>
