@@ -54,7 +54,7 @@
 		}
 		echo "<br />";
 		echo "Admin: ";
-		echo "<a href='admin-manage-users.php'>Manage Users</a> ";
+		echo "<a href='admin-users.php'>Manage Users</a> ";
 	} ?>
 	</h4></p>
 	</div>

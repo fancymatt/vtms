@@ -17,7 +17,7 @@
 			$user->time_zone = $db->escape_value($_POST['time_zone']);
 		
 			$user->create();
-			redirect_to("admin-manage-users.php");
+			redirect_to("admin-users.php");
 		}
 	}
 ?>

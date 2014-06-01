@@ -7,7 +7,7 @@
 	
 	$user = find_user_by_id($_GET['user']);
 	if (!$user) {
-		redirect_to("admin-manage-users.php");
+		redirect_to("admin-users.php");
 	}
 	
 	$user_id = $user["pkUser"];
@@ -16,9 +16,9 @@
 	
 	if ($result && mysql_affected_rows() == 1) {
 		$_SESSION["message"] = "User deleted.";
-		redirect_to("admin-manage-users.php");
+		redirect_to("admin-users.php");
 	} else {
 		$_SESSION["message"] = "User deletion failed.";
-		redirect_to("admin-manage-users.php");
+		redirect_to("admin-users.php");
 	}
 ?>

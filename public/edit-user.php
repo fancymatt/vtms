@@ -19,7 +19,7 @@
 			$errors = errors();
 		} else {
 			$edited_user->update();
-			redirect_to("admin-manage-users.php");
+			redirect_to("admin-users.php");
 		}
 	}
 ?>
