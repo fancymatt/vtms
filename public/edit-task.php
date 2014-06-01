@@ -8,13 +8,22 @@
 		if($task->is_asset) {
 			$task->is_delivered = $db->escape_value($_POST['is_delivered']);
 		} else {
-			$task->time_actual = $db->escape_value($_POST['time_actual']);
+			$time_hours = $db->escape_value($_POST['time_actual_hours']);
+			$time_minutes = $db->escape_value($_POST['time_actual_minutes']);
+			$time_seconds = $db->escape_value($_POST['time_actual_seconds']);
+			$time_actual = ($time_hours*3600)+($time_minutes*60)+($time_seconds);
+			$task->time_actual = $time_actual;
 		}
 		$task->team_member_id = $db->escape_value($_POST['team_member_id']);
 		$task->update();
 		redirect_to("lesson.php?series={$task->series_id}&langSeries={$task->language_series_id}&lesson={$task->lesson_id}");
 	}
-
+	$time_actual = (int) $task->time_actual;
+	$time_actual_seconds = (int) ($time_actual%60);
+	($time_actual < 3600) ? $time_actual_minutes = (int) ($time_actual/60) : $time_actual_minutes = (int) ($time_actual%3600);
+	
+	$time_actual_hours = (int) ($time_actual/3600);
+	
 	$team_members = Member::find_all_members();
 	$lesson = Lesson::find_by_id($task->lesson_id);
 ?>
@@ -30,7 +39,34 @@
 			<?php if ($task->is_asset) { ?>
 				<p><label for="is_delivered">Delivered?</label><input type="checkbox" name="is_delivered" value="1" <?php echo $task->is_delivered ? "checked" : ""; ?>></p>
 			<?php } else { ?>
-				<p><label for="time_actual">Time Actual</label><input type="text" name="time_actual" value="<?php echo $task->time_actual; ?>"></p>
+				<p><label for="time_actual_hours">TRT:</label> 
+				<select name="time_actual_hours" id="time_actual_hours">
+					<?php for($i=0; $i<10; $i++) {
+						echo "<option value='{$i}'";
+						if ($i == $time_actual_hours) {
+							echo " selected";
+						}
+						echo ">{$i}</option>";
+					} ?>
+				</select>:
+				<select name="time_actual_minutes" id="time_actual_minutes">
+					<?php for($i=0; $i<60; $i++) {
+						echo "<option value='{$i}'";
+						if ($i == $time_actual_minutes) {
+							echo " selected";
+						}
+						echo ">{$i}</option>";
+					} ?>
+				</select>:
+				<select name="time_actual_seconds" id="time_actual_seconds">
+					<?php for($i=0; $i<60; $i++) {
+						echo "<option value='{$i}'";
+						if ($i == $time_actual_seconds) {
+							echo " selected";
+						}
+						echo ">{$i}</option>";
+					} ?>
+				</select>
 			<?php } ?>
 			<p><label for="team_member_id">Assigned Team Member:</label> <select name="team_member_id">
 			<?php
