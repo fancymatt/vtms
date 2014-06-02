@@ -53,7 +53,7 @@
 						echo $lesson->trt;
 						echo "</td>";
 						echo "<td>";
-						echo "<a href='lesson.php?series={$lesson->series_id}langSeries={$lesson->language_series_id}lesson={$lesson->id}'>View</a>";
+						echo "<a href='lesson.php?series={$lesson->series_id}&langSeries={$lesson->language_series_id}&lesson={$lesson->id}'>View</a>";
 						echo "</td>";
 						echo "</tr>";
 					} 
