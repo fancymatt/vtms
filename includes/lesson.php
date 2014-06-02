@@ -470,6 +470,25 @@ class Lesson extends DatabaseObject {
 		return static::find_by_sql($sql);
 	}
 	
+	public static function find_all_recently_completed_lessons() {
+		// detect the latest task completion time and issue fixed time
+		$sql  = "SELECT ";		
+		foreach (self::$db_view_fields as $k => $v) {
+			$sql .= $k." AS ".$v;
+			$i++;
+			$i <= count(self::$db_view_fields) - 1 ? $sql .= ", " : $sql .= " ";
+		}
+		$sql .= "FROM ".self::$table_name." ";
+		foreach (self::$db_join_fields as $k => $v) {
+			$sql .= "JOIN ".$k." ON ".$v." ";
+			}
+		$sql .= "WHERE lesson.filesMoved = 1 ";
+		$sql .= "AND lesson.trt < 1 ";
+		$sql .= "ORDER BY lesson.publishDateSite ASC ";
+		
+		return static::find_by_sql($sql);
+	}
+	
 	public function display_full_lesson() {
 		echo "<img src='images/{$this->level_code}.png'> ";
 		echo "<a href='lesson.php?series=".$this->series_id."&langSeries=".$this->language_series_id."&lesson=".$this->id."'>";
