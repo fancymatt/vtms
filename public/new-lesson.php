@@ -12,8 +12,12 @@
 			$_SESSION["errors"] = $errors;
 			redirect_to("viewSeries?id={$series_id}.php");
 		}
-	
+		$language_series = LanguageSeries::find_by_id($language_series_id);
+		$language = Language::find_by_id($language_series->language_id);
 		$new_lesson_name = $database->escape_value($_POST['new_lesson_name']);
+		$new_lesson_name_pass1 = str_replace("<language>", $language->name, $new_lesson_name);
+		$new_lesson_name_pass2 = str_replace("<country>", $language->country_name, $new_lesson_name_pass1);
+		$new_lesson_name = $new_lesson_name_pass2;
 		$new_lesson_number = $database->escape_value($_POST['new_lesson_number']);
 		$new_lesson_language_series = $database->escape_value($_POST['new_lesson_language_series']);
 		
