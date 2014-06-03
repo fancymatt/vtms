@@ -23,7 +23,8 @@ if(!is_object($team_member)) {
 		$activated_task->activate_task();
 		$activated_global_task = GlobalTask::find_by_id($activated_task->global_task_id);
 		$message = $activated_task_id . " has been activated.";
-		redirect_to("task-sheet.php?member={$team_member_id}");
+		// Need some way to do this redirect while still keeping activated_global_task
+		//redirect_to("task-sheet.php?member={$team_member_id}");
 	}
 	
 	if($_POST['task_deactivated']) {
@@ -88,7 +89,8 @@ if(!is_object($team_member)) {
 <div>
 <h2 id="main_title"><?php echo $team_member->first_name; ?>'s Task Sheet</h2>
 <?php if($message) { echo "<p>{$message}</p>"; } ?>
-<?php  if($activated_global_task->tutorial_yt_url != '') {
+<?php //if($activated_global_task->tutorial_yt_url) {
+	if($activated_global_task) {
 	echo "<div class='panel'>";
 	echo "<h3>".$activated_global_task->series_name.": ".$activated_global_task->task_name."</h3>";
 	echo "<iframe width='380' height='250' src='//www.youtube.com/embed/".$activated_global_task->tutorial_yt_url."' frameborder='0' allowfullscreen></iframe>";
