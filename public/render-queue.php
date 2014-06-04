@@ -57,7 +57,7 @@
 	<div id="export-these">
 		<h3>Export These</h3>
 		<table>
-			<tr><th>Lesson</th><th>Last Action</th><th>Action Time</th><th>Actions</th><th>Due Date</th></tr>
+			<tr><th>Lesson</th><th>Actions</th><th>Last Action</th><th>Action Time</th><th>Due Date</th></tr>
 				<?php 
 				if(!$exportable_lessons) {
 					echo "<td>No lessons</td>";
@@ -67,13 +67,19 @@
 						echo "<td>";
 						echo $qa_lesson->display_full_lesson();
 						echo "</td>";
+						echo "<td><form action='render-queue.php' method='post'>";
+						echo "<input type='hidden' name='qa_lesson_id' value='{$qa_lesson->id}'><input type='submit' name='add_lesson_to_queue' value='Add To Queue'></form></td>";
 						echo "<td>";
 						if($qa_lesson->last_action == 'task') {
 							$last_task = Task::find_by_id($qa_lesson->last_task_id);
-							echo $last_task->team_member_name." - ".$last_task->task_name;
+							if(is_object($last_task)) {
+								echo $last_task->team_member_name." - ".$last_task->task_name;
+							}
 						} else {
-							$last_issue = TaskComment::find_by_id($qa_lesson->last_issue_id);
-							echo $last_issue->team_member_name. " - Issue Fixed";
+							$last_issue = Issue::find_by_id($qa_lesson->last_issue_id);
+							if(is_object($last_issue)) {
+								echo $last_issue->team_member_name. " - Issue Fixed";
+							}
 						}
 						echo "</td>";
 						echo "<td>";
@@ -83,8 +89,6 @@
 							echo $logged_in_user->local_time($qa_lesson->last_issue_time);
 						}
 						echo "</td>";
-						echo "<td><form action='render-queue.php' method='post'>";
-						echo "<input type='hidden' name='qa_lesson_id' value='{$qa_lesson->id}'><input type='submit' name='add_lesson_to_queue' value='Add To Queue'></form></td>";
 						echo "<td>{$qa_lesson->publish_date}</td>";
 						echo "</tr>";
 					} 
