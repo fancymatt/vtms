@@ -4,6 +4,7 @@
 	
 	$current_task_id = $_GET['id'];
 	$current_task = Task::find_by_id($current_task_id);
+	$current_lesson = Lesson::find_by_id($current_task->lesson_id);
 	
 	if($_POST['submitted_issue'] || $_POST['submitted_issue_and_repeat'] ) { 
 		$issue_task_id = $db->escape_value($_POST['submitted_issue_task_id']);
@@ -29,19 +30,21 @@
 ?>
 
 <?php include_layout_template('header.php'); ?>
+	
 	<div>
 		<p><a href="issues-for-lesson.php?id=<?php echo $current_task->lesson_id; ?>"><- Return to Lesson</a></p>
-		<h2>Add an issue: <?php echo $current_lesson->title; ?></h2>
-		<form action='issues-for-task.php?id=<?php echo $current_task_id; ?>' method='post'>
-		<p><label for="timecode">Timecode: </label><input type="text" placeholder="ex: 2:25" name="timecode"></p>
-		<p><label for="creator">Creator: </label><input type="text" value="Checker" name="creator"></p>
-		<p><label for="body">Issue: </label><input type="text" placeholder="ex: Change 'das' to 'der'" name="body" size="120"></p>
-		<input type="hidden" name="submitted_issue_task_id" value="<?php echo $current_task->id; ?>">
-		<p><input type="submit" name="submitted_issue" value="Report and Go Back">
-		<input type="submit" name="submitted_issue_and_repeat" value="Report and Continue"></p>
-		<p><a href="issues-for-lesson.php?id=<?php echo $current_task->lesson_id; ?>"><- Return to Lesson</a></p>
-		<br />
-	</div>
-		
+		<h3>Add an issue for <?php $current_lesson->display_full_lesson(); ?></h3>
+		<div class="panel">
+			<h4><?php echo $current_task->task_name." by ".$current_task->team_member_name; ?></h4>
+			<form action='issues-for-task.php?id=<?php echo $current_task_id; ?>' method='post'>
+			<label for="timecode">Timecode: </label><input type="text" placeholder="ex: 2:25" name="timecode" size="10">
+			<label for="creator">Creator: </label><input type="text" value="Checker" name="creator">
+			<p><textarea name="body" rows="7" cols="52"></textarea>
+			<input type="hidden" name="submitted_issue_task_id" value="<?php echo $current_task->id; ?>">
+			<p><input type="submit" name="submitted_issue" value="Report and Go Back">
+			<input type="submit" name="submitted_issue_and_repeat" value="Report and Continue"></p>
+		</div>
+		<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+	</div>	
 		
 <?php include_layout_template('footer.php'); ?>
