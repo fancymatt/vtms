@@ -78,9 +78,9 @@
 						echo "</td>";
 						echo "<td>";
 						if($qa_lesson->last_action == 'task') {
-							echo $qa_lesson->last_task_time;
+							echo $logged_in_user->local_time($qa_lesson->last_task_time);
 						} else {
-							echo $qa_lesson->last_issue_time;
+							echo $logged_in_user->local_time($qa_lesson->last_issue_time);
 						}
 						echo "</td>";
 						echo "<td><form action='render-queue.php' method='post'>";
