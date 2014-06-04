@@ -27,7 +27,12 @@ class Lesson extends DatabaseObject {
 										'lesson.isQueued' => 'is_queued',
 										'lesson.queuedTime' => 'queued_time',
 										'lesson.exportedTime' => 'exported_time',
-										'lesson.timeUploadedDropbox' => 'dropbox_time'
+										'lesson.timeUploadedDropbox' => 'dropbox_time',
+										'(SELECT task.id FROM task WHERE task.fkLesson = lesson.id ORDER BY task.timeCompleted DESC LIMIT 1)' => 'last_task_id',
+										'(SELECT MAX(task.timeCompleted) FROM task WHERE task.fkLesson = lesson.id)' => 'last_task_time',
+										'(SELECT MAX(taskComment.timeCompleted) FROM taskComment JOIN task ON taskComment.fkTask=task.id WHERE task.fkLesson = lesson.id)' => 'last_issue_time',
+										'(SELECT taskComment.id FROM taskComment JOIN task ON task.id = taskComment.fkTask WHERE task.fkLesson = lesson.id ORDER BY task.timeCompleted DESC LIMIT 1)' => 'last_issue_id',
+										'IF(IFNULL((SELECT MAX(task.timeCompleted) FROM task WHERE task.fkLesson = lesson.id),0) > IFNULL((SELECT MAX(taskComment.timeCompleted) FROM taskComment JOIN task ON taskComment.fkTask=task.id WHERE task.fkLesson = lesson.id),0), "task", "issue")' => 'last_action'
 										);
 										
 	protected static $db_edit_fields = array('lesson.fkLanguageSeries' => 'language_series_id',
@@ -82,6 +87,11 @@ class Lesson extends DatabaseObject {
 	public $publish_date;
 	public $buffered_publish_date;
 	public $time_dropbox;
+	public $last_task_id;
+	public $last_issue_id;
+	public $last_task_time;
+	public $last_issue_time;
+	public $last_action;
 	
 	public static function find_all_lessons_for_language_series($language_series_id) {
 		$child_table_name = "lesson";

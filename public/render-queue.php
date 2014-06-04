@@ -7,7 +7,7 @@
 	$current_time = new DateTime(null, new DateTimeZone('UTC'));
 	$logged_in_user = User::find_by_id($session->user_id);
 	
-	if($_POST['add_lesson_to_queue']) {
+	if(isset($_POST['add_lesson_to_queue'])) {
 		$qa_lesson_id = $db->escape_value($_POST['qa_lesson_id']);
 		$lesson = Lesson::find_by_id($qa_lesson_id);
 		$lesson->is_queued = 1;
@@ -15,7 +15,7 @@
 		$lesson->update();
 	}
 	
-	if($_POST['mark_lesson_as_exported']) {
+	if(isset($_POST['mark_lesson_as_exported'])) {
 		// and update qa fields
 		$qa_lesson_id = $db->escape_value($_POST['qa_lesson_id']);
 		$lesson = Lesson::find_by_id($qa_lesson_id);
@@ -24,7 +24,7 @@
 		$lesson->update();
 	}
 	
-	if($_POST['mark_lesson_as_exported_and_updated']) {
+	if(isset($_POST['mark_lesson_as_exported_and_updated'])) {
 		// and update qa fields
 		$qa_lesson_id = $db->escape_value($_POST['qa_lesson_id']);
 		$lesson = Lesson::find_by_id($qa_lesson_id);
@@ -35,7 +35,7 @@
 		$lesson->update();
 	}
 	
-	if($_POST['unqueue_lesson']) {
+	if(isset($_POST['unqueue_lesson'])) {
 		// and update qa fields
 		$qa_lesson_id = $db->escape_value($_POST['qa_lesson_id']);
 		$lesson = Lesson::find_by_id($qa_lesson_id);
@@ -57,7 +57,7 @@
 	<div id="export-these">
 		<h3>Export These</h3>
 		<table>
-			<tr><th>Lesson</th><th>Actions</th><th>Due Date</th></tr>
+			<tr><th>Lesson</th><th>Last Action</th><th>Action Time</th><th>Actions</th><th>Due Date</th></tr>
 				<?php 
 				if(!$exportable_lessons) {
 					echo "<td>No lessons</td>";
@@ -66,6 +66,22 @@
 						echo "<tr>";
 						echo "<td>";
 						echo $qa_lesson->display_full_lesson();
+						echo "</td>";
+						echo "<td>";
+						if($qa_lesson->last_action == 'task') {
+							$last_task = Task::find_by_id($qa_lesson->last_task_id);
+							echo $last_task->team_member_name." - ".$last_task->task_name;
+						} else {
+							$last_issue = TaskComment::find_by_id($qa_lesson->last_issue_id);
+							echo $last_issue->team_member_name. " - Issue Fixed";
+						}
+						echo "</td>";
+						echo "<td>";
+						if($qa_lesson->last_action == 'task') {
+							echo $qa_lesson->last_task_time;
+						} else {
+							echo $qa_lesson->last_issue_time;
+						}
 						echo "</td>";
 						echo "<td><form action='render-queue.php' method='post'>";
 						echo "<input type='hidden' name='qa_lesson_id' value='{$qa_lesson->id}'><input type='submit' name='add_lesson_to_queue' value='Add To Queue'></form></td>";
