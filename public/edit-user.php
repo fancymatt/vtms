@@ -1,5 +1,9 @@
 <?php require_once("../includes/initialize.php"); ?>
 <?php
+	if (!$session->is_admin()) {
+		$_SESSION['message'] = "You need admin privileges to access this page.";
+		redirect_to('login.php');
+	}
 	confirm_logged_in();
 	$user_id=$_GET['user'];
 	$user = User::find_by_id($user_id);

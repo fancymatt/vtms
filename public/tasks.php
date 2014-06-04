@@ -1,5 +1,6 @@
 <?php require_once("../includes/initialize.php"); ?>
 <?php
+	confirm_logged_in();
 	$days_past = 1;
 	$recent_tasks = Task::get_recently_completed_tasks($days_past);
 	$active_tasks = Task::get_all_active_tasks();

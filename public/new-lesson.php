@@ -1,6 +1,9 @@
 <?php require_once("../includes/initialize.php"); ?>
 <?php
-	$session->confirm_logged_in();
+	if (!$session->is_admin()) {
+		$_SESSION['message'] = "You need admin privileges to access this page.";
+		redirect_to('login.php');
+	}
 	$language_series_id = $database->escape_value($_GET['inLanguageSeries']);
 	
 	if($_POST['new_lesson']) {

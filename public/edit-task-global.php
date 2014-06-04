@@ -1,5 +1,9 @@
 <?php require_once("../includes/initialize.php"); ?>
 <?php
+	if (!$session->is_admin()) {
+		$_SESSION['message'] = "You need admin privileges to access this page.";
+		redirect_to('login.php');
+	}
 	$global_task_id = $db->escape_value($_GET['id']);
 	$global_task = GlobalTask::find_by_id($global_task_id);
 		

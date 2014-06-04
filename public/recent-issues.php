@@ -1,5 +1,6 @@
 <?php require_once("../includes/initialize.php"); ?>
 <?php
+	confirm_logged_in();
 	$days_past = 1;
 	$recent_issues = Issue::get_recently_completed_issues($days_past);
 	$actionable_issues = Issue::get_all_unfinished_issues();

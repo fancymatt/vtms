@@ -1,6 +1,9 @@
 <?php require_once("../includes/initialize.php"); ?>
 <?php
-	$session->confirm_logged_in();
+	if (!$session->is_admin()) {
+		$_SESSION['message'] = "You need admin privileges to access this page.";
+		redirect_to('login.php');
+	}
 	
 	if($_POST['edited_series']) {
 		$edited_series_title = $database->escape_value($_POST['edited_series_title']);

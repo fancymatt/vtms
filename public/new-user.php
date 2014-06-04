@@ -1,6 +1,9 @@
 <?php require_once("../includes/initialize.php"); ?>
 <?php
-	
+	if (!$session->is_admin()) {
+		$_SESSION['message'] = "You need admin privileges to access this page.";
+		redirect_to('login.php');
+	}
 	if($_POST['submit_new_user']) {		
 		$required_fields = array("user_name", "password", "privilege");
 		validate_presences($required_fields);
