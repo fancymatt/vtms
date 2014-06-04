@@ -5,7 +5,6 @@
 		redirect_to('login.php');
 	}
 	$current_time = new DateTime(null, new DateTimeZone('UTC'));
-	$session->check
 	$logged_in_user = User::find_by_id($session->user_id);
 	
 	if($_POST['add_lesson_to_queue']) {
