@@ -51,6 +51,8 @@
 						echo "'>";
 						echo "<img src='";
 						echo $lesson->files_moved ? "images/is_moved.png" : "images/not_moved.png";
+						echo "<img src='";
+						echo $lesson->is_detected ? "images/is_published.png" : "images/not_published.png";
 						echo "'>";
 						echo " <a href='issues-for-lesson.php?id=".$lesson->id."'>Issues: ".count($issues)."</a>";					
 						echo "</td>";

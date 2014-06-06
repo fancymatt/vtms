@@ -25,6 +25,7 @@ class Lesson extends DatabaseObject {
 										'lesson.qa_log' => 'qa_log',
 										'lesson.qa_url' => 'qa_url',
 										'lesson.isQueued' => 'is_queued',
+										'lesson.isDetected' => 'is_detected',
 										'lesson.queuedTime' => 'queued_time',
 										'lesson.exportedTime' => 'exported_time',
 										'lesson.timeUploadedDropbox' => 'dropbox_time',
@@ -45,6 +46,7 @@ class Lesson extends DatabaseObject {
 											'lesson.qa_log' => 'qa_log',
 											'lesson.qa_url' => 'qa_url',
 											'lesson.isQueued' => 'is_queued',
+											'lesson.isDetected' => 'is_detected',
 											'lesson.queuedTime' => 'queued_time',
 											'lesson.exportedTime' => 'exported_time',
 											'lesson.publishDateSite' => 'publish_date',
@@ -75,6 +77,7 @@ class Lesson extends DatabaseObject {
 	public $is_checkable;
 	public $checked_video;
 	public $checked_language;
+	public $is_detected;
 	public $files_moved;
 	public $date_due;
 	public $level_code;
