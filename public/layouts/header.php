@@ -43,7 +43,8 @@
 		<a href="recent-lessons.php">Lessons</a> |
 		<a href="qa.php">QA</a> |
 		<a href="operations.php">Operations</a> | 
-		<a href="publishing.php">Publishing</a><br />
+		<a href="publishing.php">Publishing</a> | 
+		<a href="publishing-on-date.php">Today</a><br />
 		<?php } ?>
 		
 		

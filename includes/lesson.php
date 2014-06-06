@@ -134,6 +134,23 @@ class Lesson extends DatabaseObject {
 		return static::find_by_sql($sql);
 	}
 	
+	public static function find_all_lessons_publishing_on_date($date) {
+		$sql  = "SELECT ";		
+		foreach (self::$db_view_fields as $k => $v) {
+			$sql .= $k." AS ".$v;
+			$i++;
+			$i <= count(self::$db_view_fields) - 1 ? $sql .= ", " : $sql .= " ";
+		}
+		$sql .= "FROM ".self::$table_name." ";
+		foreach (self::$db_join_fields as $k => $v) {
+			$sql .= "LEFT JOIN ".$k." ON ".$v." ";
+			}
+		$sql .= "WHERE DATE(lesson.publishDateSite) = '{$date}' ";
+		$sql .= "GROUP BY lesson.id ";
+		$sql .= "ORDER BY publish_date ASC, series.title ASC, language.name ASC, lesson.number ASC ";
+		return static::find_by_sql($sql);
+	}
+	
 	public static function find_all_qa_lessons() {
 		$sql  = "SELECT ";		
 		foreach (self::$db_view_fields as $k => $v) {
