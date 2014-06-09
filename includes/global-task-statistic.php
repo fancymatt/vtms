@@ -6,7 +6,7 @@ class GlobalTaskStatistic extends DatabaseObject {
 	protected static $db_view_fields = array('task.fkTeamMember' => 'team_member_id',
 										'teamMember.nameFirst' => 'team_member_name',
 										'COUNT(task.isCompleted = 1)' => 'times_completed',
-										'FLOOR(AVG(task.timeActual))' => 'average_time'
+										'FLOOR(AVG(NULLIF(task.timeActual, 0)))' => 'average_time'
 										);
 										
 	protected static $db_edit_fields = array(
