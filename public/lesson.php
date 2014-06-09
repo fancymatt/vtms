@@ -113,10 +113,10 @@
 						echo ">{$i}</option>";
 					} ?>
 				</select></p>
-				<p>Language Checked<input type="checkbox" name="edited_lesson_checked_language" value="1" <?php echo $lesson->checked_language ? "checked" : ""; ?>><br /></p>
-				<p>Video Checked<input type="checkbox" name="edited_lesson_checked_video" value="1" <?php echo $lesson->checked_video ? "checked" : ""; ?>><br /></p>
-				Files Moved<input type="checkbox" name="edited_lesson_files_moved" value="1" <?php echo $current_record->files_moved ? "checked" : ""; ?>><br />
-			Lesson Detected<input type="checkbox" name="edited_lesson_is_detected" value="1" <?php echo $current_record->is_detected ? "checked" : "" ?>>
+				Language Checked<input type="checkbox" name="edited_lesson_checked_language" value="1" <?php echo $lesson->checked_language ? "checked" : ""; ?>><br />
+				Video Checked<input type="checkbox" name="edited_lesson_checked_video" value="1" <?php echo $lesson->checked_video ? "checked" : ""; ?>><br />
+				Files Moved<input type="checkbox" name="edited_lesson_files_moved" value="1" <?php echo $lesson->files_moved ? "checked" : ""; ?>><br />
+			Lesson Detected<input type="checkbox" name="edited_lesson_is_detected" value="1" <?php echo $lesson->is_detected ? "checked" : "" ?>>
 				<input type="hidden" name="edited_lesson_id" value="<?php echo $current_record->id; ?>">
 				<p><input type="submit" name="edited_lesson" id="edited_lesson" value="Edit"></p>
 			</form>
