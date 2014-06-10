@@ -110,7 +110,7 @@ if(!is_object($team_member)) {
 		echo "<h3>Task Completed</h3>";
 		echo "<p>".$completed_task->display_full_task_lesson_task() ."</p>";
 		echo "<p>Your time: <strong>".seconds_to_timecode($completed_task->actual_time)."</strong></p>";
-		echo "</p>";
+		echo "<p>If you think this time is incorrect, please send a message to Matt or Keith.</p>";
 		echo "</div>";
 		
 		echo "<div class='panel' id='global_task_panel'>";
