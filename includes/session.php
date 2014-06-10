@@ -6,11 +6,12 @@ class Session {
 	public $user_id;
 	public $privilege_type;
 	public $message;
+	public $completed_task_id;
 
 	function __construct() {
 		$lifetime = 60*60*24*7;
-		session_set_cookie_params($lifetime);
 		session_start();
+		session_set_cookie_params(session_name(), session_id(), time()+$lifetime);
 		$this->check_message();
 		$this->check_login();
 	    if($this->logged_in) {
