@@ -109,14 +109,14 @@ if(!is_object($team_member)) {
 		echo "<div class='panel' id='completed_task_panel'>";
 		echo "<h3>Task Completed</h3>";
 		echo "<p>".$completed_task->display_full_task_lesson_task() ."</p>";
-		echo "<p>Your time: <strong>".seconds_to_timecode($completed_task->actual_time)."</strong></p>";
+		echo "<p>Your time: <strong>".seconds_to_timecode($completed_task->actual_time, 6)."</strong></p>";
 		echo "<p>If you think this time is incorrect, please send a message to Matt or Keith.</p>";
 		echo "</div>";
 		
 		echo "<div class='panel' id='global_task_panel'>";
 		echo "<h3>{$completed_global_task->series_name} - {$completed_global_task->task_name}</h3>";
-		echo "<p>Your average time for this task: <strong>".seconds_to_timecode($member_task_stat->average_time)."</strong></p>";
-		echo "<p>Video team average time for this task: <strong>".seconds_to_timecode($global_task_stat->average_time)."</strong></p>";
+		echo "<p>Your average time for this task: <strong>".seconds_to_timecode($member_task_stat->average_time, 6)."</strong></p>";
+		echo "<p>Video team average time for this task: <strong>".seconds_to_timecode($global_task_stat->average_time, 6)."</strong></p>";
 		echo "<p>Times you've completed this task: <strong>".$member_task_stat->times_completed."</strong>";
 		echo "<p>Total times this task was completed: <strong>".$global_task_stat->times_completed."</strong></p>";
 		echo "</div>";
