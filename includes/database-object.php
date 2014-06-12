@@ -11,6 +11,7 @@ class DatabaseObject {
 	
 	public static function find_by_id($id=0) {
 		$sql  = "SELECT ";		
+		$i = 0;
 		foreach (static::$db_view_fields as $k => $v) {
 			$sql .= $k." AS ".$v;
 			$i++;
