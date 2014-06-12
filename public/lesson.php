@@ -133,7 +133,7 @@
 				foreach($shots as $shot) {
 					echo "<tr>";
 					echo "<td>{$shot->section}</td>";
-					echo "<td>{$shot->shot}</td>";
+					echo "<td>{$shot->shot} - {$shot->type}</td>";
 					echo "<td>";
 					echo nl2br($shot->script);
 					echo "</td>";
