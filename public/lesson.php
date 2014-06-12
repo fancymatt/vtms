@@ -123,10 +123,9 @@
 		</div>
 		
 		<?php } ?> <!-- End if(is_admin) -->
-		<?php if($shots) {
-		?>
 		<div id="script">
 		<h2>Script Preview</h2>
+		<?php if($shots) { ?>
 		<p><a href="lesson-script.php?id=<?php echo $lesson->id; ?>">Go to full script page</a></p>
 		<table class="script">
 			<th>Section</th><th>Shot</th><th>Script</th><th>Script English</th>
@@ -146,7 +145,11 @@
 				?>
 		</table>
 		</div>
-		<?php } ?> <!-- End of if($shots) -->
+		<?php } else { ?> <!-- End of if($shots) -->
+			<table class="script">
+				<tr><td><a href="lesson-script.php?id=<?php echo $lesson->id; ?>">No script. Click to edit.</a></td></tr>
+			</table>
+		<?php } ?>
 		<p><a href="language-series.php?series=<?php echo $series_id; ?>&id=<?php echo $langSeries_id; ?>"><- Return to Language Series List</a></p>
 
 <?php include_layout_template('footer.php'); ?>
