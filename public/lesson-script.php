@@ -8,6 +8,7 @@
 		$asset_ids = $_POST['asset'];
 		$sections = $_POST['section'];
 		$scripts = $_POST['script'];
+		$types = $_POST['type'];
 		$shots = $_POST['shot'];
 		$scripts_english = $_POST['script_english'];
 		$i = 0;
@@ -16,6 +17,7 @@
 			$shot->asset_id = $asset_ids[$i];
 			$shot->section = $sections[$i];
 			$shot->shot = $shots[$i];
+			$shot->type = $types[$i];
 			$shot->script = $db->escape_value($scripts[$i]);
 			$shot->script_english = $db->escape_value($scripts_english[$i]);
 			$shot->update();
@@ -27,6 +29,7 @@
 		$new_sections = $_POST['new_section'];
 		$new_scripts = $_POST['new_script'];
 		$new_shots = $_POST['new_shot'];
+		$new_types = $_POST['new_type'];
 		$new_scripts_english = $_POST['new_script_english'];
 		$i = 0;
 		foreach($new_shot_ids as $new_shot_id) {
@@ -35,6 +38,7 @@
 			$shot->asset_id = $new_asset_ids[$i];
 			$shot->section = $new_sections[$i];
 			$shot->shot = $new_shots[$i];
+			$shot->type = $new_types[$i];
 			$shot->script = $db->escape_value($new_scripts[$i]);
 			$shot->script_english = $db->escape_value($new_scripts_english[$i]);
 			$shot->create();
@@ -72,7 +76,16 @@
 							} ?>
 						</td>
 						<td><input type="text" name="section[]" size="10" value="<?php echo $shot->section; ?>"></td>
-						<td><input type="text" name="shot[]" size="3" value="<?php echo $shot->shot; ?>"></td>
+						<td>
+							<input type="text" name="shot[]" size="3" value="<?php echo $shot->shot; ?>">
+							<select name="type[]">
+								<option value="">--</option>
+								<option value="CU" <?php if($shot->type=="CU") { echo "selected"; } ?> >CU</option>
+								<option value="WS" <?php if($shot->type=="WS") { echo "selected"; } ?> >WS</option>
+								<option value="SWS <?php if($shot->type=="SWS") { echo "selected"; } ?> ">SWS</option>
+								<option value="SCU <?php if($shot->type=="SCU") { echo "selected"; } ?> ">SCU</option>
+							</select>
+						</td>
 						<td><textarea name="script[]" rows="15" cols="35"><?php echo $shot->script; ?></textarea></td>
 						<td><textarea name="script_english[]" rows="15" cols="35"><?php echo $shot->script_english; ?></textarea></td>
 					</tr>
@@ -121,6 +134,34 @@
 			inputShot.size = 3;
 			inputShot.name = "new_shot[]";
 			
+			var inputType = document.createElement("select");
+			inputType.name = "new_type[]";
+			
+			var option1 = document.createElement("option");
+			option1.value = "";
+			option1.innerHTML = "--";
+			inputType.appendChild(option1);
+			
+			var option2 = document.createElement("option");
+			option2.value = "CU";
+			option2.innerHTML = "CU";
+			inputType.appendChild(option2);
+			
+			var option3 = document.createElement("option");
+			option3.value = "WS";
+			option3.innerHTML = "WS";
+			inputType.appendChild(option3);
+			
+			var option4 = document.createElement("option");
+			option4.value = "SWS";
+			option4.innerHTML = "SWS";
+			inputType.appendChild(option4);
+			
+			var option5 = document.createElement("option");
+			option5.value = "SCU";
+			option5.innerHTML = "SCU";
+			inputType.appendChild(option5);
+			
 			var inputScript = document.createElement("textarea");
 			inputScript.rows = 15;
 			inputScript.cols = 35;
@@ -135,6 +176,7 @@
 			cellAsset.appendChild(inputAsset);
 			cellSection.appendChild(inputSection);
 			cellShot.appendChild(inputShot);
+			cellShot.appendChild(inputType);
 			cellScript.appendChild(inputScript);
 			cellEnglish.appendChild(inputEnglish);
 			
