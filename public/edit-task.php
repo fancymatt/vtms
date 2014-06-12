@@ -6,6 +6,7 @@
 	}
 	$task_id = $db->escape_value($_GET['id']);
 	$task = Task::find_by_id($task_id);
+	$logged_in_user = User::find_by_id($session->user_id);
 		
 	if($_POST['edited_task']) {
 		$task->is_completed = $db->escape_value($_POST['is_completed']);
@@ -40,6 +41,9 @@
 		<p><a href="lesson.php?series=<?php echo $lesson->series_id; ?>&langSeries=<?php echo $lesson->language_series_id; ?>&lesson=<?php echo $task->lesson_id; ?>"><- Return to Lesson Page</a></p>
 		<form action="edit-task.php?id=<?php echo $task->id; ?>" method="post">
 			<p><label for="is_completed">Completed?</label><input type="checkbox" name="is_completed" value="1" <?php echo $task->is_completed ? "checked" : ""; ?>></p>
+			<?php if ($task->is_completed) {
+				echo "<p>Time Completed: ".$logged_in_user->local_time($task->completed_time);
+			} ?>
 			<?php if ($task->is_asset) { ?>
 				<p><label for="is_delivered">Delivered?</label><input type="checkbox" name="is_delivered" value="1" <?php echo $task->is_delivered ? "checked" : ""; ?>></p>
 			<?php } else { ?>
