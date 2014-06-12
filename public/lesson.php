@@ -134,7 +134,7 @@
 					echo "<td>{$shot->section}</td>";
 					echo "<td>{$shot->shot}</td>";
 					echo "<td>";
-					echo  nl2br($shot->script);
+					echo nl2br($shot->script);
 					echo "</td>";
 					echo "<td>";
 					echo nl2br($shot->script_english);
