@@ -134,9 +134,11 @@
 					echo "<td>{$shot->section}</td>";
 					echo "<td>{$shot->shot}</td>";
 					echo "<td>";
-					echo  str_replace('\n', '<br>', $shot->script);
+					echo  nl2br($shot->script);
 					echo "</td>";
-					echo "<td>{$shot->script_english}</td>";
+					echo "<td>";
+					echo nl2br($shot->script_english);
+					echo "</td>";
 					echo "</tr>";
 				}
 				?>

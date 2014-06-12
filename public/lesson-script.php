@@ -6,10 +6,16 @@
 	if($_POST['edited_script']) {
 		$shot_ids = $_POST['shot_id'];
 		$asset_ids = $_POST['asset'];
+		$sections = $_POST['section'];
+		$scripts = $_POST['script'];
+		$scripts_english = $_POST['script_english'];
 		$i = 0;
 		foreach($shot_ids as $shot_id) {
 			$shot = Shot::find_by_id($shot_id);
 			$shot->asset_id = $asset_ids[$i];
+			$shot->section = $sections[$i];
+			$shot->script = $db->escape_value($scripts[$i]);
+			$shot->script_english = $db->escape_value($scripts_english[$i]);
 			$shot->update();
 			$i++;
 		}
@@ -44,16 +50,16 @@
 								echo ">{$asset->task_name}</option>";
 							} ?>
 						</td>
-						<td><?php echo $shot->section; ?></td>
-						<td><?php echo $shot->shot; ?></td>
-						<td><?php echo str_replace('\n', '<br>', $shot->script); ?></td>
-						<td><?php echo $shot->script_english; ?></td>
+						<td><input type="text" name="section[]" size="10" value="<?php echo $shot->section; ?>"></td>
+						<td><input type="text" name="shot[]" size="3" value="<?php echo $shot->shot; ?>"></td>
+						<td><textarea name="script[]" rows="15" cols="35"><?php echo $shot->script; ?></textarea></td>
+						<td><textarea name="script_english[]" rows="15" cols="35"><?php echo $shot->script_english; ?></textarea></td>
 					</tr>
 				<?php endforeach; ?>
 		</table>
 		<input type="submit" name="edited_script" value="Submit Changes">
 		</form>
 		</div>
-		<p><a href="language-series.php?series=<?php echo $series_id; ?>&id=<?php echo $langSeries_id; ?>"><- Return to Language Series List</a></p>
+		<p><a href="language-series.php?series=<?php echo $lesson->series_id; ?>&id=<?php echo $lesson->language_series_id; ?>"><- Return to Language Series List</a></p>
 
 <?php include_layout_template('footer.php'); ?>
