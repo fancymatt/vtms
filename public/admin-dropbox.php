@@ -1,5 +1,9 @@
 <?php require_once("../includes/initialize.php"); ?>
 <?php
+	if (!$session->is_admin()) {
+		$_SESSION['message'] = "You need admin privileges to access this page.";
+		redirect_to('login.php');
+	}
 	if($_POST['add_to_dropbox']) {
 		$dropbox_lesson_id = $db->escape_value($_POST['dropbox_lesson_id']);
 		$lesson = Lesson::find_by_id($dropbox_lesson_id);

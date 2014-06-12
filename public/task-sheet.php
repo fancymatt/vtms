@@ -23,7 +23,8 @@ if(!is_object($team_member)) {
 		$activated_task->activate_task();
 		$activated_global_task = GlobalTask::find_by_id($activated_task->global_task_id);
 		$message = $activated_task_id . " has been activated.";
-		redirect_to("task-sheet.php?member={$team_member_id}");
+		// Need some way to do this redirect while still keeping activated_global_task
+		//redirect_to("task-sheet.php?member={$team_member_id}");
 	}
 	
 	if($_POST['task_deactivated']) {
@@ -37,6 +38,7 @@ if(!is_object($team_member)) {
 		$completed_task_id = $_POST['task_id'];
 		$completed_task = Task::find_by_id($completed_task_id);
 		$message = $completed_task->complete_task() . "<br />";
+		$_SESSION['completed_task_id'] = $completed_task_id;
 		redirect_to("task-sheet.php?member={$team_member_id}");
 	}
 	
@@ -88,12 +90,39 @@ if(!is_object($team_member)) {
 <div>
 <h2 id="main_title"><?php echo $team_member->first_name; ?>'s Task Sheet</h2>
 <?php if($message) { echo "<p>{$message}</p>"; } ?>
-<?php  if($activated_global_task->tutorial_yt_url != '') {
+<?php //if($activated_global_task->tutorial_yt_url) {
+	if($activated_global_task>0) {
 	echo "<div class='panel'>";
 	echo "<h3>".$activated_global_task->series_name.": ".$activated_global_task->task_name."</h3>";
 	echo "<iframe width='380' height='250' src='//www.youtube.com/embed/".$activated_global_task->tutorial_yt_url."' frameborder='0' allowfullscreen></iframe>";
 	echo "</div>";
 } ?>
+<?php // if($completed_task_id) ;
+	if($_SESSION['completed_task_id']) {
+		$completed_task = Task::find_by_id($_SESSION['completed_task_id']);
+		unset($_SESSION['completed_task_id']);
+		$completed_global_task = GlobalTask::find_by_id($completed_task->global_task_id);
+		$global_task_stats = GlobalTaskStatistic::find_all_child_for_parent($completed_global_task->id, "task", "TaskGlobal", " AND task.isCompleted = 1 ");
+		$member_task_stats = GlobalTaskStatistic::find_all_child_for_parent($completed_global_task->id, "task", "TaskGlobal", " AND task.isCompleted = 1 AND task.fkTeamMember= {$team_member_id} "); 
+		$global_task_stat = $global_task_stats[0];
+		$member_task_stat = $member_task_stats[0];
+		echo "<div class='panel' id='completed_task_panel'>";
+		echo "<h3>Task Completed</h3>";
+		echo "<p>".$completed_task->display_full_task_lesson_task() ."</p>";
+		echo "<p>Your time: <strong>".seconds_to_timecode($completed_task->actual_time, 6)."</strong></p>";
+		echo "<p>If you think this time is incorrect, please send a message to Matt or Keith.</p>";
+		echo "</div>";
+		
+		echo "<div class='panel' id='global_task_panel'>";
+		echo "<h3>{$completed_global_task->series_name} - {$completed_global_task->task_name}</h3>";
+		echo "<p>Your average time for this task: <strong>".seconds_to_timecode($member_task_stat->average_time, 6)."</strong></p>";
+		echo "<p>Video team average time for this task: <strong>".seconds_to_timecode($global_task_stat->average_time, 6)."</strong></p>";
+		echo "<p>Times you've completed this task: <strong>".$member_task_stat->times_completed."</strong>";
+		echo "<p>Total times this task was completed: <strong>".$global_task_stat->times_completed."</strong></p>";
+		echo "</div>";
+	}
+
+?>
 <?php if(is_object($team_member)) { ?>
 	<?php if($active_tasks) { ?>
 	<div id="active_task_list">

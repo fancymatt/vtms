@@ -25,9 +25,15 @@ class Lesson extends DatabaseObject {
 										'lesson.qa_log' => 'qa_log',
 										'lesson.qa_url' => 'qa_url',
 										'lesson.isQueued' => 'is_queued',
+										'lesson.isDetected' => 'is_detected',
 										'lesson.queuedTime' => 'queued_time',
 										'lesson.exportedTime' => 'exported_time',
-										'lesson.timeUploadedDropbox' => 'dropbox_time'
+										'lesson.timeUploadedDropbox' => 'dropbox_time',
+										'(SELECT task.id FROM task WHERE task.fkLesson = lesson.id ORDER BY task.timeCompleted DESC LIMIT 1)' => 'last_task_id',
+										'(SELECT MAX(task.timeCompleted) FROM task WHERE task.fkLesson = lesson.id)' => 'last_task_time',
+										'(SELECT MAX(taskComment.timeCompleted) FROM taskComment JOIN task ON taskComment.fkTask=task.id WHERE task.fkLesson = lesson.id)' => 'last_issue_time',
+										'(SELECT taskComment.id FROM taskComment JOIN task ON task.id = taskComment.fkTask WHERE task.fkLesson = lesson.id ORDER BY taskComment.timeCompleted DESC LIMIT 1)' => 'last_issue_id',
+										'IF(IFNULL((SELECT MAX(task.timeCompleted) FROM task WHERE task.fkLesson = lesson.id),0) > IFNULL((SELECT MAX(taskComment.timeCompleted) FROM taskComment JOIN task ON taskComment.fkTask=task.id WHERE task.fkLesson = lesson.id),0), "task", "issue")' => 'last_action'
 										);
 										
 	protected static $db_edit_fields = array('lesson.fkLanguageSeries' => 'language_series_id',
@@ -40,6 +46,7 @@ class Lesson extends DatabaseObject {
 											'lesson.qa_log' => 'qa_log',
 											'lesson.qa_url' => 'qa_url',
 											'lesson.isQueued' => 'is_queued',
+											'lesson.isDetected' => 'is_detected',
 											'lesson.queuedTime' => 'queued_time',
 											'lesson.exportedTime' => 'exported_time',
 											'lesson.publishDateSite' => 'publish_date',
@@ -70,6 +77,7 @@ class Lesson extends DatabaseObject {
 	public $is_checkable;
 	public $checked_video;
 	public $checked_language;
+	public $is_detected;
 	public $files_moved;
 	public $date_due;
 	public $level_code;
@@ -82,6 +90,11 @@ class Lesson extends DatabaseObject {
 	public $publish_date;
 	public $buffered_publish_date;
 	public $time_dropbox;
+	public $last_task_id;
+	public $last_issue_id;
+	public $last_task_time;
+	public $last_issue_time;
+	public $last_action;
 	
 	public static function find_all_lessons_for_language_series($language_series_id) {
 		$child_table_name = "lesson";
@@ -121,6 +134,23 @@ class Lesson extends DatabaseObject {
 		$sql .= "AND DATE(lesson.publishDateSite) > 0 ";
 		$sql .= "GROUP BY lesson.id ";
 		$sql .= "ORDER BY publish_date ASC, series.title ASC, language.name ASC ";
+		return static::find_by_sql($sql);
+	}
+	
+	public static function find_all_lessons_publishing_on_date($date) {
+		$sql  = "SELECT ";		
+		foreach (self::$db_view_fields as $k => $v) {
+			$sql .= $k." AS ".$v;
+			$i++;
+			$i <= count(self::$db_view_fields) - 1 ? $sql .= ", " : $sql .= " ";
+		}
+		$sql .= "FROM ".self::$table_name." ";
+		foreach (self::$db_join_fields as $k => $v) {
+			$sql .= "LEFT JOIN ".$k." ON ".$v." ";
+			}
+		$sql .= "WHERE DATE(lesson.publishDateSite) = '{$date}' ";
+		$sql .= "GROUP BY lesson.id ";
+		$sql .= "ORDER BY publish_date ASC, series.title ASC, language.name ASC, lesson.number ASC ";
 		return static::find_by_sql($sql);
 	}
 	
@@ -465,6 +495,25 @@ class Lesson extends DatabaseObject {
 		$sql .= "WHERE lesson.checkedVideo = 1 ";
 		$sql .= "AND lesson.checkedLanguage = 1 ";
 		$sql .= "AND NOT lesson.filesMoved = 1 ";
+		$sql .= "ORDER BY lesson.publishDateSite ASC ";
+		
+		return static::find_by_sql($sql);
+	}
+	
+	public static function find_all_recently_completed_lessons() {
+		// detect the latest task completion time and issue fixed time
+		$sql  = "SELECT ";		
+		foreach (self::$db_view_fields as $k => $v) {
+			$sql .= $k." AS ".$v;
+			$i++;
+			$i <= count(self::$db_view_fields) - 1 ? $sql .= ", " : $sql .= " ";
+		}
+		$sql .= "FROM ".self::$table_name." ";
+		foreach (self::$db_join_fields as $k => $v) {
+			$sql .= "JOIN ".$k." ON ".$v." ";
+			}
+		$sql .= "WHERE lesson.filesMoved = 1 ";
+		$sql .= "AND lesson.trt < 1 ";
 		$sql .= "ORDER BY lesson.publishDateSite ASC ";
 		
 		return static::find_by_sql($sql);

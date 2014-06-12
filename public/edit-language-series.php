@@ -1,5 +1,9 @@
 <?php require_once("../includes/initialize.php"); ?>
 <?php
+	if (!$session->is_admin()) {
+		$_SESSION['message'] = "You need admin privileges to access this page.";
+		redirect_to('login.php');
+	}
 	$session->confirm_logged_in();
 	
 	if($_POST['edited_language_series']) {

@@ -1,6 +1,9 @@
 <?php require_once("../includes/initialize.php"); ?>
 <?php
-	
+	if (!$session->is_admin()) {
+		$_SESSION['message'] = "You need admin privileges to access this page.";
+		redirect_to('login.php');
+	}
 	if($_POST['submit_new_user']) {		
 		$required_fields = array("user_name", "password", "privilege");
 		validate_presences($required_fields);
@@ -17,7 +20,7 @@
 			$user->time_zone = $db->escape_value($_POST['time_zone']);
 		
 			$user->create();
-			redirect_to("admin-manage-users.php");
+			redirect_to("admin-users.php");
 		}
 	}
 ?>

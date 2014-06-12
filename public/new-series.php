@@ -1,6 +1,9 @@
 <?php require_once("../includes/initialize.php"); ?>
 <?php
-	$session->confirm_logged_in();
+	if (!$session->is_admin()) {
+		$_SESSION['message'] = "You need admin privileges to access this page.";
+		redirect_to('login.php');
+	}
 	
 	if($_POST['submit_new_series']) {
 		$new_series_name = $database->escape_value($_POST['series_name']);

@@ -392,6 +392,13 @@ class Task extends DatabaseObject {
 		echo "</a>";
 	}
 	
+	public function display_full_task_lesson_task() {
+		echo "<img src='images/{$this->level_code}.png'> ";
+		echo "<a href='lesson.php?series=".$this->series_id."&langSeries=".$this->language_series_id."&lesson=".$this->lesson_id."'>";
+		echo $this->language_name . " - " . $this->series_name . " #" . $this->lesson_number . " - " . $this->task_name;
+		echo "</a>";
+	}
+	
 	public function activate_task() {
 		global $database;
 		$current_time = new DateTime(null, new DateTimeZone('UTC'));

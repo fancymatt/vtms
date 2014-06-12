@@ -1,6 +1,9 @@
 <?php require_once("../includes/initialize.php"); ?>
 <?php
-	$session->confirm_logged_in();
+	if (!$session->is_admin()) {
+		$_SESSION['message'] = "You need admin privileges to access this page.";
+		redirect_to('login.php');
+	}
 	
 	if($_POST['edited_lesson']) { // Record has been edited
 		$edited_lesson_id = $database->escape_value($_POST['edited_lesson_id']);
@@ -10,6 +13,7 @@
 		$edited_lesson->checked_language = $database->escape_value($_POST['edited_lesson_checked_language']);
 		$edited_lesson->checked_video = $database->escape_value($_POST['edited_lesson_checked_video']);
 		$edited_lesson->files_moved = $database->escape_value($_POST['edited_lesson_files_moved']);
+		$edited_lesson->is_detected = $database->escape_value($_POST['edited_lesson_is_detected']);
 		$edited_lesson->publish_date = $database->escape_value($_POST['edited_lesson_publish_date']);
 		$edited_lesson->update();
 		redirect_to("language-series.php?series={$edited_lesson->series_id}&id={$edited_lesson->language_series_id}");
@@ -66,7 +70,8 @@
 			</select><br /><br />
 			Language Checked<input type="checkbox" name="edited_lesson_checked_language" value="1" <?php echo $current_record->checked_language ? "checked" : ""; ?>><br />
 			Video Checked<input type="checkbox" name="edited_lesson_checked_video" value="1" <?php echo $current_record->checked_video ? "checked" : ""; ?>><br />
-			Files Moved<input type="checkbox" name="edited_lesson_files_moved" value="1" <?php echo $current_record->files_moved ? "checked" : ""; ?>>
+			Files Moved<input type="checkbox" name="edited_lesson_files_moved" value="1" <?php echo $current_record->files_moved ? "checked" : ""; ?>><br />
+			Lesson Detected<input type="checkbox" name="edited_lesson_is_detected" value="1" <?php echo $current_record->is_detected ? "checked" : "" ?>>
 			<input type="hidden" name="edited_lesson_id" value="<?php echo $current_record->id; ?>">
 			<p><input type="submit" name="edited_lesson" id="edited_lesson"></p>
 		</form>

@@ -1,5 +1,9 @@
 <?php require_once("../includes/initialize.php"); ?>
 <?php
+	if (!$session->is_admin()) {
+		$_SESSION['message'] = "You need admin privileges to access this page.";
+		redirect_to('login.php');
+	}
 	confirm_logged_in();
 	if($_POST['url']) {
 		$asset = Task::find_by_id($_GET['id']);

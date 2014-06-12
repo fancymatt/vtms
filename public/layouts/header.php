@@ -42,7 +42,9 @@
 		Management: 
 		<a href="recent-lessons.php">Lessons</a> |
 		<a href="qa.php">QA</a> |
-		<a href="operations.php">Operations</a><br />
+		<a href="operations.php">Operations</a> | 
+		<a href="publishing.php">Publishing</a> | 
+		<a href="publishing-on-date.php">Today</a><br />
 		<?php } ?>
 		
 		
@@ -54,7 +56,7 @@
 		}
 		echo "<br />";
 		echo "Admin: ";
-		echo "<a href='admin-manage-users.php'>Manage Users</a> ";
+		echo "<a href='admin-users.php'>Manage Users</a> ";
 	} ?>
 	</h4></p>
 	</div>

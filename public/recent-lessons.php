@@ -1,5 +1,6 @@
 <?php require_once("../includes/initialize.php"); ?>
 <?php
+	confirm_logged_in();
 	$days_ahead = 180;
 	$upcoming_lessons = Lesson::find_all_upcoming_due_lessons($days_ahead);
 ?>
