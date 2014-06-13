@@ -85,8 +85,8 @@
 							<option value="">--</option>
 							<option value="CU" <?php if($shot->type=="CU") { echo "selected"; } ?> >CU</option>
 							<option value="WS" <?php if($shot->type=="WS") { echo "selected"; } ?> >WS</option>
-							<option value="SWS <?php if($shot->type=="SWS") { echo "selected"; } ?> ">SWS</option>
-							<option value="SCU <?php if($shot->type=="SCU") { echo "selected"; } ?> ">SCU</option>
+							<option value="SWS" <?php if($shot->type=="SWS") { echo "selected"; } ?> >SWS</option>
+							<option value="SCU" <?php if($shot->type=="SCU") { echo "selected"; } ?> >SCU</option>
 						</select>
 					</td>
 					<td><textarea name="script[]" rows="15" cols="35"><?php echo $shot->script; ?></textarea></td>
