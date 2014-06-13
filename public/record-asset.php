@@ -4,6 +4,15 @@
 	$asset = Task::find_by_id($asset_id);
 	$lesson = Lesson::find_by_id($asset->lesson_id);
 	
+	if($_POST['shot_completed']) {
+		$shot_id = $_POST['shot_id'];
+		$shoot_notes = $db->escape_value($_POST['shoot_notes']);
+		$completed_shot = Shot::find_by_id($shot_id);
+		$completed_shot->is_completed = 1;
+		$completed_shot->update();
+	}
+	
+	
 	$shots = Shot::find_all_shots_for_asset($asset_id)
 ?>
 <?php include_layout_template('header.php'); ?>
@@ -20,9 +29,9 @@
 	
 	<div id="list">
 	<table>
-		<tr><th>Shot</th><th>Script</th><th>Script English</th><th>Actions</th></tr>
+		<tr><th>Shot</th><th>Script</th><th>Script English</th><th>Recording Comments</th></tr>
 		<?php foreach($shots as $shot): ?>
-					<tr>
+					<tr<?php if($shot->is_completed) { echo " class='completed'"; } ?>> 
 						<td>
 							<?php echo "{$shot->section} {$shot->shot} - {$shot->type}"; ?>
 						</td>
@@ -33,7 +42,10 @@
 							<?php echo $shot->script_english; ?>
 						</td>
 						<td>
-							Actions
+							<form method="post" action="record-asset.php?id=<?php echo $asset_id; ?>">
+							<input type="hidden" name="shot_id" value="<?php echo $shot->id; ?>">
+							<textarea name="shoot_notes" rows=5 cols=20><?php echo $shot->script_video; ?></textarea>
+							<input type="submit" name="shot_completed" value="Mark as Complete"></form>
 						</td>
 					</tr>
 				<?php endforeach; ?>
