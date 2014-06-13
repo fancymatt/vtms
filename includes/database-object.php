@@ -157,7 +157,7 @@ class DatabaseObject {
 		$attributes = static::$db_edit_fields;
 		$values = array();
 		foreach (array_values($attributes) as $value) {
-			$values[] = $this->$value;
+			$values[] = $database->escape_value($this->$value);
 		}
 		$sql = "INSERT INTO ".static::$table_name." (";
 		$sql .= join(", ", array_keys($attributes));
