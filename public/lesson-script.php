@@ -12,16 +12,18 @@
 		$shots = $_POST['shot'];
 		$scripts_english = $_POST['script_english'];
 		$i = 0;
-		foreach($shot_ids as $shot_id) {
-			$shot = Shot::find_by_id($shot_id);
-			$shot->asset_id = $asset_ids[$i];
-			$shot->section = $sections[$i];
-			$shot->shot = $shots[$i];
-			$shot->type = $types[$i];
-			$shot->script = $db->escape_value($scripts[$i]);
-			$shot->script_english = $db->escape_value($scripts_english[$i]);
-			$shot->update();
-			$i++;
+		if($shot_ids) {
+			foreach($shot_ids as $shot_id) {
+				$shot = Shot::find_by_id($shot_id);
+				$shot->asset_id = $asset_ids[$i];
+				$shot->section = $sections[$i];
+				$shot->shot = $shots[$i];
+				$shot->type = $types[$i];
+				$shot->script = $db->escape_value($scripts[$i]);
+				$shot->script_english = $db->escape_value($scripts_english[$i]);
+				$shot->update();
+				$i++;
+			}
 		}
 		
 		$new_shot_ids = $_POST['new_ID'];
@@ -32,18 +34,21 @@
 		$new_types = $_POST['new_type'];
 		$new_scripts_english = $_POST['new_script_english'];
 		$i = 0;
-		foreach($new_shot_ids as $new_shot_id) {
-			$shot = new Shot();
-			$shot->lesson_id = $lesson_id;
-			$shot->asset_id = $new_asset_ids[$i];
-			$shot->section = $new_sections[$i];
-			$shot->shot = $new_shots[$i];
-			$shot->type = $new_types[$i];
-			$shot->script = $db->escape_value($new_scripts[$i]);
-			$shot->script_english = $db->escape_value($new_scripts_english[$i]);
-			$shot->create();
-			$i++;
+		if($new_shot_ids) {
+			foreach($new_shot_ids as $new_shot_id) {
+				$shot = new Shot();
+				$shot->lesson_id = $lesson_id;
+				$shot->asset_id = $new_asset_ids[$i];
+				$shot->section = $new_sections[$i];
+				$shot->shot = $new_shots[$i];
+				$shot->type = $new_types[$i];
+				$shot->script = $db->escape_value($new_scripts[$i]);
+				$shot->script_english = $db->escape_value($new_scripts_english[$i]);
+				$shot->create();
+				$i++;
+			}
 		}
+		
 	}
 	$assets = Task::find_all_assets_for_lesson($lesson->id);
 	$shots = Shot::find_all_shots_for_lesson($lesson->id);
