@@ -7,10 +7,10 @@
 	$current_lesson = Lesson::find_by_id($current_task->lesson_id);
 	
 	if($_POST['submitted_issue'] || $_POST['submitted_issue_and_repeat'] ) { 
-		$issue_task_id = $db->escape_value($_POST['submitted_issue_task_id']);
-		$issue_timecode = $db->escape_value($_POST['timecode']);
-		$issue_creator = $db->escape_value($_POST['creator']);
-		$issue_body = $db->escape_value($_POST['body']);
+		$issue_task_id = $_POST['submitted_issue_task_id'];
+		$issue_timecode = $_POST['timecode'];
+		$issue_creator = $_POST['creator'];
+		$issue_body = $_POST['body'];
 		
 		$issue = new Issue;
 		$issue->task_id = $issue_task_id;

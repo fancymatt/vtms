@@ -6,7 +6,7 @@
 	
 	if($_POST['shot_completed']) {
 		$shot_id = $_POST['shot_id'];
-		$shoot_notes = $db->escape_value($_POST['shoot_notes']);
+		$shoot_notes = $_POST['shoot_notes'];
 		$completed_shot = Shot::find_by_id($shot_id);
 		$completed_shot->is_completed = 1;
 		$completed_shot->script_video = $shoot_notes;

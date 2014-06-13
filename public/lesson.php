@@ -13,8 +13,8 @@
 		$lesson->files_moved = $_POST['edited_lesson_files_moved'];
 		$lesson->is_detected = $_POST['edited_lesson_is_detected'];
 		$lesson->publish_date = $_POST['edited_lesson_publish_date'];
-		$lesson->qa_log = $db->escape_value($_POST['edited_qa_log']);
-		$lesson->qa_url = $db->escape_value($_POST['edited_qa_url']);
+		$lesson->qa_log = $_POST['edited_qa_log'];
+		$lesson->qa_url = $_POST['edited_qa_url'];
 		$lesson->update();
 		$message = "Updated";
 	}
