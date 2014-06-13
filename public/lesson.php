@@ -6,13 +6,13 @@
 	
 	if($_POST['edited_lesson']) {
 		$lesson = Lesson::find_by_id($lesson_id);
-		$lesson->title = $database->escape_value($_POST['edited_lesson_title']);
-		$lesson->trt = ($database->escape_value($_POST['edited_lesson_trt_minutes']) * 60) + $database->escape_value($_POST['edited_lesson_trt_seconds']);
-		$lesson->checked_language = $database->escape_value($_POST['edited_lesson_checked_language']);
-		$lesson->checked_video = $database->escape_value($_POST['edited_lesson_checked_video']);
-		$lesson->files_moved = $database->escape_value($_POST['edited_lesson_files_moved']);
-		$lesson->is_detected = $database->escape_value($_POST['edited_lesson_is_detected']);
-		$lesson->publish_date = $database->escape_value($_POST['edited_lesson_publish_date']);
+		$lesson->title = $_POST['edited_lesson_title'];
+		$lesson->trt = ($_POST['edited_lesson_trt_minutes'] * 60) + $_POST['edited_lesson_trt_seconds'];
+		$lesson->checked_language = $_POST['edited_lesson_checked_language'];
+		$lesson->checked_video = $_POST['edited_lesson_checked_video'];
+		$lesson->files_moved = $_POST['edited_lesson_files_moved'];
+		$lesson->is_detected = $_POST['edited_lesson_is_detected'];
+		$lesson->publish_date = $_POST['edited_lesson_publish_date'];
 		$lesson->qa_log = $db->escape_value($_POST['edited_qa_log']);
 		$lesson->qa_url = $db->escape_value($_POST['edited_qa_url']);
 		$lesson->update();
