@@ -217,6 +217,7 @@ if(!is_object($team_member)) {
 				case 81:
 				case 84:
 					// Video Shoot
+					echo "<a href='record-asset.php?id={$task->id}'> Go to Shooting Interface</a>";
 					break;
 				case 51:
 				case 52:
