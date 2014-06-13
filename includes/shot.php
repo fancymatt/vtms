@@ -101,5 +101,25 @@ class Shot extends DatabaseObject {
 		$sql .= "ORDER BY section, shot ";
 		return static::find_by_sql($sql);
 	}
+	
+	public static function find_all_incomplete_shots_for_asset($asset_id) {
+	global $db;
+		$sql  = "SELECT ";		
+		$i = 0;
+		foreach (self::$db_view_fields as $k => $v) {
+			$sql .= $k." AS ".$v;
+			$i++;
+			$i <= count(self::$db_view_fields) - 1 ? $sql .= ", " : $sql .= " ";
+		}
+		$sql .= "FROM ".self::$table_name." ";
+		foreach (self::$db_join_fields as $k => $v) {
+			$sql .= "JOIN ".$k." ON ".$v." ";
+		}
+		$sql .= "WHERE shot.fkAsset={$asset_id} ";
+		$sql .= "AND NOT shot.isCompleted=1 ";
+		$sql .= "GROUP BY id ";
+		$sql .= "ORDER BY section, shot ";
+		return static::find_by_sql($sql);
+	}
 }
 ?>
