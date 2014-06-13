@@ -9,6 +9,7 @@
 		$shoot_notes = $db->escape_value($_POST['shoot_notes']);
 		$completed_shot = Shot::find_by_id($shot_id);
 		$completed_shot->is_completed = 1;
+		$completed_shot->script_video = $shoot_notes;
 		$completed_shot->update();
 	}
 	
@@ -19,8 +20,8 @@
 		$uncompleted_shot->update();
 	}
 	
-	
-	$shots = Shot::find_all_shots_for_asset($asset_id)
+	$shots = Shot::find_all_shots_for_asset($asset_id);
+	$incomplete_shots = Shot::find_all_incomplete_shots_for_asset($asset_id);
 ?>
 <?php include_layout_template('header.php'); ?>
 
@@ -33,7 +34,23 @@
 		<h3><?php $lesson->display_full_lesson_navigation(); ?></h3>
 		<p><a href='lesson-script.php?id=<?php echo $lesson->id; ?>'>Return to Script</a>
 	</div>
-	
+	<div id="teleprompter_script">
+		<textarea rows="10" cols="100">
+		<?php if($incomplete_shots) {
+			echo "\n\n";
+			echo "{$lesson->language_name} {$lesson->series_name} {$lesson->number} ($asset->task_name)";
+			echo "\n\n";
+			foreach($incomplete_shots as $shot) {
+				echo "[{$lesson->language_code}_{$lesson->series_code}_{$lesson->number}-{$shot->shot}-{$shot->type}]";
+				echo "\n";
+				echo $shot->script;
+				echo "\n\n";
+			}
+		} else {
+			echo "This asset has been completely recorded.";
+		} ?>
+		</textarea>
+	</div>
 	<div id="list">
 	<table>
 		<tr><th>Shot</th><th>Script</th><th>Script English</th><th>Recording Comments</th><th>Actions</th></tr>
@@ -52,7 +69,7 @@
 							<form method="post" action="record-asset.php?id=<?php echo $asset_id; ?>">
 							<input type="hidden" name="shot_id" value="<?php echo $shot->id; ?>">
 							<textarea name="shoot_notes" rows=5 cols=20><?php echo $shot->script_video; ?></textarea>
-							<input type="submit" name="shot_completed" value="Mark as Complete"></form>
+							<input type="submit" name="shot_completed" value="<?php echo ($shot->is_completed ? "Update Log" :  "Mark as Complete") ?>"></form>
 						</td>
 						<td>
 							<?php if($shot->is_completed) { ?>
