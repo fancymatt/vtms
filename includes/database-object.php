@@ -140,7 +140,7 @@ class DatabaseObject {
 		$attribute_pairs = array();
 		foreach(static::$db_edit_fields as $key=>$value) {
 		    if(property_exists($this, $value)) {
-		      $attribute_pairs[] = "{$key}='{$this->$value}'";
+		      $attribute_pairs[] = "{$key}='{$database->escape_value($this->$value)}'";
 		    }
 		}
 		$sql = "UPDATE ".static::$table_name." SET ";
