@@ -11,6 +11,18 @@
 		$completed_shot->is_completed = 1;
 		$completed_shot->script_video = $shoot_notes;
 		$completed_shot->update();
+		
+		// If it's not activated, activate it
+		if(!$asset->is_active) {
+			$asset->activate_task();
+			$message = "This asset has been set to active because you began completing shots. To undo, go to your task sheet";
+		}
+		
+		// If this completes the asset, mark it as complete
+		if(count(Shot::find_all_shots_for_asset($asset_id)) <= count(Shot::find_all_completed_shots_for_asset($asset_id))) {
+			$asset->complete_task();
+			$message = "Asset Completed";
+		}
 	}
 	
 	if($_POST['shot_uncompleted']) {
@@ -24,11 +36,9 @@
 	$incomplete_shots = Shot::find_all_incomplete_shots_for_asset($asset_id);
 ?>
 <?php include_layout_template('header.php'); ?>
-
-	<div id="parent-info">
-		<h2><?php echo $parent->name; ?></h2>
-		<p><?php echo $parent->attribute; ?></p>
-	</div>
+	<?php if($message) {
+		echo "<p>{$message}</p>";
+	} ?>
 
 	<div id="lesson-header">
 		<h3><?php $lesson->display_full_lesson_navigation(); ?></h3>
@@ -41,7 +51,7 @@
 			echo "{$lesson->language_name} {$lesson->series_name} {$lesson->number} ($asset->task_name)";
 			echo "\n\n";
 			foreach($incomplete_shots as $shot) {
-				echo "[{$lesson->language_code}_{$lesson->series_code}_{$lesson->number}-{$shot->shot}-{$shot->type}]";
+				echo "[{$lesson->language_name} {$lesson->series_name} #{$lesson->number}-{$shot->shot}-{$shot->type}]";
 				echo "\n";
 				echo $shot->script;
 				echo "\n\n";
