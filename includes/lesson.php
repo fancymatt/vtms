@@ -544,5 +544,20 @@ class Lesson extends DatabaseObject {
 		echo "#{$this->number} {$this->title}";
 	}
 	
+	public function display_lesson_topbar($active_page="main") {
+		
+		if($active_page=="main") {
+			echo "Lesson";
+		} else {
+			echo "<a href='lesson.php?series={$this->series_id}&langSeries={$this->language_series_id}&lesson={$this->id}'>Lesson</a>";
+		}
+		echo " | "; 
+		if ($active_page=="script") {
+			echo "Script";
+		} else {
+			echo "<a href='lesson-script.php?id={$this->id}'>Script</a>";
+		}
+	}
+	
 }
 ?>
