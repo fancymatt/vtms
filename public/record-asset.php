@@ -12,6 +12,13 @@
 		$completed_shot->update();
 	}
 	
+	if($_POST['shot_uncompleted']) {
+		$shot_id = $_POST['shot_id'];
+		$uncompleted_shot = Shot::find_by_id($shot_id);
+		$uncompleted_shot->is_completed = 0;
+		$uncompleted_shot->update();
+	}
+	
 	
 	$shots = Shot::find_all_shots_for_asset($asset_id)
 ?>
@@ -29,7 +36,7 @@
 	
 	<div id="list">
 	<table>
-		<tr><th>Shot</th><th>Script</th><th>Script English</th><th>Recording Comments</th></tr>
+		<tr><th>Shot</th><th>Script</th><th>Script English</th><th>Recording Comments</th><th>Actions</th></tr>
 		<?php foreach($shots as $shot): ?>
 					<tr<?php if($shot->is_completed) { echo " class='completed'"; } ?>> 
 						<td>
@@ -46,6 +53,13 @@
 							<input type="hidden" name="shot_id" value="<?php echo $shot->id; ?>">
 							<textarea name="shoot_notes" rows=5 cols=20><?php echo $shot->script_video; ?></textarea>
 							<input type="submit" name="shot_completed" value="Mark as Complete"></form>
+						</td>
+						<td>
+							<?php if($shot->is_completed) { ?>
+							<form method="post" action="record-asset.php?id=<?php echo $asset_id; ?>">
+							<input type="hidden" name="shot_id" value="<?php echo $shot->id; ?>">
+							<input type="submit" name="shot_uncompleted" value="Mark as Incomplete"></form>	
+							<?php } ?>
 						</td>
 					</tr>
 				<?php endforeach; ?>
