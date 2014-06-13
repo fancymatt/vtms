@@ -32,6 +32,7 @@
 <?php include_layout_template('header.php'); ?>
 		<div>
 		<h3><?php $lesson->display_full_lesson_navigation(); ?></h3>
+		<h4><?php $lesson->display_lesson_topbar(); ?></h4>
 		<?php echo $session->message(); ?>
 		<p><a href="language-series.php?series=<?php echo $series_id; ?>&id=<?php echo $langSeries_id; ?>"><- Return to Lesson List</a></p>
 		<h2>Assets and Tasks</h2>
