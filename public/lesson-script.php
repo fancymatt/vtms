@@ -19,8 +19,8 @@
 				$shot->section = $sections[$i];
 				$shot->shot = $shots[$i];
 				$shot->type = $types[$i];
-				$shot->script = $db->escape_value($scripts[$i]);
-				$shot->script_english = $db->escape_value($scripts_english[$i]);
+				$shot->script = $scripts[$i];
+				$shot->script_english = $scripts_english[$i];
 				$shot->update();
 				$i++;
 			}
@@ -42,8 +42,8 @@
 				$shot->section = $new_sections[$i];
 				$shot->shot = $new_shots[$i];
 				$shot->type = $new_types[$i];
-				$shot->script = $db->escape_value($new_scripts[$i]);
-				$shot->script_english = $db->escape_value($new_scripts_english[$i]);
+				$shot->script = $new_scripts[$i];
+				$shot->script_english = $new_scripts_english[$i];
 				$shot->create();
 				$i++;
 			}
