@@ -52,7 +52,7 @@
 		</textarea>
 	</div>
 	<div id="list">
-	<table>
+	<table class="script">
 		<tr><th>Shot</th><th>Script</th><th>Script English</th><th>Recording Comments</th><th>Actions</th></tr>
 		<?php foreach($shots as $shot): ?>
 					<tr<?php if($shot->is_completed) { echo " class='completed'"; } ?>> 
@@ -60,10 +60,10 @@
 							<?php echo "{$shot->section} {$shot->shot} - {$shot->type}"; ?>
 						</td>
 						<td>
-							<?php echo $shot->script; ?>
+							<?php echo nl2br($shot->script); ?>
 						</td>
 						<td>
-							<?php echo $shot->script_english; ?>
+							<?php echo nl2br($shot->script_english); ?>
 						</td>
 						<td>
 							<form method="post" action="record-asset.php?id=<?php echo $asset_id; ?>">
