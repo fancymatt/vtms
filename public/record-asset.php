@@ -30,6 +30,12 @@
 		$uncompleted_shot = Shot::find_by_id($shot_id);
 		$uncompleted_shot->is_completed = 0;
 		$uncompleted_shot->update();
+		if($asset->is_active && count(Shot::find_all_completed_shots_for_asset($asset_id) < 1)) {
+			$asset->is_active = 0;
+			$asset->activated_time = 0;
+			$asset->update();
+			$message = "This asset has been set to inactive because you have undone all of the shots and started from the beginning.";
+		} 
 	}
 	
 	$shots = Shot::find_all_shots_for_asset($asset_id);

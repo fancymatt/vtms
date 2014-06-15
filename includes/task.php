@@ -35,6 +35,7 @@ class Task extends DatabaseObject {
 											'task.fkTaskGlobal' => 'global_task_id',
 											'task.isCompleted' => 'is_completed',
 											'task.isActive' => 'is_active',
+											'task.timeActivate' => 'activated_time',
 											'task.timeActual' => 'time_actual',
 											'task.isDelivered' => 'is_delivered',
 											'task.timeRunning' => 'time_running'
