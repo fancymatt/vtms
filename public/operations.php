@@ -65,7 +65,11 @@
 					foreach($qa_lessons as $qa_lesson) {
 						$issues = Issue::get_unfinished_issues_for_lesson($qa_lesson->id);
 						
-						echo "<tr>";
+						echo "<tr";
+						if (strpos($qa_lesson->qa_log, "Approved") !== false) {
+							echo " class='completed'";
+						}
+						echo ">";
 						echo "<td>";
 						echo $qa_lesson->display_full_lesson();
 						echo "</td>";
