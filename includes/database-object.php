@@ -44,6 +44,21 @@ class DatabaseObject {
 		return self::find_by_sql($sql);
 	}
 	
+	public static function find_all_where($where_clause) {
+		$sql  = "SELECT ";		
+		foreach (static::$db_view_fields as $k => $v) {
+			$sql .= $k." AS ".$v;
+			$i++;
+			$i <= count(static::$db_view_fields) - 1 ? $sql .= ", " : $sql .= " ";
+		}
+		$sql .= "FROM ".static::$table_name." ";
+		foreach (static::$db_join_fields as $k => $v) {
+			$sql .= "JOIN ".$k." ON ".$v." ";
+		}
+		$sql .= $where_clause;
+		return self::find_by_sql($sql);
+	}
+	
 	public static function find_by_sql($sql="") {
 		global $database;
 		$result_set = $database->query($sql);
