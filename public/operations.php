@@ -35,7 +35,12 @@
 	$moveable_lessons = count(Lesson::find_all_moveable_lessons());
 	$language_checked_lessons = count(Lesson::find_all_ready_to_video_check_lessons());
 	
-	$sort_by = $db->escape_value($_GET['sort']);	
+	if(isset($_GET['sort'])) {
+		$sort_by = $db->escape_value($_GET['sort']);
+	} else {
+		$sort_by = "export";
+	}
+	
 	$qa_lessons = Lesson::find_all_checkable_lessons($sort_by);
 ?>
 
@@ -73,7 +78,7 @@
 						echo "<td>";
 						echo $qa_lesson->display_full_lesson();
 						echo "</td>";
-						echo "<td><form action='operations.php' method='post'>";
+						echo "<td><form action='operations.php?sort={$sort_by}' method='post'>";
 						echo "<input type='text' size=40 name='qa_log' value='{$qa_lesson->qa_log}'><br />";
 						echo "<input type='text' size=40 name='qa_url' value='{$qa_lesson->qa_url}'><br />";
 						echo "<input type='hidden' name='qa_lesson_id' value='{$qa_lesson->id}'><input type='submit' name='changed_qa'></form></td>";
