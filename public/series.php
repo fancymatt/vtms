@@ -35,7 +35,7 @@
 				<tbody>
 					<?php foreach($languageSeries as $series): ?> <!-- For every language series -->
 					<tr>
-						<td><a href="language-series.php?series=<?php echo $series->series_id; ?>&id=<?php echo $series->id; ?>"><?php $series->display_full_language_series(); ?></a></td>
+						<td><a href="language-series.php?id=<?php echo $series->id; ?>"><?php $series->display_full_language_series(); ?></a></td>
 						<td><?php echo $series->total_trt; ?></td>
 						
 						<?php if ($session->is_admin()) { ?>
