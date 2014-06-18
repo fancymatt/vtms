@@ -43,7 +43,7 @@
 					<?php foreach($language_series_lessons as $lesson): ?> <!-- For every lesson -->
 					<tr>
 						<td><?php echo $lesson->number; ?></td>
-						<td><a href="lesson.php?id=<?php $lesson->id; ?>"><?php echo $lesson->title; ?></a></td>
+						<td><a href="lesson.php?id=<?php echo $lesson->id; ?>"><?php echo $lesson->title; ?></a></td>
 						<td>
 							<?php
 							echo "<img src='";
