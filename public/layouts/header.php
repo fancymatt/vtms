@@ -8,27 +8,7 @@
 		<script src="js/vendor/modernizr.js"></script>
 	</head>
 	<body>
-	<div id="user-info">
-	<?php 
-	global $session;
-	
-	if (!$session->is_logged_in()) {
-		echo "<p>You are not logged in | <a href='login.php'>Log In</a></p>";
-	} else {
-		$logged_in_user = User::find_by_id($session->user_id);
-		echo "<p>You're logged in as {$logged_in_user->user_name}";
-			if ($logged_in_user->id > 0) {
-				echo " | <a href='task-sheet.php?member=";
-				echo $logged_in_user->team_member_id;
-				echo "'>Your Task Sheet</a> | ";
-				echo "<a href='user-dashboard.php'>Your Dashboard</a> | ";
-				echo '<a href="logout.php">Log Out</a>';
-			}
-		echo "</p>";
-	}
-	
-	?>
-	</div>
+	<?php global $session; ?>
 	<nav class="top-bar" data-topbar>
 		<ul class="title-area">
 			<li class="name">
@@ -57,6 +37,7 @@
 					</ul>
 				</li>
 			</ul>
+			
 			<ul class="left">
 				<li class="has-dropdown">
 					<a href="#">Members</a>
@@ -71,11 +52,23 @@
 					</ul>
 				</li>
 			</ul>
-			<ul class="left">
-				<li>
-					
-				</li>
-			</ul>
 			<?php } ?>
 		</section>
 	</nav>
+	
+	<dl class="sub-nav">
+	<?php 
+	if (!$session->is_logged_in()) { ?>
+		<dt>You are not logged in</dt>
+		<dt class="active"><a href="login.php">Log In</a></dt>
+	<?php } else {
+		$logged_in_user = User::find_by_id($session->user_id);
+		?>
+		<dt>You're logged in as <?php echo $logged_in_user->user_name; ?></dt>
+		<?php if ($logged_in_user->id > 0) { ?>
+		<dd class="active"><a href="task-sheet.php?member=<?php echo $logged_in_user->team_member_id; ?>">Your Task Sheet</a></dd>
+		<dd><a href="user-dashboard.php">Your Dashboard</a>
+		<dd><a href="logout.php">Log Out</a></dd>
+		<?php } ?>
+	<?php } ?>
+	</div>
