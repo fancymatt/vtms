@@ -7,6 +7,7 @@
 		redirect_to("qa.php");
 	}
 	$language_series = LanguageSeries::find_by_id($lesson->language_series_id);
+	$language = Language::find_by_id($language_series->language_id);
 	$series = Series::find_by_id($language_series->series_id);
 	
 	if($_POST['edited_lesson']) {
@@ -45,6 +46,7 @@
 	$all_issues = Issue::get_all_issues_for_lesson($lesson->id);
 
 ?>
+<?php $page_title = ucwords($language->code)." ".ucwords($series->code)." ".$lesson->number; ?>
 
 <?php include_layout_template('header.php'); ?>
 	
