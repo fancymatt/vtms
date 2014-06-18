@@ -22,37 +22,37 @@
 	
 	<div id="series-list-table" class="row">
 		<div class="medium-11 medium-margin-1 small-12 columns">
-		<table>
-			<thead>
-				<tr>
-					<th width="600">Name</th>
-					<th width="150">Series TRT</th>
-					<?php if ($session->is_admin()) { ?> <!-- If logged in, show actions column -->
-					<th width="150">Actions</th>
-					<?php } ?>
-				</tr>
-			</thead>
-			<tbody>
-				<?php foreach($languageSeries as $series): ?> <!-- For every language series -->
-				<tr>
-					<td><a href="language-series.php?series=<?php echo $series->series_id; ?>&id=<?php echo $series->id; ?>"><?php $series->display_full_language_series(); ?></a></td>
-					<td><?php echo $series->total_trt; ?></td>
-					
-					<?php if ($session->is_admin()) { ?>
-					<td>
-						<a href="edit-language-series.php?id=<?php echo $row->id; ?>">Edit</a>
-					</td>
-					<?php } ?>
+			<table>
+				<thead>
+					<tr>
+						<th width="600">Name</th>
+						<th width="150">Series TRT</th>
+						<?php if ($session->is_admin()) { ?> <!-- If logged in, show actions column -->
+						<th width="150">Actions</th>
+						<?php } ?>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach($languageSeries as $series): ?> <!-- For every language series -->
+					<tr>
+						<td><a href="language-series.php?series=<?php echo $series->series_id; ?>&id=<?php echo $series->id; ?>"><?php $series->display_full_language_series(); ?></a></td>
+						<td><?php echo $series->total_trt; ?></td>
 						
-				</tr>
-				<?php endforeach; ?> <!-- End for every series -->
-				
-				<tr> <!-- Add new list item row -->
-					<td><a href="new-language-series.php?inSeries=<?php echo $series->id; ?>">Add new Language Series</a></td>
-					<td></td>
-					<?php if ($session->is_admin()) { ?> <!-- If you're not logged in, no actions column -->
-					<td></td>
-					<?php } ?>
-			</tbody>
-		</table>
+						<?php if ($session->is_admin()) { ?>
+						<td>
+							<a href="edit-language-series.php?id=<?php echo $row->id; ?>">Edit</a>
+						</td>
+						<?php } ?>
+							
+					</tr>
+					<?php endforeach; ?> <!-- End for every series -->
+					
+					<tr> <!-- Add new list item row -->
+						<td colspan="3"><a href="new-language-series.php?inSeries=<?php echo $series->id; ?>">Add new Language Series</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
+	
+<?php include_layout_template('footer.php'); ?>
