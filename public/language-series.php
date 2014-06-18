@@ -6,6 +6,7 @@
 	$series = Series::find_by_id($language_series->series_id);
 	$language_series_lessons = Lesson::find_all_lessons_for_language_series($language_series_id);
 ?>
+<?php $page_title = $language_series->language_series_title; ?>
 
 <?php include_layout_template('header.php'); ?>
 	
