@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>ILL VTMS</title>	
+		<title>VTMS <?php if(isset($page_title)) { echo " - ".$page_title; } ?></title>	
 		<link rel="stylesheet" href="css/foundation.min.css" />
 		<script src="js/vendor/modernizr.js"></script>
 	</head>
@@ -12,7 +12,7 @@
 	<nav class="top-bar" data-topbar>
 		<ul class="title-area">
 			<li class="name">
-			<h1><a href="#">VTMS</a></h1>
+			<h1><a href="#">ILL VTMS</a></h1>
 			</li>
 			<li class="toggle-topbar menu-icon"><a href="#">Menu</a></li>
 		</ul>
