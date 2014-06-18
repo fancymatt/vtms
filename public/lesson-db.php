@@ -2,25 +2,48 @@
 <?php $series = Series::find_all_limit(0); ?>
 
 <?php include_layout_template('header.php'); ?>
-		<div>
-		<h2>Series List</h2>
-		<?php if ($message) {
-			echo "<p>{$message}</p>";
-		} ?>
+	<div id="page-header" class="row">
+		<header class="medium-10 medium-margin-1 columns">
+			<h3>Video Series List</h3>
+		</header>
+	</div>
+	
+	<div id="series-list-table" class="row">
+		<div class="medium-11 medium-margin-1 small-12 columns">
 		<table>
-			<tr><th>Name</th><th>TRT</th><th>Actions</th></tr>
-			<?php foreach($series as $row) {
-				echo "<tr>";
-				echo "<td>{$row->title}</td>";
-				echo "<td>".$row->series_trt."</td>";
-				echo "<td><a href='series.php?id={$row->id}'>View</a>";
-				if ($session->is_admin()) {
-					echo " | <a href='edit-series.php?id={$row->id}'>Edit</a>";
-				}
-				echo "</td></tr>";
-			} ?>
-			<tr><td><a href="new-series.php">Add new Series</a></td><td></td></tr>
+			<thead>
+				<tr>
+					<th width="600">Name</th>
+					<th width="150">TRT</th>
+					<?php if ($session->is_admin()) { ?> <!-- If logged in, show actions column -->
+					<th width="150">Actions</th>
+					<?php } ?>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach($series as $row): ?> <!-- For every series -->
+				<tr>
+					<td><a href="series.php?id=<?php echo $row->id; ?>"><?php echo $row->title; ?></a></td>
+					<td><?php echo $row->series_trt; ?></td>
+					
+					<?php if ($session->is_admin()) { ?>
+					<td>
+						<a href="edit-series.php?id=<?php echo $row->id; ?>">Edit</a>
+					</td>
+					<?php } ?>
+						
+				</tr>
+				<?php endforeach; ?> <!-- End for every series -->
+				
+				<tr> <!-- Add new list item row -->
+					<td><a href="new-series.php">Add new Series</a></td>
+					<td></td>
+					<?php if ($session->is_admin()) { ?> <!-- If you're not logged in, no actions column -->
+					<td></td>
+					<?php } ?>
+			</tbody>
 		</table>
 		</div>
+	</div>
 
 <?php include_layout_template('footer.php'); ?>
