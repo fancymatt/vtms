@@ -222,13 +222,17 @@
 			</div>
 		</div>
 		<div class="content" id="panel-issues">
-			<div id="section-header" class="row">
-				<header>
-					<h4>Issues</h4>
-				</header>
+			<div id="qa-log" class="row">
+				<h3>Current QA Log</h3>
+				<form action='lesson.php?id=<?php echo $lesson->id; ?>' method='post'>
+				<input type='text' size=70 name='qa_log' value='<?php echo $lesson->qa_log; ?>'>
+				<input type='hidden' name='qa_lesson_id' value='<?php echo $lesson->id; ?>'>
+				<input type='submit' name='changed_qa_log'>
+				</form>
 			</div>
 			<div id="issues-list" class="row">
-					<table>
+				<h3>Issues</h3>
+				<table>
 						<thead>
 							<tr>
 								<th>Task</th>
@@ -239,27 +243,25 @@
 							</tr>
 						</thead>
 						<tbody>
-							<?php foreach($all_issues as $issue): ?>
-							<?php $task_for_issue_id = Task::find_by_id($issue->task_id); ?>
-							<tr>
-								<td><?php echo $task_for_issue_id->task_name; ?></td>
-								<td><?php echo $issue->issue_creator; ?></td>
-								<td><?php echo $issue->issue_timecode; ?></td>
-								<td><?php echo $issue->issue_body; ?></td>
-								<td><?php echo $issue->is_completed ? "Finished" : "Incomplete"; ?></td>
-							</tr>
-							<?php endforeach; ?>
+							<?php if($all_issues) { ?>
+								<?php foreach($all_issues as $issue): ?>
+								<?php $task_for_issue_id = Task::find_by_id($issue->task_id); ?>
+								<tr>
+									<td><?php echo $task_for_issue_id->task_name; ?></td>
+									<td><?php echo $issue->issue_creator; ?></td>
+									<td><?php echo $issue->issue_timecode; ?></td>
+									<td><?php echo $issue->issue_body; ?></td>
+									<td><?php echo $issue->is_completed ? "Finished" : "Incomplete"; ?></td>
+								</tr>
+								<?php endforeach; ?>
+							<?php } else { ?>
+								<tr>
+									<td colspan="5">No issues for this lesson</td>
+								</tr>
+							<?php } ?>
 						</tbody>
 					</table>
-				</div>
-			<div id="qa-log" class="row">
-					<h3>Current QA Log</h3>
-					<form action='lesson.php?id=<?php echo $lesson->id; ?>' method='post'>
-					<input type='text' size=70 name='qa_log' value='<?php echo $lesson->qa_log; ?>'>
-					<input type='hidden' name='qa_lesson_id' value='<?php echo $lesson->id; ?>'>
-					<input type='submit' name='changed_qa_log'>
-					</form>
-				</div>
+			</div>
 			<div id="add-an-issue" class="row">
 					<h3>Add an Issue</h3>
 					<table>
