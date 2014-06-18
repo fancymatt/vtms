@@ -67,8 +67,9 @@
 		<dt>You're logged in as <?php echo $logged_in_user->user_name; ?></dt>
 		<?php if ($logged_in_user->id > 0) { ?>
 		<dd class="active"><a href="task-sheet.php?member=<?php echo $logged_in_user->team_member_id; ?>">Your Task Sheet</a></dd>
-		<dd><a href="user-dashboard.php">Your Dashboard</a>
+		<dd><a href="user-dashboard.php">Your Dashboard</a></dd>
 		<dd><a href="logout.php">Log Out</a></dd>
 		<?php } ?>
 	<?php } ?>
+	</dl>
 	</div>
