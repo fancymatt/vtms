@@ -60,13 +60,13 @@
 	<?php 
 	if (!$session->is_logged_in()) { ?>
 		<dt>You are not logged in</dt>
-		<dt class="active"><a href="login.php">Log In</a></dt>
+		<dt><a href="login.php">Log In</a></dt>
 	<?php } else {
 		$logged_in_user = User::find_by_id($session->user_id);
 		?>
 		<dt>You're logged in as <?php echo $logged_in_user->user_name; ?></dt>
 		<?php if ($logged_in_user->id > 0) { ?>
-		<dd class="active"><a href="task-sheet.php?member=<?php echo $logged_in_user->team_member_id; ?>">Your Task Sheet</a></dd>
+		<dd><a href="task-sheet.php?member=<?php echo $logged_in_user->team_member_id; ?>">Your Task Sheet</a></dd>
 		<dd><a href="user-dashboard.php">Your Dashboard</a></dd>
 		<dd><a href="logout.php">Log Out</a></dd>
 		<?php } ?>
