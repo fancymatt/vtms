@@ -10,7 +10,7 @@
 ?>
 
 <?php include_layout_template('header.php'); ?>
-		<div id="active_tasks">
+		<div id="active_tasks" class="medium-5 columns">
 		<h2 id="main_title">Active Tasks</h2>
 		<?php if ($message) {
 			echo "<p>{$message}</p>";
@@ -41,7 +41,7 @@
 		</table>
 		</div>
 		
-		<div id="recent_tasks">
+		<div id="recent_tasks" class="medium-5 medium-margin-2 columns">
 		<h2 id="main_title">Tasks Completed in the last <?php if ($days_past == 1) { echo "day"; } else { echo $days_past . " days"; } ?></h2>
 		<?php if ($message) {
 			echo "<p>{$message}</p>";
@@ -72,7 +72,7 @@
 		</table>
 		</div>	
 
-		<div id="actionable_tasks">
+		<div id="actionable_tasks" class="large-10 columns centered">
 		<h2 id="main_title">Actionable Tasks</h2>
 		<?php if ($message) {
 			echo "<p>{$message}</p>";
