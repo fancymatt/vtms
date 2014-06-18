@@ -1,62 +1,78 @@
 <?php require_once("../includes/initialize.php"); ?>
 <?php	
-	$series_id = $db->escape_value($_GET['series']);
+	confirm_logged_in();
 	$language_series_id = $db->escape_value($_GET['id']);
 	$language_series = LanguageSeries::find_by_id($language_series_id);
-	$series_lessons = Lesson::find_all_lessons_for_language_series($db->escape_value($_GET['id']));
+	$series = Series::find_by_id($language_series->series_id);
+	$language_series_lessons = Lesson::find_all_lessons_for_language_series($language_series_id);
 ?>
 
 <?php include_layout_template('header.php'); ?>
-		<div>
-		<h3><?php $language_series->display_full_language_series_navigation(); ?></h3>
-		<?php echo $session->message(); ?>
-		<p><a href="series.php?id=<?php echo $series_id; ?>"><- Return to Language Series List</a></p>
+	
+	<div id="breadcrumbs" class="row">
+		<ul class="breadcrumbs">
+			<li><a href="lesson-db.php">Lesson DB</a></li>
+			<li><a href="series.php?id=<?php echo $series->id; ?>"><?php echo $series->title; ?></a></li>
+			<li class="current">
+				<a href="#">
+					<?php echo $language_series->language_series_title." (".$language_series->level_code.")"; ?>
+				</a>
+			</li> 
+		</ul>
+	</div>
+	
+	<div id="page-header" class="row">
+		<header class="medium-10 medium-margin-1 columns">
+			<h3><?php echo $language_series->language_series_title." (".ucwords($language_series->level_code).")"; ?></h3>
+		</header>
+	</div>
+	
+	<div id="lesson-list-table" class="row">
+		<div class="medium-11 medium-margin-1 small-12 columns">
 		<table>
-			<tr><th></th><th>Lesson Name</th><th>Status</th><th>TRT</th><th>Publish Date</th><th>View</th></tr>
-				<?php 
-				if(!$series_lessons) {
-					echo "<td>No lessons</td>";
-				} else {
-					foreach($series_lessons as $series_lesson) {
-						echo "<tr ";
-						if ($series_lesson->files_moved ) {
-							echo "class='completed'";
-						} else if ($series_lesson->is_shot) {
-							echo "class='actionable'";
-						} 
-						echo ">";
-						echo "<td>{$series_lesson->number}</td>";
-						echo "<td>{$series_lesson->title}</td>";
-						echo "<td><img src='";
-						echo $series_lesson->is_shot ? "images/is_shot.png" : "images/not_shot.png";
+			<thead>
+				<tr>
+					<th width="50"></th>
+					<th width="600">Name</th>
+					<th width="150">Status</th>
+					<th width="150">TRT</th>
+					<th width="150">Publish Date</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach($language_series_lessons as $lesson): ?> <!-- For every lesson -->
+				<tr>
+					<td><?php echo $lesson->number; ?></td>
+					<td><a href="lesson.php?id=<?php $lesson->id; ?>"><?php echo $lesson->title; ?></a></td>
+					<td>
+						<?php
+						echo "<img src='";
+						echo $lesson->is_shot ? "images/is_shot.png" : "images/not_shot.png";
 						echo "'>";
 						echo "<img src='";
-						echo $series_lesson->is_checkable ? "images/is_checkable.png" : "images/not_checkable.png";
+						echo $lesson->is_checkable ? "images/is_checkable.png" : "images/not_checkable.png";
 						echo "'>";
 						echo "<img src='";
-						echo $series_lesson->checked_language ? "images/is_language_checked.png" : "images/not_language_checked.png";
+						echo $lesson->checked_language ? "images/is_language_checked.png" : "images/not_language_checked.png";
 						echo "'>";	
 						echo "<img src='";
-						echo $series_lesson->checked_video ? "images/is_video_checked.png" : "images/not_video_checked.png";
+						echo $lesson->checked_video ? "images/is_video_checked.png" : "images/not_video_checked.png";
 						echo "'>";
 						echo "<img src='";
-						echo $series_lesson->files_moved ? "images/is_moved.png" : "images/not_moved.png";
-						echo "'>";					
-						echo "</td>";
-						echo "<td>".seconds_to_timecode($series_lesson->trt)."</td>";
-						echo "<td>".$series_lesson->publish_date ."</td>";
-						echo "<td><a href='lesson.php?series={$series_lesson->series_id}&langSeries={$series_lesson->language_series_id}&lesson={$series_lesson->id}'>View</a>";
-						if ($session->is_admin()) {
-							echo " | <a href='edit-lesson.php?id={$series_lesson->id}'>Edit</a>";
-						}
-						echo "</td></tr>";
-					}
-				}
-				if ($session->is_admin()) {
-					echo "<tr><td><a href='new-lesson.php?inLanguageSeries={$language_series_id}'>Add New Lesson</a></td></tr>";	
-				} ?>	
+						echo $lesson->files_moved ? "images/is_moved.png" : "images/not_moved.png";
+						echo "'>";
+						?>
+					</td>
+					<td><?php echo seconds_to_timecode($lesson->trt); ?></td>
+					<td><?php echo $lesson->publish_date; ?></td>
+						
+				</tr>
+				<?php endforeach; ?> <!-- End for every series -->
+				
+				<tr> <!-- Add new list item row -->
+					<td colspan="6"><a href="new-language-series.php?inSeries=<?php echo $series->id; ?>">Add new Language Series</a></td>
+			</tbody>
 		</table>
-		<p><a href="series.php?id=<?php echo $series_id; ?>"><- Return to Language Series List</a></p>
-		</div>
+	</div>
 
 <?php include_layout_template('footer.php'); ?>
