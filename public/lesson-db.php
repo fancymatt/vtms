@@ -1,8 +1,8 @@
 <?php require_once("../includes/initialize.php"); ?>
 <?php $series = Series::find_all_limit(0); ?>
+<?php $page_title = "Lesson DB"; ?>
 
 <?php include_layout_template('header.php'); ?>
-
 	<div id="breadcrumbs" class="row">
 		<ul class="breadcrumbs">
 			<li class="current"><a href="lesson-db.php">Lesson DB</a></li>
