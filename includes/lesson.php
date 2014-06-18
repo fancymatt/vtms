@@ -521,7 +521,7 @@ class Lesson extends DatabaseObject {
 	
 	public function display_full_lesson() {
 		echo "<img src='images/{$this->level_code}.png'> ";
-		echo "<a href='lesson.php?series=".$this->series_id."&langSeries=".$this->language_series_id."&lesson=".$this->id."'>";
+		echo "<a href='lesson.php?id=".$this->id."'>";
 		echo $this->language_name . " - " . $this->series_name . " #" . $this->number;
 		echo "</a>";
 	}
@@ -529,34 +529,6 @@ class Lesson extends DatabaseObject {
 	public function display_list_of_issues_with_link() {
 		$issues = Issue::get_unfinished_issues_for_lesson($this->id);
 		echo "<a href='issues-for-lesson.php?id=".$this->id."'>Issues: ".count($issues)."</a>";
-	}
-	
-	public function display_full_lesson_navigation() {
-		echo "<a href='series.php?id=".$this->series_id."'>";
-		echo $this->series_name;
-		echo "</a>";
-		echo " > ";
-		echo "<img src='images/{$this->level_code}.png'> ";
-		echo "<a href='language-series.php?series=".$this->series_id."&id=".$this->language_series_id."'>";
-		echo $this->language_series_title;
-		echo "</a>";
-		echo " > ";
-		echo "#{$this->number} {$this->title}";
-	}
-	
-	public function display_lesson_topbar($active_page="main") {
-		
-		if($active_page=="main") {
-			echo "Lesson";
-		} else {
-			echo "<a href='lesson.php?series={$this->series_id}&langSeries={$this->language_series_id}&lesson={$this->id}'>Lesson</a>";
-		}
-		echo " | "; 
-		if ($active_page=="script") {
-			echo "Script";
-		} else {
-			echo "<a href='lesson-script.php?id={$this->id}'>Script</a>";
-		}
 	}
 	
 }

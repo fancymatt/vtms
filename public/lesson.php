@@ -68,9 +68,8 @@
 	</div>
 	
 	<div id="page-header" class="row">
-		<header class="medium-10 medium-margin-1 columns">
-			<h3><?php echo $language_series->language_series_title." (".ucwords($language_series->level_code).")"; ?></h3>
-		</header>
+		<h3><?php echo $language_series->language_series_title." (".ucwords($language_series->level_code).")"; ?>
+		<?php echo $lesson->number.". ".$lesson->title; ?></h3>
 	</div>
 	
 	<?php if($message) { ?>
