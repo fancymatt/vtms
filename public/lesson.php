@@ -42,7 +42,7 @@
 					<?php echo $language_series->language_series_title." (".$language_series->level_code.")"; ?>
 				</a>
 			</li> 
-			<li class="active">
+			<li class="current">
 				<a href="#">
 					<?php echo $lesson->number.". ".$lesson->title; ?>
 				</a>
@@ -207,6 +207,7 @@
 			<div id="issues-list-table" class="row">
 				<div class="medium-11 medium-margin-1 small-12 columns">
 					<?php $lesson->display_list_of_issues_with_link(); ?>
+					Add in contents of issues-for-lesson.php here
 				</div>
 			</div>
 		</div>
