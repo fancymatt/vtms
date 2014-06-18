@@ -2,6 +2,13 @@
 <?php $series = Series::find_all_limit(0); ?>
 
 <?php include_layout_template('header.php'); ?>
+
+	<div id="breadcrumbs" class="row">
+		<ul class="breadcrumbs">
+			<li class="current"><a href="lesson-db.php">Lesson DB</a></li>
+		</ul>
+	</div>
+
 	<div id="page-header" class="row">
 		<header class="medium-10 medium-margin-1 columns">
 			<h3>Video Series List</h3>
