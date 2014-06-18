@@ -4,9 +4,10 @@
 	$language_series_id = $db->escape_value($_GET['id']);
 	$language_series = LanguageSeries::find_by_id($language_series_id);
 	$series = Series::find_by_id($language_series->series_id);
+	$language = Language::find_by_id($language_series->language_id);
 	$language_series_lessons = Lesson::find_all_lessons_for_language_series($language_series_id);
 ?>
-<?php $page_title = $language_series->language_series_title; ?>
+<?php $page_title = ucwords($language->code)." ".ucwords($series->code); ?>
 
 <?php include_layout_template('header.php'); ?>
 	

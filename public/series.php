@@ -5,7 +5,7 @@
 	$languageSeries = LanguageSeries::find_all_language_series_for_series($db->escape_value($_GET['id']));
 ?>
 
-<?php $page_title = $series->title; ?>
+<?php $page_title = ucwords($series->code); ?>
 
 <?php include_layout_template('header.php'); ?>
 	
