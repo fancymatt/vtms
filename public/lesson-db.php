@@ -10,13 +10,13 @@
 	</div>
 
 	<div id="page-header" class="row">
-		<header class="medium-10 medium-margin-1 columns">
+		<header class="small-11 small-centered columns">
 			<h3>Video Series List</h3>
 		</header>
 	</div>
 	
 	<div id="series-list-table" class="row">
-		<div class="medium-11 medium-margin-1 small-12 columns">
+		<div class="small-11 small-centered columns">
 		<table>
 			<thead>
 				<tr>
