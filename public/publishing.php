@@ -13,7 +13,6 @@
 		if($lesson_ids) {
 			foreach($lesson_ids as $lesson_id) {
 				$lesson = Lesson::find_by_id($lesson_id);
-				
 				if($lesson_trts[$i]) {
 					//  & preg_match("^[0-9]+:[0-9]{2}$", $lesson_trts[$i]
 					$string_parts = explode (":", $lesson_trts[$i]);
