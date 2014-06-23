@@ -36,4 +36,6 @@ require_once(LIB_PATH.DS.'global-task-statistic.php');
 require_once(LIB_PATH.DS.'linked-image.php');
 require_once(LIB_PATH.DS.'level.php');
 require_once(LIB_PATH.DS.'privilege-type.php');
+require_once(LIB_PATH.DS.'activity.php');
+require_once(LIB_PATH.DS.'shift.php');
 ?>
