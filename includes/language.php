@@ -9,7 +9,7 @@ class Language extends DatabaseObject {
 										'language.code' => 'code', 
 										'language.siteUrlShort' => 'site_url_short',
 										'(SELECT COUNT(lesson.id) FROM lesson JOIN languageSeries ON languageSeries.id=lesson.fkLanguageSeries JOIN language l ON l.id=languageSeries.fkLanguage WHERE lesson.filesMoved=1 AND l.id=language.id)' => 'lesson_count',
-										'SEC_TO_TIME((SELECT SUM( lesson.trt ) FROM language l JOIN languageSeries ON l.id = languageSeries.fkLanguage JOIN lesson ON lesson.fkLanguageSeries = languageSeries.id WHERE l.id = language.id))' => 'language_trt'
+										'(SELECT SUM( lesson.trt ) FROM language l JOIN languageSeries ON l.id = languageSeries.fkLanguage JOIN lesson ON lesson.fkLanguageSeries = languageSeries.id WHERE l.id = language.id)' => 'language_trt'
 										);
 	protected static $db_join_fields=array();
 	

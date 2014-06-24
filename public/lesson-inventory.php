@@ -1,6 +1,19 @@
 <?php require_once("../includes/initialize.php"); ?>
 <?php
 	$languages = Language::find_all();
+	
+	$total_number = 0;
+	$total_time = 0;
+	foreach($languages as $key=>$value) {
+		if(isset($value->lesson_count)) {
+			$total_number += $value->lesson_count;
+		}
+		if(isset($value->language_trt)) {
+			
+			$total_time += $value->language_trt;
+		}
+	}
+
 ?>
 
 <?php include_layout_template('header.php'); ?>
@@ -9,7 +22,9 @@
 			echo "<p>{$message}</p>";
 		} ?>
 	<div id="languages">
-				<?php 
+				<?php
+				echo "<p>{$total_number} lessons</p>";
+				echo "<p>".seconds_to_timecode($total_time, 6)."</p>"; 
 				echo "<ul>";
 				if(!$languages) {
 					echo "<p>No lessons</p>";
