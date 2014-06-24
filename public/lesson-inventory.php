@@ -15,10 +15,10 @@
 					echo "<p>No lessons</p>";
 				} else {
 					foreach($languages as $language) { 
-						if($language->language_trt > 0) {
+						$language_series = LanguageSeries::find_all_language_series_for_language($language->id);
+						if($language->lesson_count > 0) {
 							echo "<li><strong>".$language->name." (".$language->lesson_count." lessons - ".$language->language_trt.")</strong></li>";
 							echo "<ul>";
-							$language_series = LanguageSeries::find_all_language_series_for_language($language->id);
 							foreach($language_series as $series) {
 								$lessons = Lesson::find_all_completed_lessons_for_language_series($series->id);
 								if(count($lessons) > 0) {
