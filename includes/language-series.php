@@ -43,6 +43,14 @@ class LanguageSeries extends DatabaseObject {
 		return self::find_all_child_for_parent($series_id, $child_table_name, $parent_table_name, $group_by_sql);
 	}
 	
+	public static function find_all_language_series_for_language($language_id) {
+		$child_table_name = "languageSeries";
+		$parent_table_name = "language";
+		$group_by_sql = "GROUP BY id ORDER BY series.title ASC, level.id ASC";
+		return self::find_all_child_for_parent($language_id, $child_table_name, $parent_table_name, $group_by_sql);
+	}
+	
+	
 	public static function get_language_series_title_from_id($language_series_id) {
 		$series = LanguageSeries::find_by_id($language_series_id);
 		return $series->language_series_title;
