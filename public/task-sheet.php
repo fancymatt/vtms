@@ -21,20 +21,50 @@
 	}
 	
 	$active_shift = Shift::get_active_shift_for_member($team_member_id);
+	$active_activity = Activity::get_active_activity_for_member($team_member_id);
+
+	if($_POST['end_shift']) {
+		$active_shift->clock_out_team_member($team_member_id);
+		$_SESSION['message'] = "You have been clocked out. おつかれさま！";
+		redirect_to("task-sheet.php?member={$team_member_id}");
+	}
 
 	if($_POST['task_activated']) {
 		$activated_task_id = $_POST['task_id'];
 		$activated_task = Task::find_by_id($activated_task_id);
 		$activated_task->activate_task();
 		$activated_global_task = GlobalTask::find_by_id($activated_task->global_task_id);
+		
+		$current_time = new DateTime(null, new DateTimeZone('UTC'));
+
+		$activity = new Activity();
+		$activity->shift_id = $active_shift->id;
+		$activity->time_start = $current_time->format('Y-m-d H:i:s');
+		$activity->task_id = $activated_task_id;
+		$activity->is_active = 1;
+		$activity->activity = "Working on task";
+		$activity->create();
+		
 		$message = $activated_task_id . " has been activated.";
 		// Need some way to do this redirect while still keeping activated_global_task
 		//redirect_to("task-sheet.php?member={$team_member_id}");
 	}
 	
+	
+	
 	if($_POST['task_deactivated']) {
 		$deactivated_task_id = $_POST['task_id'];
 		$deactivated_task = Task::find_by_id($deactivated_task_id);
+		
+		$current_time = new DateTime(null, new DateTimeZone('UTC'));
+		
+		if(is_object($active_activity)) {
+			$active_activity->is_active = 0;
+			$active_activity->is_completed = 1;
+			$active_activity->time_end = $current_time->format('Y-m-d H:i:s');
+			$active_activity->activity = "Worked on task";
+			$active_activity->update();
+		}	
 		$message = $deactivated_task->deactivate_task();
 		redirect_to("task-sheet.php?member={$team_member_id}");
 	}
@@ -42,6 +72,16 @@
 	if($_POST['task_completed']) {
 		$completed_task_id = $_POST['task_id'];
 		$completed_task = Task::find_by_id($completed_task_id);
+		
+		$current_time = new DateTime(null, new DateTimeZone('UTC'));
+		
+		$activity = get_active_activity_for_member($member_id);
+		$activity->is_active = 0;
+		$activity->is_completed = 1;
+		$activity->time_end = $current_time->format('Y-m-d H:i:s');
+		$activity->activity = "Completed task";
+		$activity->update();
+		
 		$message = $completed_task->complete_task() . "<br />";
 		$_SESSION['completed_task_id'] = $completed_task_id;
 		redirect_to("task-sheet.php?member={$team_member_id}");
@@ -119,6 +159,9 @@
 			<p>Issues Completed: </p>
 			<p>Total Work Time: </p>
 			<p>Idle Time: </p>
+			<form method="post" action="task-sheet.php?member=<?php echo $team_member_id; ?>">
+			<input type="submit" name="end_shift" value="End Shift">
+		</form>
 		</div>
 	<?php
 		if($active_tasks) { ?>

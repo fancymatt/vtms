@@ -54,13 +54,13 @@ class Shift extends DatabaseObject {
 			$i <= count(self::$db_view_fields) - 1 ? $sql .= ", " : $sql .= " ";
 		}
 		$sql .= "FROM ".self::$table_name." ";
-		//$sql .= "WHERE shift.fkTeamMember = {$member_id} ";
-		//$sql .= "AND shift.isActive = '1' ";
+		$sql .= "WHERE shift.fkTeamMember = {$member_id} ";
+		$sql .= "AND shift.isActive = '1' ";
 		$result_array = static::find_by_sql($sql);
 		return !empty($result_array) ? array_shift($result_array) : false;
 	}
 	
-	public function clock_in_team_member($team_member_id) {
+	public static function clock_in_team_member($team_member_id) {
 		global $database;
 		$current_time = new DateTime(null, new DateTimeZone('UTC'));
 	
@@ -70,25 +70,17 @@ class Shift extends DatabaseObject {
 		$database->query($sql);
 	}
 	
-	public function clock_out() {
+	public function clock_out_team_member($team_member_id) {
 		global $database;
 		$current_time = new DateTime(null, new DateTimeZone('UTC'));
-		$activated_time = new DateTime($this->activated_time, new DateTimeZone('UTC'));
-		$this->deactivated_time = $current_time->format('Y-m-d H:i:s');
-		$running_time = $this->time_running;
-		$duration = $current_time->getTimestamp() - $activated_time->getTimestamp();
-		$new_running_time = $running_time + $duration;
 		
-		$sql  = "UPDATE task ";
+		$sql  = "UPDATE shift ";
 		$sql .= "SET isActive=0 ";
-		$sql .= ", timeRunning='{$new_running_time}' ";
+		$sql .= ", clockOut='{$current_time->format('Y-m-d H:i:s')}' ";
 		$sql .= "WHERE id={$this->id} ";
 		$sql .= "LIMIT 1";
 		
-		$database->query($sql);
-		
-		return "Running: ".seconds_to_timecode($running_time, 6)."<br />Duration: ".seconds_to_timecode($duration, 6)."<br />New Running: ".seconds_to_timecode($new_running_time, 6);
+		return $database->query($sql);
 	}
-	
 }
 ?>
