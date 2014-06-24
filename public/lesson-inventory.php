@@ -23,13 +23,11 @@
 								$lessons = Lesson::find_all_completed_lessons_for_language_series($series->id);
 								if(count($lessons) > 0) {
 									echo "<li>".$series->language_series_title." - ".$series->level_name." (".count($lessons)." lessons - ".$series->total_trt.")</li>";
-									echo "<ul>";
 									//foreach($lessons as $lesson) {
 										//if($lesson->files_moved) {
 											//echo "<li>".$lesson->number.". ".$lesson->title."</li>";
 										//}
 									}
-									echo "</ul>";
 								//}
 							}
 							echo "</ul>";	
