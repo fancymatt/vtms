@@ -3,6 +3,8 @@
 	confirm_logged_in();
 	$team_member_id = $db->escape_value($_GET['member']);
 	$team_member = Member::find_by_id($team_member_id);
+	$logged_in_user = User::find_by_id($session->user_id);
+	
 	
 	if (!$session->is_admin()) {
 		// then you'd better be this user
@@ -10,6 +12,15 @@
 			redirect_to('login.php');
 		}
 	}
+
+	if($_POST['start_shift']) {
+		$shift = new Shift();
+		$shift->clock_in_team_member($team_member_id);
+		$_SESSION['message'] = "A new shift has begun.";
+		redirect_to("task-sheet.php?member={$team_member_id}");
+	}
+	
+	$active_shift = Shift::get_active_shift_for_member($team_member_id);
 
 	if($_POST['task_activated']) {
 		$activated_task_id = $_POST['task_id'];
@@ -89,170 +100,178 @@
 		</div>
 	</div>
 	
-	<?php if($message) { ?>
-	<div data-alert class="alert-box">
+	<?php 
+	if($message) { ?>
+		<div data-alert class="alert-box">
 	  <?php echo $message; ?>
 	  <a href="#" class="close">&times;</a>
 	</div>
-	<?php } ?>
-	
-	<?php if($active_tasks) { ?>
-	<div class="row">
-		<div id="active_task_list" class="medium-10 medium-centered columns">
-			<table width>
-				<tr><th>Active Task List</th><th></th><th>Due Date</th><th>Actions</th></tr>
-				<?php foreach($active_tasks as $active_task): ?>
-				<tr>
-					<td><?php $active_task->display_full_task_lesson(); ?></td>
-					<td><?php echo $active_task->task_name; ?></td>
-					<td><?php echo $active_task->task_due_date; ?></td>
-					<td><form action='task-sheet.php?member=<?php echo $team_member_id; ?>' method='post'>
-						<input type='hidden' name='task_id' value='<?php echo $active_task->id; ?>'>
-						<input type='submit' name='task_deactivated' value='Deactivate'>
-						</form>
-						<form action='task-sheet.php?member=<?php echo $team_member_id; ?>' method='post'>
-						<input type='hidden' name='task_id' value='<?php echo $active_task->id; ?>'>
-						<input type='submit' name='task_completed' value='Complete'>
-						</form></td>
-				</tr>
-				<?php endforeach; ?>
-			</table>
+	<?php 
+	} ?>
+	<?php
+	if(is_object($active_shift)) { ?>
+		<div id="current_shift_stats" class="panel">
+			<h4>Your shift</h4>
+			<p>Began: <?php echo $logged_in_user->local_time($active_shift->clock_in); ?></p>
+			<p>Time Spent on Tasks: </p>
+			<p>Tasks Completed: </p>
+			<p>Time Spent on Issues: </p>
+			<p>Issues Completed: </p>
+			<p>Total Work Time: </p>
+			<p>Idle Time: </p>
 		</div>
-	</div>
-		<br />
-	<?php } ?> <!-- End of if($active_tasks) -->
-	
-	<div id="tabs" class="row">
-		<ul class="tabs" data-tab>
-			<li class="tab-title active"><a href="#panel-tasks">Tasks</a></li>
-			<li class="tab-title"><a href="#panel-assets">Assets</a></li>
-			<li class="tab-title"><a href="#panel-issues">Issues</a></li>
-			<li class="tab-title"><a href="#panel-completed">Completed Today</a></li>
-		</ul>
-	</div>
-	
-	<div class="tabs-content">
-		<div class="content active" id="panel-tasks">
-			<div id="section-header" class="row">
-				<header class="row">
-					<h4>Actionable Tasks</h4>
-				</header>
-			</div>
-			<div id="task-list-table" class="row">
-				Task List goes here
+	<?php
+		if($active_tasks) { ?>
+			<div class="row">
+			<div id="active_task_list" class="medium-10 medium-centered columns">
+				<table width>
+					<tr><th>Active Task List</th><th></th><th>Due Date</th><th>Actions</th></tr>
+					<?php foreach($active_tasks as $active_task): ?>
+					<tr>
+						<td><?php $active_task->display_full_task_lesson(); ?></td>
+						<td><?php echo $active_task->task_name; ?></td>
+						<td><?php echo $active_task->task_due_date; ?></td>
+						<td><form action='task-sheet.php?member=<?php echo $team_member_id; ?>' method='post'>
+							<input type='hidden' name='task_id' value='<?php echo $active_task->id; ?>'>
+							<input type='submit' name='task_deactivated' value='Deactivate'>
+							</form>
+							<form action='task-sheet.php?member=<?php echo $team_member_id; ?>' method='post'>
+							<input type='hidden' name='task_id' value='<?php echo $active_task->id; ?>'>
+							<input type='submit' name='task_completed' value='Complete'>
+							</form></td>
+					</tr>
+					<?php endforeach; ?>
+				</table>
 			</div>
 		</div>
-		<div class="content" id="panel-assets">
-			<div id="section-header" class="row">
-				<header class="row">
-					<h4>Script Preview</h4>
-				</header>
+		<?php } ?> <!-- End of if($active_tasks) -->
+		<div id="tabs" class="row">
+			<ul class="tabs" data-tab>
+				<li class="tab-title active"><a href="#panel-tasks">Tasks</a></li>
+				<li class="tab-title"><a href="#panel-assets">Assets</a></li>
+				<li class="tab-title"><a href="#panel-issues">Issues</a></li>
+				<li class="tab-title"><a href="#panel-completed">Completed Today</a></li>
+			</ul>
+		</div>		
+		<div class="tabs-content">
+			<div class="content active" id="panel-tasks">
+				<div id="section-header" class="row">
+					<header class="row">
+						<h4>Actionable Tasks</h4>
+					</header>
+				</div>
+				<div id="task-list-table" class="row">
+					Task List goes here
+				</div>
 			</div>
-			<div id="actionable-assets-table" class="row">
-				Actionable assets go here
+			<div class="content" id="panel-assets">
+				<div id="section-header" class="row">
+					<header class="row">
+						<h4>Script Preview</h4>
+					</header>
+				</div>
+				<div id="actionable-assets-table" class="row">
+					Actionable assets go here
+				</div>
+				<div id="deliverable-assets-table" class="row">
+					Actionable and Deliverable assets go here
+				</div>
 			</div>
-			<div id="deliverable-assets-table" class="row">
-				Actionable and Deliverable assets go here
+			<div class="content" id="panel-issues">
+				<div id="section-header" class="row">
+					<header class="row">
+						<h4>Issues</h4>
+					</header>
+				</div>
+				<div id="issues-list-table" class="row">
+					Issues go here
+				</div>
+			</div>
+			<div class="content" id="panel-completed">
+				<div id="section-header" class="row">
+					<header class="row">
+						<h4>Completed Today</h4>
+					</header>
+				</div>
+				<div id="completed-tasks-list-table" class="row">
+					Completed Tasks go here
+				</div>
+				<div id="completed-assets-list-table" class="row">
+					Completed Assets go here
+				</div>
+				<div id="completed-issues-list-table" class="row">
+					Completed Issues go here
+				</div>
 			</div>
 		</div>
-		<div class="content" id="panel-issues">
-			<div id="section-header" class="row">
-				<header class="row">
-					<h4>Issues</h4>
-				</header>
-			</div>
-			<div id="issues-list-table" class="row">
-				Issues go here
-			</div>
-		</div>
-		<div class="content" id="panel-completed">
-			<div id="section-header" class="row">
-				<header class="row">
-					<h4>Completed Today</h4>
-				</header>
-			</div>
-			<div id="completed-tasks-list-table" class="row">
-				Completed Tasks go here
-			</div>
-			<div id="completed-assets-list-table" class="row">
-				Completed Assets go here
-			</div>
-			<div id="completed-issues-list-table" class="row">
-				Completed Issues go here
-			</div>
-		</div>
-	</div>
-
-<?php include_layout_template('footer.php'); ?>
-
-
-
-
-
-<?php //if($activated_global_task->tutorial_yt_url) {
-	if($activated_global_task>0) {
-	echo "<div class='panel'>";
-	echo "<h3>".$activated_global_task->series_name.": ".$activated_global_task->task_name."</h3>";
-	echo "<iframe width='380' height='250' src='//www.youtube.com/embed/".$activated_global_task->tutorial_yt_url."' frameborder='0' allowfullscreen></iframe>";
-	echo "</div>";
-} ?>
-
-
-<?php // if($completed_task_id) ;
-	if($_SESSION['completed_task_id']) {
-		$completed_task = Task::find_by_id($_SESSION['completed_task_id']);
-		unset($_SESSION['completed_task_id']);
-		$completed_global_task = GlobalTask::find_by_id($completed_task->global_task_id);
-		$global_task_stats = GlobalTaskStatistic::find_all_child_for_parent($completed_global_task->id, "task", "TaskGlobal", " AND task.isCompleted = 1 ");
-		$member_task_stats = GlobalTaskStatistic::find_all_child_for_parent($completed_global_task->id, "task", "TaskGlobal", " AND task.isCompleted = 1 AND task.fkTeamMember= {$team_member_id} "); 
-		$global_task_stat = $global_task_stats[0];
-		$member_task_stat = $member_task_stats[0];
-		echo "<div class='panel' id='completed_task_panel'>";
-		echo "<h3>Task Completed</h3>";
-		echo "<p>".$completed_task->display_full_task_lesson_task() ."</p>";
-		echo "<p>Your time: <strong>".seconds_to_timecode($completed_task->actual_time, 6)."</strong></p>";
-		echo "<p>If you think this time is incorrect, please send a message to Matt or Keith.</p>";
-		echo "</div>";
-		
-		echo "<div class='panel' id='global_task_panel'>";
-		echo "<h3>{$completed_global_task->series_name} - {$completed_global_task->task_name}</h3>";
-		echo "<p>Your average time for this task: <strong>".seconds_to_timecode($member_task_stat->average_time, 6)."</strong></p>";
-		echo "<p>Video team average time for this task: <strong>".seconds_to_timecode($global_task_stat->average_time, 6)."</strong></p>";
-		echo "<p>Times you've completed this task: <strong>".$member_task_stat->times_completed."</strong>";
-		echo "<p>Total times this task was completed: <strong>".$global_task_stat->times_completed."</strong></p>";
-		echo "</div>";
-	}
-
-?>
-<?php if(is_object($team_member)) { ?>
-	
-	<?php if($actionable_tasks) { ?>
-	<div id="actionable_task_list">
-		<table id=>
-			<tr><th>Actionable Task List</th><th></th><th>Due Date</th><th>Actions</th></tr>
-			<?php foreach($actionable_tasks as $actionable_task): ?>
-			<?php
-			echo "<tr ";
-						if (strtotime($actionable_task->task_due_date) < time()) {
-							echo "class='overdue'";
-						}
-						echo ">";
-			?>
-				<td><?php $actionable_task->display_full_task_lesson(); ?></td>
-				<td><?php echo $actionable_task->task_name; ?></td>
-				<td><?php echo $actionable_task->task_due_date; ?></td>
-				<td><form action='task-sheet.php?member=<?php echo $team_member_id; ?>' method='post'>
-					<input type='hidden' name='task_id' value='<?php echo $actionable_task->id; ?>'>
-					<input type='submit' name='task_activated' value='Activate'>
-					</form></td>
-			</tr>
-			<?php endforeach; ?>
-		</table>
-	</div>
-	<br />
-	<?php } ?> <!-- End of if($actionable_tasks) -->
-	<?php if($actionable_assets) { ?>
-	<div id="asset_list">
+		<?php //if($activated_global_task->tutorial_yt_url) {
+		if($activated_global_task>0) {
+			echo "<div class='panel'>";
+			echo "<h3>".$activated_global_task->series_name.": ".$activated_global_task->task_name."</h3>";
+			echo "<iframe width='380' height='250' src='//www.youtube.com/embed/".$activated_global_task->tutorial_yt_url."' frameborder='0' allowfullscreen></iframe>";
+			echo "</div>";
+		} ?>
+		<?php // if($completed_task_id) ;
+		if($_SESSION['completed_task_id']) {
+			$completed_task = Task::find_by_id($_SESSION['completed_task_id']);
+			unset($_SESSION['completed_task_id']);
+			$completed_global_task = GlobalTask::find_by_id($completed_task->global_task_id);
+			$global_task_stats = GlobalTaskStatistic::find_all_child_for_parent($completed_global_task->id, "task", "TaskGlobal", " AND task.isCompleted = 1 ");
+			$member_task_stats = GlobalTaskStatistic::find_all_child_for_parent($completed_global_task->id, "task", "TaskGlobal", " AND task.isCompleted = 1 AND task.fkTeamMember= {$team_member_id} "); 
+			$global_task_stat = $global_task_stats[0];
+			$member_task_stat = $member_task_stats[0];
+			echo "<div class='panel' id='completed_task_panel'>";
+			echo "<h3>Task Completed</h3>";
+			echo "<p>".$completed_task->display_full_task_lesson_task() ."</p>";
+			echo "<p>Your time: <strong>".seconds_to_timecode($completed_task->actual_time, 6)."</strong></p>";
+			echo "<p>If you think this time is incorrect, please send a message to Matt or Keith.</p>";
+			echo "</div>";
+			
+			echo "<div class='panel' id='global_task_panel'>";
+			echo "<h3>{$completed_global_task->series_name} - {$completed_global_task->task_name}</h3>";
+			echo "<p>Your average time for this task: <strong>".seconds_to_timecode($member_task_stat->average_time, 6)."</strong></p>";
+			echo "<p>Video team average time for this task: <strong>".seconds_to_timecode($global_task_stat->average_time, 6)."</strong></p>";
+			echo "<p>Times you've completed this task: <strong>".$member_task_stat->times_completed."</strong>";
+			echo "<p>Total times this task was completed: <strong>".$global_task_stat->times_completed."</strong></p>";
+			echo "</div>";
+		} ?>
+		<?php 
+		if(is_object($team_member)) { ?>
+			<?php 
+			if($actionable_tasks) { ?>
+				<div id="actionable_task_list">
+					<table>
+						<tr>
+							<th>Actionable Task List</th>
+							<th></th>
+							<th>Due Date</th>
+							<th>Actions</th>
+						</tr>
+						<?php 
+						foreach($actionable_tasks as $actionable_task) {
+							echo "<tr ";
+							if (strtotime($actionable_task->task_due_date) < time()) {
+								echo "class='overdue'";
+							}
+							echo ">";
+							?>
+							<td><?php $actionable_task->display_full_task_lesson(); ?></td>
+							<td><?php echo $actionable_task->task_name; ?></td>
+							<td><?php echo $actionable_task->task_due_date; ?></td>
+							<td><form action='task-sheet.php?member=<?php echo $team_member_id; ?>' method='post'>
+								<input type='hidden' name='task_id' value='<?php echo $actionable_task->id; ?>'>
+								<input type='submit' name='task_activated' value='Activate'>
+								</form>
+							</td>
+							</tr>
+					<?php 
+						} ?>
+					</table>
+				</div>
+			<?php 
+			} ?> <!-- End of if($actionable_tasks) -->
+			<?php if($actionable_assets) { ?>
+				<div id="asset_list">
 		<table>
 			<tr><th>Actionable Asset List</th><th></th><th></th><th>Due Date</th><th>Actions</th></tr>
 			<?php foreach($actionable_assets as $task):
@@ -340,10 +359,10 @@
 			<?php endforeach; ?>
 		</table>
 	</div>
-	<br />
-	<?php } ?> <!-- End of if($actionable_assets) -->
-	<?php if($deliverable_assets) { ?>
-	<div id="deliverable_asset_list">
+			<?php 
+			} ?> <!-- End of if($actionable_assets) -->
+			<?php if($deliverable_assets) { ?>
+				<div id="deliverable_asset_list">
 		<table>
 			<tr><th>Deliverable Asset List</th><th></th><th>Due Date</th><th>Actions</th></tr>
 			<?php foreach($deliverable_assets as $task):
@@ -362,10 +381,10 @@
 			<?php endforeach; ?>
 		</table>
 	</div>
-	<br />
-	<?php } ?> <!-- End of if($deliverable_assets) -->
-	<?php if($unresolved_issues) { ?>
-	<div id="issues-list">
+			<?php 
+			} ?> <!-- End of if($deliverable_assets) -->
+			<?php if($unresolved_issues) { ?>
+				<div id="issues-list">
 		<table>
 			<tr><th>Lesson</th><th>Creator</th><th>Timecode</th><th>Description</th><th>Actions</th></tr>
 			<?php foreach($unresolved_issues as $issue): ?>
@@ -383,8 +402,15 @@
 			<?php endforeach; ?>
 		</table>
 	</div>
-	<?php } ?> <!-- End of if($unresolved_issues) -->
-<?php } else { echo "Member not found";	} ?>  <!-- End of if(is_object($team_member)) -->
-</div>
-
+			<?php 
+			} ?> <!-- End of if($unresolved_issues) -->
+		<?php 
+		} else { echo "Member not found"; } ?>  <!-- End of if(is_object($team_member)) -->
+<?php 
+	} else { ?>
+		<form method="post" action="task-sheet.php?member=<?php echo $team_member_id; ?>">
+			<input type="submit" name="start_shift" value="Start Shift">
+		</form>
+<?php
+	} ?> <!-- End of if($active_shift) -->
 <?php include_layout_template('footer.php'); ?>

@@ -5,12 +5,14 @@ class Shift extends DatabaseObject {
 	protected static $table_name="shift";
 	protected static $db_view_fields = array('shift.id' => 'id',
 										'shift.fkTeamMember' => 'team_member_id',
+										'shift.isActive' => 'is_active',
 										'shift.clockIn' => 'clock_in',
 										'shift.clockOut' => 'clock_out'
 										);
 										
 	protected static $db_edit_fields = array('shift.id' => 'id',
 										'shift.fkTeamMember' => 'team_member_id',
+										'shift.isActive' => 'is_active',
 										'shift.clockIn' => 'clock_in',
 										'shift.clockOut' => 'clock_out'
 										);
@@ -19,6 +21,7 @@ class Shift extends DatabaseObject {
 											
 	public $id;
 	public $team_member_id;
+	public $is_active;
 	public $clock_in;
 	public $clock_out;
 	
@@ -41,5 +44,51 @@ class Shift extends DatabaseObject {
 		$sql .= "ORDER BY shift.clockIn DESC";
 		return static::find_by_sql($sql);
 	}
+	
+	public static function get_active_shift_for_member($member_id) {
+		$sql  = "SELECT ";
+		$i = 0;
+		foreach (self::$db_view_fields as $k => $v) {
+			$sql .= $k." AS ".$v;
+			$i++;
+			$i <= count(self::$db_view_fields) - 1 ? $sql .= ", " : $sql .= " ";
+		}
+		$sql .= "FROM ".self::$table_name." ";
+		//$sql .= "WHERE shift.fkTeamMember = {$member_id} ";
+		//$sql .= "AND shift.isActive = '1' ";
+		$result_array = static::find_by_sql($sql);
+		return !empty($result_array) ? array_shift($result_array) : false;
+	}
+	
+	public function clock_in_team_member($team_member_id) {
+		global $database;
+		$current_time = new DateTime(null, new DateTimeZone('UTC'));
+	
+		$sql  = "INSERT INTO shift (fkTeamMember, isActive, clockIn) ";
+		$sql .= "VALUES ('{$team_member_id}', '1', '{$current_time->format('Y-m-d H:i:s')}') ";
+		
+		$database->query($sql);
+	}
+	
+	public function clock_out() {
+		global $database;
+		$current_time = new DateTime(null, new DateTimeZone('UTC'));
+		$activated_time = new DateTime($this->activated_time, new DateTimeZone('UTC'));
+		$this->deactivated_time = $current_time->format('Y-m-d H:i:s');
+		$running_time = $this->time_running;
+		$duration = $current_time->getTimestamp() - $activated_time->getTimestamp();
+		$new_running_time = $running_time + $duration;
+		
+		$sql  = "UPDATE task ";
+		$sql .= "SET isActive=0 ";
+		$sql .= ", timeRunning='{$new_running_time}' ";
+		$sql .= "WHERE id={$this->id} ";
+		$sql .= "LIMIT 1";
+		
+		$database->query($sql);
+		
+		return "Running: ".seconds_to_timecode($running_time, 6)."<br />Duration: ".seconds_to_timecode($duration, 6)."<br />New Running: ".seconds_to_timecode($new_running_time, 6);
+	}
+	
 }
 ?>
