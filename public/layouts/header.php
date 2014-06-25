@@ -64,7 +64,7 @@
 	<?php } else {
 		$logged_in_user = User::find_by_id($session->user_id);
 		?>
-		<dt>You're logged in as <?php echo $logged_in_user->user_name; ?></dt>
+		<dt><span class="label"><?php echo $logged_in_user->user_name; ?></span></dt>
 		<?php if ($logged_in_user->id > 0) { ?>
 		<dd><a href="task-sheet.php?member=<?php echo $logged_in_user->team_member_id; ?>">Your Task Sheet</a></dd>
 		<dd><a href="user-dashboard.php">Your Dashboard</a></dd>
