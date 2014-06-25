@@ -26,31 +26,50 @@
 			redirect_to("admin-users.php");
 		}
 	}
+	
 ?>
 
 <?php include_layout_template('header.php'); ?>
-	<div>
-		<?php $errors = $session->errors(); ?>
-		<?php echo $session->form_errors($errors); ?>
-		<h2>Edit User: <?php echo $user->userName; ?></h2>
+
+	<div id="breadcrumbs" class="row">
+		<ul class="breadcrumbs">
+			<li><a href="admin-users.php">User Admin</a></li>
+			<li class="current"><a href="edit-user.php?user=<?php echo $user_id; ?>">Edit: <?php echo $user->user_name; ?></a></li>
+		</ul>
+	</div>
+
+	<div id="page-header" class="row">
+		<div class="small-12 columns">
+			<h3>Edit User</h3>
+		</div>
+	</div>
+	
+	<?php if($message) { ?>
+	<div data-alert class="alert-box">
+	  <?php echo $message; ?>
+	  <a href="#" class="close">&times;</a>
+	</div>
+	<?php } ?>
+	<div id="user-list" class="row">
+		<div class="small-6 columns">
 		<form action="edit-user.php?user=<?php echo $user_id;?>" method="POST">
 			<input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
-			<p><label for="user_name">Username:</label> <input type="text" size="20" name="user_name" value="<?php echo $user->user_name; ?>"></p>
-			<p><label for="password">Password:</label> <input type="password" size="20" name="password"></p>
-			<p><label for="privilege">Privilege Set:</label> <select name="privilege">
+			<label for="user_name">Username:</label> <input type="text" size="20" name="user_name" value="<?php echo $user->user_name; ?>">
+			<label for="password">Password:</label> <input type="password" size="20" name="password">
+			<label for="privilege">Privilege Set:</label> <select name="privilege">
 			<?php
 				$privilege_types = PrivilegeType::find_all();
 				foreach ($privilege_types as $privilege_type) {
 					echo "<option value='";
 					echo $privilege_type->id;
 					echo "'";
-					if ($user->privilege_type == $privilege_type->id) {echo " selected"; }
+					if ($user->privilege_type == $privilege_type->id) { echo " selected"; }
 					echo ">";
 					echo $privilege_type->privilege;
 					echo "</option>";
 				} ?>
-			</select></p>
-			<p><label for="team_member">Associated Team Member:</label> <select name="team_member">
+			</select>
+			<label for="team_member">Associated Team Member:</label> <select name="team_member">
 			<?php
 				$team_members = Member::find_all_members();
 				foreach ($team_members as $team_member) {
@@ -62,8 +81,9 @@
 					echo $team_member->first_name;
 					echo "</option>";
 				} ?>
-			</select></p>
-			<p><input type="submit" name="edit_user" id="edit_user"></p>
+			</select>
+			<input type="submit" name="edit_user" id="edit_user" class="button">
 		</form>
+		</div>
 	</div>
 <?php include_layout_template('footer.php'); ?>
