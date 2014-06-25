@@ -45,52 +45,72 @@
 ?>
 
 <?php include_layout_template('header.php'); ?>
-		<h2 class="main_title">Operations</h2>
-		<?php if ($message) {
-			echo "<p>{$message}</p>";
-		} ?>
-	<div id="export-queue" class="panel">
-		<p>Ready to Render: <strong><?php echo $exportable_lessons; ?></strong></p>
-		<p>Currently in Queue: <strong><?php echo $queued_lessons; ?></strong></p>
-		<p><a href="render-queue.php">Go to Render Page</a></p>
+
+	<div id="breadcrumbs" class="row">
+		<ul class="breadcrumbs">
+			<li class="current"><a href="operations.php">Operations</a></li>
+		</ul>
 	</div>
-	<div id="video-checking" class="panel">
-		<p>Files to Archive: <strong><?php echo $moveable_lessons; ?></strong></p>
-		<p>Ready to Check: <strong><?php echo $language_checked_lessons; ?></strong></p>
-		<p><a href="admin-video-check.php">Go to Video Check Page</a></p>
+
+	<div id="page-header" class="row">
+		<div class="small-12 columns">
+			<h3>ILL TV</h3>
+		</div>
 	</div>
-	<div id="get-these-checked">
-	<h3>Waiting for Language Check</h3>
-		<table>
-			<tr><th><a href='operations.php?sort=abc'>Lesson</a></th><th>QA Status</th><th>Actions</th><th><a href='operations.php?sort=export'>Exported Time</a></th><th><a href='operations.php?sort=pub'>Publish Date</a></th></tr>
-				<?php 
-				if(!$qa_lessons) {
-					echo "<td>No lessons</td>";
-				} else {
-					foreach($qa_lessons as $qa_lesson) {
-						$issues = Issue::get_unfinished_issues_for_lesson($qa_lesson->id);
-						
-						echo "<tr";
-						if (strpos($qa_lesson->qa_log, "Approved") !== false) {
-							echo " class='completed'";
-						}
-						echo ">";
-						echo "<td>";
-						echo $qa_lesson->display_full_lesson();
-						echo "</td>";
-						echo "<td><form action='operations.php?sort={$sort_by}' method='post'>";
-						echo "<input type='text' size=40 name='qa_log' value='{$qa_lesson->qa_log}'><br />";
-						echo "<input type='text' size=40 name='qa_url' value='{$qa_lesson->qa_url}'><br />";
-						echo "<input type='hidden' name='qa_lesson_id' value='{$qa_lesson->id}'><input type='submit' name='changed_qa'></form></td>";
-						echo "<td><form action='operations.php' method='post'>";
-						echo "Issues: ".count($issues);
-						echo "<input type='hidden' name='qa_lesson_id' value='{$qa_lesson->id}'><input type='submit' name='marked_lesson_language_checked' value='Mark Language Checked'></form></td>";
-						echo "<td>{$qa_lesson->exported_time}</td>";
-						echo "<td>{$qa_lesson->publish_date}</td>";
-						echo "</tr>";
-					} 
-				 } ?>		
-		</table>
+	
+	<?php if($message) { ?>
+	<div data-alert class="alert-box">
+	  <?php echo $message; ?>
+	  <a href="#" class="close">&times;</a>
+	</div>
+	<?php } ?>
+	
+	<div id="panels" class="row">	
+		<div id="export-queue" class="panel small-12 medium-5 columns">
+			<p>Ready to Render: <strong><?php echo $exportable_lessons; ?></strong></p>
+			<p>Currently in Queue: <strong><?php echo $queued_lessons; ?></strong></p>
+			<p><a href="render-queue.php">Go to Render Page</a></p>
+		</div>
+		<div id="video-checking" class="panel">
+			<p>Files to Archive: <strong><?php echo $moveable_lessons; ?></strong></p>
+			<p>Ready to Check: <strong><?php echo $language_checked_lessons; ?></strong></p>
+			<p><a href="admin-video-check.php">Go to Video Check Page</a></p>
+		</div>
+	</div>
+	<div id="admin-qa" class="row">
+		<div id="get-these-checked">
+		<h3>Waiting for Language Check</h3>
+			<table>
+				<tr><th><a href='operations.php?sort=abc'>Lesson</a></th><th>QA Status</th><th>Actions</th><th><a href='operations.php?sort=export'>Exported Time</a></th><th><a href='operations.php?sort=pub'>Publish Date</a></th></tr>
+					<?php 
+					if(!$qa_lessons) {
+						echo "<td>No lessons</td>";
+					} else {
+						foreach($qa_lessons as $qa_lesson) {
+							$issues = Issue::get_unfinished_issues_for_lesson($qa_lesson->id);
+							
+							echo "<tr";
+							if (strpos($qa_lesson->qa_log, "Approved") !== false) {
+								echo " class='completed'";
+							}
+							echo ">";
+							echo "<td>";
+							echo $qa_lesson->display_full_lesson();
+							echo "</td>";
+							echo "<td><form action='operations.php?sort={$sort_by}' method='post'>";
+							echo "<input type='text' size=40 name='qa_log' value='{$qa_lesson->qa_log}'><br />";
+							echo "<input type='text' size=40 name='qa_url' value='{$qa_lesson->qa_url}'><br />";
+							echo "<input type='hidden' name='qa_lesson_id' value='{$qa_lesson->id}'><input type='submit' name='changed_qa'></form></td>";
+							echo "<td><form action='operations.php' method='post'>";
+							echo "Issues: ".count($issues);
+							echo "<input type='hidden' name='qa_lesson_id' value='{$qa_lesson->id}'><input type='submit' name='marked_lesson_language_checked' value='Mark Language Checked'></form></td>";
+							echo "<td>{$qa_lesson->exported_time}</td>";
+							echo "<td>{$qa_lesson->publish_date}</td>";
+							echo "</tr>";
+						} 
+					 } ?>		
+			</table>
+		</div>
 	</div>
 		
 <?php include_layout_template('footer.php'); ?>
