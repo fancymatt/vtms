@@ -29,13 +29,25 @@
 	}
 ?>
 <?php include_layout_template('header.php'); ?>
-	<div>
-		<?php echo $message; ?>
-		<h2>Log In</h2>
+	<div id="page-header" class="row">
+		<div class="small-12 columns">
+			<h3>Log In</h3>
+		</div>
+	</div>
+	
+	<?php if($message) { ?>
+	<div data-alert class="alert-box">
+	  <?php echo $message; ?>
+	  <a href="#" class="close">&times;</a>
+	</div>
+	<?php } ?>
+	
+	<div id="log-in" class="panel">
 		<form method="POST" action="login.php">
 			<p><label for="username">Username:</label><input type="text" name="username" value="<?php echo $submitted_username; ?>"></p>
 			<p><label for="password">Password:</label><input type="password" name="password"></p>
 			<p><input type="submit" id="login_user" name="login_user"></p>
 		</form>
 	</div>
+	
 <?php include_layout_template('footer.php'); ?>
