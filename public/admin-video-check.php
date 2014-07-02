@@ -68,6 +68,33 @@
 				 } ?>		
 			</table>
 		</div>
+		
+		<ol class="commit-group">
+          <li class="commit commit-group-item js-navigation-item js-details-container">
+            <img alt="Matt Henry" class="gravatar js-avatar" data-user="7379405" height="36" src="https://avatars0.githubusercontent.com/u/7379405?s=140" width="36" />
+            <p class="commit-title  js-pjax-commit-title">
+              <a href="/henrymatt/vtms/commit/055997cf7cffdfc60ca3e3fd53e4d0a68c3b516b" class="message" data-pjax="true" title="Removes scripts folder from git and updates .gitignore">Removes scripts folder from git and updates .gitignore</a>
+            
+            </p>
+            <div class="commit-meta">
+
+              <div class="commit-links">
+                <button aria-label="Copy SHA" class="js-zeroclipboard minibutton zeroclipboard-button" data-clipboard-text="055997cf7cffdfc60ca3e3fd53e4d0a68c3b516b" data-copied-hint="Copied!" type="button"><span class="octicon octicon-clippy"></span></button>
+
+                <a href="/henrymatt/vtms/commit/055997cf7cffdfc60ca3e3fd53e4d0a68c3b516b" class="gobutton ">
+                  <span class="sha">055997cf7c<span class="octicon octicon-arrow-small-right"></span></span>
+                </a>
+
+                <a href="/henrymatt/vtms/tree/055997cf7cffdfc60ca3e3fd53e4d0a68c3b516b" class="browse-button" title="Browse the code at this point in the history" rel="nofollow">Browse code <span class="octicon octicon-arrow-right"></span></a>
+              </div>
+
+              <div class="authorship">
+                <span class="author-name"><a href="/henrymatt" rel="author">henrymatt</a></span>
+                authored <time datetime="2014-06-16T16:44:23+09:00" is="relative-time">June 16, 2014</time>
+
+              </div>
+            </div>
+          </li>
 	
 		<div class="small-12 columns">
 			<h4>Check These</h4>

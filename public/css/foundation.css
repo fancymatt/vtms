@@ -27,6 +27,17 @@ meta.foundation-data-attribute-namespace {
 html, body {
   height: 100%; }
 
+ol.lesson-group {
+	list-style-type: none;
+	margin: 0 0 15px;
+	background: #fkfbfc;
+	border: 1px solid #c5d5dd;
+	border-top: 0;
+	border-bottom-right-radius: 3px;
+	border-bottom-left-radius: 3px;
+}
+
+
 *,
 *:before,
 *:after {
