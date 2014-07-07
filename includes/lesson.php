@@ -327,19 +327,27 @@ class Lesson extends DatabaseObject {
 		$sql .= "					  ON task.id=taskComment.fkTask ";
 		$sql .= "				WHERE sub_lesson.id=lesson.id) ";
 		$sql .= "  		) ";
-		
+	
 		// No missing tasks
-		$sql .= "	AND (SELECT COUNT(task.id) ";
+	  $sql .= "	AND (SELECT COUNT(task.id) ";
 		$sql .= "		FROM lesson sub_lesson ";
 		$sql .= "			JOIN task ";
 		$sql .= "				 ON sub_lesson.id=task.fkLesson ";
+		$sql .= "			JOIN taskGlobal ";
+		$sql .= "				 ON task.fkTaskGlobal=taskGlobal.id ";
 		$sql .= "		WHERE sub_lesson.id=lesson.id ";
-		$sql .= "		  AND task.isCompleted=1 ) = ";
-		$sql .= "		(SELECT COUNT(task.id) ";
+		$sql .= "     AND taskGlobal.needForVideoCheck = 1 ";
+		$sql .= "		  AND task.isCompleted=1 ) >= ";
+		$sql .= " (SELECT COUNT(task.id) ";
 		$sql .= "		FROM lesson sub_lesson ";
 		$sql .= "			JOIN task ";
 		$sql .= "				 ON sub_lesson.id=task.fkLesson ";
-		$sql .= "		WHERE sub_lesson.id=lesson.id) ";
+		$sql .= "			JOIN taskGlobal ";
+		$sql .= "				 ON task.fkTaskGlobal=taskGlobal.id ";
+		$sql .= "		WHERE sub_lesson.id=lesson.id ";
+		$sql .= "     AND taskGlobal.needForVideoCheck = 1 ";
+		$sql .= " ) ";
+		
 		if ($sort_by=='abc') {
 			$sql .= "ORDER BY language.name, series.title, level.id, lesson.number ASC ";
 		} else if ($sort_by=='pub') {

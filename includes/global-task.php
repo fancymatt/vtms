@@ -15,6 +15,7 @@ class GlobalTask extends DatabaseObject {
 										'taskGlobal.dueDateOffset' => 'due_date_offset',
 										'taskGlobal.tutorialYtUrl' => 'tutorial_yt_url',
 										'taskGlobal.tutorialShortDescription' => 'tutorial_description',
+										'taskGlobal.needForVideoCheck' => 'need_for_video_check',
 										'series.title' => 'series_name'
 										);
 										
@@ -28,6 +29,7 @@ class GlobalTask extends DatabaseObject {
 										'taskGlobal.issueReportingFriendlyText' => 'issue_reporting_friendly_text',
 										'taskGlobal.dueDateOffset' => 'due_date_offset',
 										'taskGlobal.tutorialYtUrl' => 'tutorial_yt_url',
+										'taskGlobal.needForVideoCheck' => 'need_for_video_check',
 										'taskGlobal.tutorialShortDescription' => 'tutorial_description'
 										);
 										
@@ -47,6 +49,7 @@ class GlobalTask extends DatabaseObject {
 	public $due_date_offset;
 	public $tutorial_yt_url;
 	public $tutorial_description;
+	public $need_for_video_check;
 	
 	public static function find_all_tasks_for_lesson($lesson_id) {
 		$child_table_name = "task";
