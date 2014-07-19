@@ -305,7 +305,7 @@
 			</div>
 			<div id="edit" class="row">
 				<div class="small-12 columns">
-					<form action='lesson.php?series=<?php echo $lesson->series_id; ?>&langSeries=<?php echo $lesson->language_series_id;  ?>&lesson=<?php echo $lesson->id; ?>' method='post'>
+					<form action='lesson.php?id=<?php echo $lesson->id; ?>' method='post'>
 						<label>QA Log</label><input type='text' size=60 name='edited_qa_log' value='<?php echo $lesson->qa_log; ?>'>
 						<label>QA URL</label><input type='text' size=60 name='edited_qa_url' value='<?php echo $lesson->qa_url; ?>'>
 						<label for="edited_lesson_title">Title</label> <input type="text" size="50" name="edited_lesson_title" value="<?php echo $lesson->title; ?>">

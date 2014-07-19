@@ -597,10 +597,14 @@ class Lesson extends DatabaseObject {
 	}
 	
 	public function display_full_lesson() {
-		echo "<img src='images/{$this->level_code}.png'> ";
 		echo "<a href='lesson.php?id=".$this->id."'>";
+		echo "<img src='images/{$this->level_code}.png'> ";
 		echo $this->language_name . " - " . $this->series_name . " #" . $this->number;
 		echo "</a>";
+	}
+	
+	public function display_full_lesson_text() {
+  	return $this->language_name . " - " . $this->series_name . " #" . $this->number;
 	}
 	
 	public function display_list_of_issues_with_link() {
