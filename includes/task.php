@@ -223,7 +223,7 @@ class Task extends DatabaseObject {
 		return static::find_by_sql($sql);
 	}
 	
-	public static function get_all_actionable_tasks() {
+	public static function get_all_actionable_tasks($limit=FALSE) {
 		$sql  = "SELECT ";		
 		foreach (self::$db_view_fields as $k => $v) {
 			$sql .= $k." AS ".$v;
@@ -241,6 +241,9 @@ class Task extends DatabaseObject {
 		$sql .= "GROUP BY task.id ";
 		$sql .= "HAVING ( ( SELECT SUM( taskGlobal.completionValue ) FROM lesson sub_lesson JOIN task ON task.fkLesson=sub_lesson.id JOIN taskGlobal ON task.fkTaskGlobal=taskGlobal.id WHERE IF(taskGlobal.isAsset=1, task.isDelivered=1, task.isCompleted) AND lesson.id=sub_lesson.id ) >= taskGlobal.actionableAt )  OR taskGlobal.actionableAt = 0 ";
 		$sql .= "ORDER BY DATE_SUB(DATE_SUB(lesson.publishDateSite, INTERVAL taskGlobal.dueDateOffset DAY), INTERVAL lesson.bufferLength DAY) ASC ";
+		if(is_int($limit)) {
+  		$sql .= "LIMIT {$limit}";
+		}
 		return static::find_by_sql($sql);
 	}
 		
@@ -342,7 +345,7 @@ class Task extends DatabaseObject {
 		return static::find_by_sql($sql);
 	}
 	
-	public static function get_recently_completed_tasks($days_past=1) {
+	public static function get_recently_completed_tasks($days_past=1, $limit=FALSE) {
 		$period = $days_past;
 		$since_time = date('Y-m-d H:i:s' , time() - ((60*60*60*60) * $period) );
 	
@@ -361,6 +364,9 @@ class Task extends DatabaseObject {
 		$sql .= "AND DATE(task.timeCompleted) > CURDATE() - INTERVAL {$period} DAY ";
 		$sql .= "GROUP BY task.id ";
 		$sql .= "ORDER BY task.timeCompleted DESC ";
+		if(is_int($limit)) {
+  		$sql .= "LIMIT {$limit}";
+		}
 		return static::find_by_sql($sql);
 	}
 	
