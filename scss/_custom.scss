@@ -1,4 +1,14 @@
-h3.lesson-group-heading{
+// Task Group CSS
+
+ol.task-group {
+	margin:0 0 5px;
+	background:#f7fbfc;
+	border:1px solid #c5d5dd;
+	font-size: 13px;
+	list-style-type: none;
+}
+
+h3.task-group-heading{
 	margin:15px 0 0;
 	padding:5px 8px;
 	font-size:13px;
@@ -9,66 +19,15 @@ h3.lesson-group-heading{
 	border-bottom: 0px;
 }
 
-ol.lesson-group {
-	margin:0 0 5px;
-	background:#f7fbfc;
-	border:1px solid #c5d5dd;
-	font-size: 13px;
-	list-style-type: none;
-}
-
-li.lesson ul.lesson-actions {
-	list-style-type: none;
-	margin: 1px 5px;
-	text-align: right;
-}
-
-div.lesson {
+div.task {
 	border-bottom: 1px solid #c5d5dd;
 	overflow: hidden;
 }
 
-li.lesson ul.lesson-actions li.lesson-action-item {
-	display: inline-block;
-	vertical-align: bottom;
-	height:40px;
-}
-
-p.lesson-due-date {
-	display: block;
-	float: left;
-	margin: 1px 5px;
-	font-size:12px;
-	color:#3a505b;
-	text-shadow:0 1px white;
-}
-
-div.lesson-member {
-	position: absolute;
-	text-align: left;
-	margin: 1px 5px;
-	font-size:16px;
-	width: 4em;
-	height: 100%;
-}
-
-div.lesson-info {
-  margin-left: 4em;
+div.task-info {
+  margin-left: 55px;
   float: left;
   height: 100%
-}
-
-div.lesson-actions {
-  text-align: right;
-  height: 100%;
-  
-}
-
-p.task-title {
-	margin:1px 5px;
-	font-size:14px;
-	font-weight:bold;
-	color:#333;
 }
 
 p.lesson-title {
@@ -78,10 +37,64 @@ p.lesson-title {
 	color:#333;
 }
 
-.lesson .lesson-title a{
+p.task-title {
+	margin:1px 5px;
+	font-size:14px;
+	font-weight:bold;
 	color:#333;
 }
 
+p.task-due-date {
+	display: block;
+	float: left;
+	margin: 1px 5px;
+	font-size:12px;
+	color:#3a505b;
+	text-shadow:0 1px white;
+}
+
+div.task-actions {
+  text-align: right;
+  height: 100%;
+}
+
+li.task ul.task-actions li.task-action-item {
+	display: inline-block;
+	vertical-align: bottom;
+	height:40px;
+}
+
+// Member display
+div.member {
+	position: absolute;
+	text-align: left;
+	margin: 2px 2px;
+	font-size:16px;
+	width: 50px;
+	border: 1px solid #ddd;
+}
+
+.member-image {
+  background: #fff;
+  height: 40px;
+  margin: 2px 0px 0px 0px;
+  text-align: center;
+}
+
+.member-name {
+  background: #ddd;
+  text-align: center;
+  height: 20px;
+  margin-bottom: 0em;
+}
+
+.member-name a {
+  font-size: 10px;
+  color: black;
+  text-transform: uppercase;
+}
+
+// Invisible buttons for form submit images
 button.no-format {
   padding:0; 
   margin:0;
