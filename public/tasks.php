@@ -2,7 +2,7 @@
 <?php
 	confirm_logged_in();
 	$days_past = 1;
-	$recent_tasks = Task::get_recently_completed_tasks($days_past, 25);
+	$recent_tasks = Task::get_recently_completed_tasks(25);
 	$active_tasks = Task::get_all_active_tasks();
 	$actionable_tasks = Task::get_all_actionable_tasks(25);
 	$logged_in_user = User::find_by_id($session->user_id);
