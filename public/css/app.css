@@ -5781,9 +5781,9 @@ li.lesson ul.lesson-actions {
   margin: 1px 5px;
   text-align: right; }
 
-li.lesson {
+div.lesson {
   border-bottom: 1px solid #c5d5dd;
-  padding: 2px; }
+  overflow: hidden; }
 
 li.lesson ul.lesson-actions li.lesson-action-item {
   display: inline-block;
@@ -5792,25 +5792,37 @@ li.lesson ul.lesson-actions li.lesson-action-item {
 
 p.lesson-due-date {
   display: block;
-  width: 50%;
   float: left;
   margin: 1px 5px;
   font-size: 12px;
   color: #3a505b;
   text-shadow: 0 1px white; }
 
-p.lesson-member {
+div.lesson-member {
+  position: absolute;
+  text-align: left;
+  margin: 1px 5px;
+  font-size: 16px;
+  width: 4em;
+  height: 100%; }
+
+div.lesson-info {
+  margin-left: 4em;
   float: left;
+  height: 100%; }
+
+div.lesson-actions {
   text-align: right;
-  margin: 1px 5px;
-  font-size: 12px;
-  color: #3a505b;
-  text-shadow: 0 1px white; }
+  height: 100%; }
 
-.lesson-title {
+p.task-title {
   margin: 1px 5px;
-  width: 75%;
-  float: left;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333; }
+
+p.lesson-title {
+  margin: 1px 5px;
   font-size: 14px;
   font-weight: bold;
   color: #333; }
