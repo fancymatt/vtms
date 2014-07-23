@@ -10,17 +10,22 @@
 
 <?php include_layout_template('header.php'); ?>
 		
+		<div class="row">
+  		<div class="small-12 columns">
+  		  <h3>Assets</h3>
+  		</div>
+		</div>
+		
 		<?php if($deliverable_assets) { ?>
 		<div id="deliverable-assets" class="medium-8 medium-centered small-12 columns">
   		<h3 class="group-heading">Deliverable Assets</h3>
 	      <ol class="group">
 	      <?php
 	      foreach($deliverable_assets as $task) : ?>
-	        <div class="task">
+	        <div class="group-item">
 	          <div class="member">
 	            <div class="member-image">
 	              <img src="img/headshot-<?php echo strtolower($task->team_member_name); ?>.png">
-	
 	            </div>
 	            <p class="member-name">
 	      				<?php if($session->is_admin()) {
@@ -35,10 +40,9 @@
 	    				<p class="task-title"><?php echo $task->task_name; ?></p>
 	    				<p class="date"><?php echo "Completed ".$logged_in_user->local_time($task->completed_time); ?></p>
 	  				</div>
-	  				<div class="task-actions">
-	  				  <a class="task-action-item" href="#"><img src="img/icon-add-issue.png"></a>
-	  					<a class="task-action-item" href="#"><img src="img/icon-add-issue.png"></a>
-	  				</ul>
+	  				<div class="actions">
+	  				  <a class="action-item" href="#"><img src="img/icon-add-issue.png"></a>
+	  					<a class="action-item" href="#"><img src="img/icon-add-issue.png"></a>
 	    			</div>
 	    		</div>
 	      <?php endforeach; ?>
@@ -53,11 +57,10 @@
 	      <ol class="group">
 	      <?php
 	      foreach($recent_assets as $task) : ?>
-	        <div class="task">
+	        <div class="group-item">
 	          <div class="member">
 	            <div class="member-image">
 	              <img src="img/headshot-<?php echo strtolower($task->team_member_name); ?>.png">
-	
 	            </div>
 	            <p class="member-name">
 	      				<?php if($session->is_admin()) {
@@ -72,10 +75,9 @@
 	    				<p class="task-title"><?php echo $task->task_name; ?></p>
 	    				<p class="date"><?php echo "Completed ".$logged_in_user->local_time($task->completed_time); ?></p>
 	  				</div>
-	  				<div class="task-actions">
-	  				  <a class="task-action-item" href="#"><img src="img/icon-add-issue.png"></a>
-	  					<a class="task-action-item" href="#"><img src="img/icon-add-issue.png"></a>
-	  				</ul>
+	  				<div class="actions">
+	  				  <a class="action-item" href="#"><img src="img/icon-add-issue.png"></a>
+	  					<a class="action-item" href="#"><img src="img/icon-add-issue.png"></a>
 	    			</div>
 	    		</div>
 	      <?php endforeach; ?>
@@ -90,11 +92,10 @@
 	      <ol class="group">
 	      <?php
 	      foreach($actionable_assets as $task) : ?>
-	        <div class="task">
+	        <div class="group-item">
 	          <div class="member">
 	            <div class="member-image">
 	              <img src="img/headshot-<?php echo strtolower($task->team_member_name); ?>.png">
-	
 	            </div>
 	            <p class="member-name">
 	      				<?php if($session->is_admin()) {
@@ -109,10 +110,9 @@
 	    				<p class="task-title"><?php echo $task->task_name; ?></p>
 	    				<p class="date"><?php echo "Due ".$task->task_due_date; ?></p>
 	  				</div>
-	  				<div class="task-actions">
-	  				  <a class="task-action-item" href="#"><img src="img/icon-add-issue.png"></a>
-	  					<a class="task-action-item" href="#"><img src="img/icon-add-issue.png"></a>
-	  				</ul>
+	  				<div class="actions">
+	  				  <a class="action-item" href="#"><img src="img/icon-add-issue.png"></a>
+	  					<a class="action-item" href="#"><img src="img/icon-add-issue.png"></a>
 	    			</div>
 	    		</div>
 	      <?php endforeach; ?>

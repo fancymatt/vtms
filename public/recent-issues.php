@@ -9,6 +9,11 @@
 
 <?php include_layout_template('header.php'); ?>
 		
+		<div class="row">
+  		<div class="small-12 columns">
+  		  <h3>Issues</h3>
+  		</div>
+		</div>
 		
 		<div id="recent-issues" class="small-12 columns">
   		<h3 class="group-heading">Recently Fixed Issues</h3>
@@ -18,11 +23,10 @@
       <?php
       foreach($recent_issues as $issue) : 
         $task = Task::find_by_id($issue->task_id); ?>
-        <div class="issue">
+        <div class="group-item">
           <div class="member">
             <div class="member-image">
               <img src="img/headshot-<?php echo strtolower($issue->team_member_name); ?>.png">
-
             </div>
             <p class="member-name">
       				<?php if($session->is_admin()) {
@@ -39,7 +43,6 @@
   				</div>
   				<div class="issue-content">
   				  <p class="issue-body"><?php echo $issue->issue_body; ?></p>
-  				</ul>
     			</div>
     		</div>
       <?php endforeach; ?>
@@ -55,7 +58,7 @@
       <?php
       foreach($actionable_issues as $issue) : 
         $task = Task::find_by_id($issue->task_id); ?>
-        <div class="issue">
+        <div class="group-item">
           <div class="member">
             <div class="member-image">
               <img src="img/headshot-<?php echo strtolower($issue->team_member_name); ?>.png">
@@ -76,8 +79,7 @@
   				</div>
   				<div class="issue-content">
   				  <p class="issue-body"><?php echo $issue->issue_body; ?></p>
-  				</ul>
-    			</div>
+  				</div>
     		</div>
       <?php endforeach; ?>
       </ol>

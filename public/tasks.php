@@ -10,13 +10,19 @@
 
 <?php include_layout_template('header.php'); ?>
   
+    <div class="row">
+  		<div class="small-12 columns">
+  		  <h3>Tasks</h3>
+  		</div>
+		</div>
+  
     <?php if($active_tasks) { ?>
       <div id="active-tasks" class="small-6 medium-10 medium-centered columns">
   		<h3 class="group-heading">Active Tasks</h3>
       <ol class="group">
       <?php
       foreach($active_tasks as $task) : ?>
-        <div class="task">
+        <div class="group-item">
           <div class="member">
             <div class="member-image">
               <img src="img/headshot-<?php echo strtolower($task->team_member_name); ?>.png">
@@ -35,9 +41,9 @@
     				<p class="task-title"><?php echo $task->task_name; ?></p>
     				<p class="date"><?php echo "Activated ".$logged_in_user->local_time($task->activated_time); ?></p>
   				</div>
-  				<div class="task-actions">
-  				  <a class="task-action-item" href="#"><img src="img/icon-add-issue.png"></a>
-  					<a class="task-action-item" href="#"><img src="img/icon-add-issue.png"></a>
+  				<div class="actions">
+  				  <a class="action-item" href="#"><img src="img/icon-add-issue.png"></a>
+  					<a class="action-item" href="#"><img src="img/icon-add-issue.png"></a>
   				</ul>
     			</div>
     		</div>
@@ -53,7 +59,7 @@
       <ol class="group">
       <?php
       foreach($recent_tasks as $task) : ?>
-        <div class="task">
+        <div class="group-item">
           <div class="member">
             <div class="member-image">
               <img src="img/headshot-<?php echo strtolower($task->team_member_name); ?>.png">
@@ -72,9 +78,9 @@
     				<p class="task-title"><?php echo $task->task_name; ?></p>
     				<p class="date"><?php echo "Completed ".$logged_in_user->local_time($task->completed_time); ?></p>
   				</div>
-  				<div class="task-actions">
-  				  <a class="task-action-item" href="#"><img src="img/icon-add-issue.png"></a>
-  					<a class="task-action-item" href="#"><img src="img/icon-add-issue.png"></a>
+  				<div class="actions">
+  				  <a class="action-item" href="#"><img src="img/icon-add-issue.png"></a>
+  					<a class="action-item" href="#"><img src="img/icon-add-issue.png"></a>
   				</ul>
     			</div>
     		</div>
@@ -90,7 +96,7 @@
       <ol class="group">
       <?php
       foreach($actionable_tasks as $task) : ?>
-        <div class="task">
+        <div class="group-item">
           <div class="member">
             <div class="member-image">
               <img src="img/headshot-<?php echo strtolower($task->team_member_name); ?>.png">
@@ -108,8 +114,8 @@
     				<p class="task-title"><?php echo $task->task_name; ?></p>
     				<p class="date"><?php echo "Due ".$task->task_due_date; ?></p>
   				</div>
-          <div class="task-actions">
-  					<a class="task-action-item" href="#"><img src="img/icon-add-issue.png"></a>
+          <div class="actions">
+  					<a class="action-item" href="#"><img src="img/icon-add-issue.png"></a>
   				</ul>
           </div>
   			</div>
