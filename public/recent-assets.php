@@ -12,8 +12,8 @@
 		
 		<?php if($deliverable_assets) { ?>
 		<div id="deliverable-assets" class="medium-8 medium-centered small-12 columns">
-  		<h3 class="task-group-heading">Deliverable Assets</h3>
-	      <ol class="task-group">
+  		<h3 class="group-heading">Deliverable Assets</h3>
+	      <ol class="group">
 	      <?php
 	      foreach($deliverable_assets as $task) : ?>
 	        <div class="task">
@@ -33,7 +33,7 @@
 	  				<div class="task-info">
 	    				<p class="lesson-title"><?php echo $task->display_full_task_lesson(); ?></p>
 	    				<p class="task-title"><?php echo $task->task_name; ?></p>
-	    				<p class="task-due-date"><?php echo "Completed ".$logged_in_user->local_time($task->completed_time); ?></p>
+	    				<p class="date"><?php echo "Completed ".$logged_in_user->local_time($task->completed_time); ?></p>
 	  				</div>
 	  				<div class="task-actions">
 	  				  <a class="task-action-item" href="#"><img src="img/icon-add-issue.png"></a>
@@ -47,10 +47,10 @@
     <?php } ?>
 		
 		<div id="active-assets" class="medium-6 small-12 columns">
-  		<h3 class="task-group-heading">Recent Assets</h3>
+  		<h3 class="group-heading">Recent Assets</h3>
       <?php
       if($recent_assets) { ?>
-	      <ol class="task-group">
+	      <ol class="group">
 	      <?php
 	      foreach($recent_assets as $task) : ?>
 	        <div class="task">
@@ -70,7 +70,7 @@
 	  				<div class="task-info">
 	    				<p class="lesson-title"><?php echo $task->display_full_task_lesson(); ?></p>
 	    				<p class="task-title"><?php echo $task->task_name; ?></p>
-	    				<p class="task-due-date"><?php echo "Completed ".$logged_in_user->local_time($task->completed_time); ?></p>
+	    				<p class="date"><?php echo "Completed ".$logged_in_user->local_time($task->completed_time); ?></p>
 	  				</div>
 	  				<div class="task-actions">
 	  				  <a class="task-action-item" href="#"><img src="img/icon-add-issue.png"></a>
@@ -84,10 +84,10 @@
     </div>
     
     <div id="actionable-assets" class="medium-6 small-12 columns">
-  		<h3 class="task-group-heading">Actionable Assets</h3>
+  		<h3 class="group-heading">Actionable Assets</h3>
       <?php
       if($actionable_assets) { ?>
-	      <ol class="task-group">
+	      <ol class="group">
 	      <?php
 	      foreach($actionable_assets as $task) : ?>
 	        <div class="task">
@@ -107,7 +107,7 @@
 	  				<div class="task-info">
 	    				<p class="lesson-title"><?php echo $task->display_full_task_lesson(); ?></p>
 	    				<p class="task-title"><?php echo $task->task_name; ?></p>
-	    				<p class="task-due-date"><?php echo "Due ".$task->task_due_date; ?></p>
+	    				<p class="date"><?php echo "Due ".$task->task_due_date; ?></p>
 	  				</div>
 	  				<div class="task-actions">
 	  				  <a class="task-action-item" href="#"><img src="img/icon-add-issue.png"></a>

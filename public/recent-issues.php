@@ -9,64 +9,78 @@
 
 <?php include_layout_template('header.php'); ?>
 		
-		<div id="recent_issues">
-		<h2>Issues Completed in the last <?php if ($days_past == 1) { echo "day"; } else { echo $days_past . " days"; } ?></h2>
-		<?php if ($message) {
-			echo "<p>{$message}</p>";
-		} ?>
-		<table>
-			<tr><th>Member</th><th>Lesson</th><th>Issue</th><th>Completed Time</th></tr>
-			<?php 
-				if ($recent_issues) {
-					foreach($recent_issues as $issue) {
-						$task = Task::find_by_id($issue->task_id);
-						echo "<tr>";
-						echo "<td>{$issue->team_member_name}</td>";
-						echo "<td>";
-						echo $task->display_full_task_lesson();
-						echo "</td>";
-						echo "<td>{$issue->issue_body}</td>";
-						echo "<td>" . $logged_in_user->local_time($issue->time_completed) . "</td>";
-						echo "</tr>";
-					}
-				} else {
-					echo "<tr><td>No issues have been fixed in the specified period.</td><td></td><td></td><td></td><tr>";
-				} ?>
-		</table>
-		</div>	
+		
+		<div id="recent-issues" class="small-12 columns">
+  		<h3 class="group-heading">Recently Fixed Issues</h3>
+      <?php
+      if($recent_issues) { ?>
+      <ol class="group">
+      <?php
+      foreach($recent_issues as $issue) : 
+        $task = Task::find_by_id($issue->task_id); ?>
+        <div class="issue">
+          <div class="member">
+            <div class="member-image">
+              <img src="img/headshot-<?php echo strtolower($issue->team_member_name); ?>.png">
 
-		<div id="actionable_tasks">
-		<h2 id="main_title">Pending Issues</h2>
-		<?php if ($message) {
-			echo "<p>{$message}</p>";
-		} ?>
-		<table>
-			<tr><th>Member</th><th>Lesson</th><th>Issue</th></tr>
-			<?php 
-				if ($actionable_issues) {
-					foreach($actionable_issues as $issue) {
-						$task = Task::find_by_id($issue->task_id);
-						echo "<tr>";
-						echo "<td>";
-						if($session->is_admin()) {
-							echo "<a href='task-sheet.php?member={$task->team_member_id}'>{$task->team_member_name}</a>";
-						} else {
-							echo $task->team_member_name;
-						}
-						echo "</td>";
-						echo "<td>";
-						echo "<img src='images/{$task->level_code}.png'> ";
-						echo "<a href='lesson.php?series=".$task->series_id."&langSeries=".$task->language_series_id."&lesson=".$task->lesson_id."'>";
-						echo $task->language_name . " - " . $task->series_name . " #" . $task->lesson_number;
-						echo "</a>";
-						echo "</td>";
-						echo "<td>{$issue->issue_body}</td>";
-						echo "</tr>";
-					}
-				} else {
-					echo "<tr><td>No issues have been fixed in the specified period.</td><td></td><td></td><td></td><tr>";
-				} ?>
-		</table>
-		</div>	
-		</div>
+            </div>
+            <p class="member-name">
+      				<?php if($session->is_admin()) {
+    				    echo "<a href='task-sheet.php?member={$task->team_member_id}'>{$issue->team_member_name}</a>";  
+    				  } else {
+      				  echo $issue->team_member_name;
+    				  } ?>
+            </p>
+  				</div>
+  				<div class="issue-info">
+    				<p class="lesson-title"><?php echo $task->display_full_task_lesson(); ?></p>
+    				<p class="task-title"><?php echo $task->task_name; ?></p>
+    				<p class="date"><?php echo "Completed ".$logged_in_user->local_time($issue->time_completed); ?></p>
+  				</div>
+  				<div class="issue-content">
+  				  <p class="issue-body"><?php echo $issue->issue_body; ?></p>
+  				</ul>
+    			</div>
+    		</div>
+      <?php endforeach; ?>
+      </ol>
+      <?php } ?>
+    </div>
+    
+    <div id="pending-issues" class="small-12 columns">
+  		<h3 class="group-heading">Pending Issues</h3>
+      <?php
+      if($actionable_issues) { ?>
+      <ol class="group">
+      <?php
+      foreach($actionable_issues as $issue) : 
+        $task = Task::find_by_id($issue->task_id); ?>
+        <div class="issue">
+          <div class="member">
+            <div class="member-image">
+              <img src="img/headshot-<?php echo strtolower($issue->team_member_name); ?>.png">
+
+            </div>
+            <p class="member-name">
+      				<?php if($session->is_admin()) {
+    				    echo "<a href='task-sheet.php?member={$task->team_member_id}'>{$issue->team_member_name}</a>";  
+    				  } else {
+      				  echo $issue->team_member_name;
+    				  } ?>
+            </p>
+  				</div>
+  				<div class="issue-info">
+    				<p class="lesson-title"><?php echo $task->display_full_task_lesson(); ?></p>
+    				<p class="task-title"><?php echo $task->task_name; ?></p>
+    				<p class="date"><?php echo "Due ".$task->task_due_date; ?></p>
+  				</div>
+  				<div class="issue-content">
+  				  <p class="issue-body"><?php echo $issue->issue_body; ?></p>
+  				</ul>
+    			</div>
+    		</div>
+      <?php endforeach; ?>
+      </ol>
+      <?php } ?>
+    </div>
 <?php include_layout_template('footer.php'); ?>

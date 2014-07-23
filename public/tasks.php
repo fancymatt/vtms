@@ -12,8 +12,8 @@
   
     <?php if($active_tasks) { ?>
       <div id="active-tasks" class="small-6 medium-10 medium-centered columns">
-  		<h3 class="task-group-heading">Active Tasks</h3>
-      <ol class="task-group">
+  		<h3 class="group-heading">Active Tasks</h3>
+      <ol class="group">
       <?php
       foreach($active_tasks as $task) : ?>
         <div class="task">
@@ -33,7 +33,7 @@
   				<div class="task-info">
     				<p class="lesson-title"><?php echo $task->display_full_task_lesson(); ?></p>
     				<p class="task-title"><?php echo $task->task_name; ?></p>
-    				<p class="task-due-date"><?php echo "Activated ".$logged_in_user->local_time($task->activated_time); ?></p>
+    				<p class="date"><?php echo "Activated ".$logged_in_user->local_time($task->activated_time); ?></p>
   				</div>
   				<div class="task-actions">
   				  <a class="task-action-item" href="#"><img src="img/icon-add-issue.png"></a>
@@ -47,10 +47,10 @@
 		<?php } ?>
 		
 		<div id="recent-tasks" class="medium-6 small-12 columns">
-  		<h3 class="task-group-heading">Recent Completed Tasks</h3>
+  		<h3 class="group-heading">Recent Completed Tasks</h3>
       <?php
       if($recent_tasks) { ?>
-      <ol class="task-group">
+      <ol class="group">
       <?php
       foreach($recent_tasks as $task) : ?>
         <div class="task">
@@ -70,7 +70,7 @@
   				<div class="task-info">
     				<p class="lesson-title"><?php echo $task->display_full_task_lesson(); ?></p>
     				<p class="task-title"><?php echo $task->task_name; ?></p>
-    				<p class="task-due-date"><?php echo "Completed ".$logged_in_user->local_time($task->completed_time); ?></p>
+    				<p class="date"><?php echo "Completed ".$logged_in_user->local_time($task->completed_time); ?></p>
   				</div>
   				<div class="task-actions">
   				  <a class="task-action-item" href="#"><img src="img/icon-add-issue.png"></a>
@@ -84,10 +84,10 @@
       </div>
 		
 		<div id="actionable-tasks" class="medium-6 small-12 columns">
-  		<h3 class="task-group-heading">Actionable Tasks</h3>
+  		<h3 class="group-heading">Actionable Tasks</h3>
       <?php
       if($actionable_tasks) { ?>
-      <ol class="task-group">
+      <ol class="group">
       <?php
       foreach($actionable_tasks as $task) : ?>
         <div class="task">
@@ -106,7 +106,7 @@
   				<div class="task-info">
     				<p class="lesson-title"><?php echo $task->display_full_task_lesson(); ?></p>
     				<p class="task-title"><?php echo $task->task_name; ?></p>
-    				<p class="task-due-date"><?php echo "Due ".$task->task_due_date; ?></p>
+    				<p class="date"><?php echo "Due ".$task->task_due_date; ?></p>
   				</div>
           <div class="task-actions">
   					<a class="task-action-item" href="#"><img src="img/icon-add-issue.png"></a>

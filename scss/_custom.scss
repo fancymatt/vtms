@@ -1,6 +1,5 @@
-// Task Group CSS
-
-ol.task-group {
+// Generic Group CSS
+ol.group {
 	margin:0 0 5px;
 	background:#f7fbfc;
 	border:1px solid #c5d5dd;
@@ -8,7 +7,7 @@ ol.task-group {
 	list-style-type: none;
 }
 
-h3.task-group-heading{
+h3.group-heading{
 	margin:15px 0 0;
 	padding:5px 8px;
 	font-size:13px;
@@ -18,6 +17,17 @@ h3.task-group-heading{
 	border: 1px solid #c5d5dd;
 	border-bottom: 0px;
 }
+
+p.date {
+	display: block;
+	float: left;
+	margin: 1px 5px;
+	font-size:12px;
+	color:#3a505b;
+	text-shadow:0 1px white;
+}
+
+// Task Group CSS
 
 div.task {
 	border-bottom: 1px solid #c5d5dd;
@@ -44,15 +54,6 @@ p.task-title {
 	color:#333;
 }
 
-p.task-due-date {
-	display: block;
-	float: left;
-	margin: 1px 5px;
-	font-size:12px;
-	color:#3a505b;
-	text-shadow:0 1px white;
-}
-
 div.task-actions {
   text-align: right;
   height: 100%;
@@ -62,6 +63,28 @@ li.task ul.task-actions li.task-action-item {
 	display: inline-block;
 	vertical-align: bottom;
 	height:40px;
+}
+
+// Issue group display
+
+div.issue {
+	border-bottom: 1px solid #c5d5dd;
+	overflow: hidden;
+}
+
+div.issue-info {
+  margin-left: 55px;
+  float: left;
+  height: 100%;
+  width: 270px;
+}
+
+div.issue-content {
+  height: 100%;
+}
+
+p.issue-body {
+  font-size: 14px;
 }
 
 // Member display
