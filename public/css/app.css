@@ -5771,6 +5771,7 @@ ol.group {
 
 div.group-item {
   border-bottom: 1px solid #c5d5dd;
+  min-height: 70px;
   overflow: hidden; }
 
 div.group-item.active {
@@ -5865,7 +5866,8 @@ div.lesson-status {
   background: white;
   border: 1px solid #ddd;
   padding: 0px 5px;
-  margin-top: 5px; }
+  margin-top: 5px;
+  margin-bottom: 5px; }
 
 p.lesson-status-item {
   display: inline-block;

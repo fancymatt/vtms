@@ -111,7 +111,19 @@
   				<div class="task-info">
     				<p class="lesson-title"><?php echo $task->display_full_task_lesson(); ?></p>
     				<p class="task-title"><?php echo $task->task_name; ?></p>
-    				<p class="date"><?php echo "Completed ".$logged_in_user->local_time($task->completed_time); ?></p>
+    				<p class="date">
+          				  <?php 
+          				  if($task->is_completed) {
+          				    echo "Completed";
+          				    if($task->completed_time > 0) {
+            				    echo " on ".$logged_in_user->local_time($task->completed_time);
+          				    } 
+          				    echo " in ".seconds_to_timecode($task->time_actual, 6);
+          				  } else {
+            				  echo "Due ".$task->task_due_date;
+          				  }
+          				  ?>
+          				 </p>
   				</div>
   				<div class="actions">
   				  <a class="action-item" href="#"><img src="img/icon-add-issue.png"></a>

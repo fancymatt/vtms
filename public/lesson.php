@@ -9,6 +9,7 @@
 	$language_series = LanguageSeries::find_by_id($lesson->language_series_id);
 	$language = Language::find_by_id($language_series->language_id);
 	$series = Series::find_by_id($language_series->series_id);
+	$logged_in_user = User::find_by_id($session->user_id);
 	
 	if($_POST['edited_lesson']) {
 		$lesson = Lesson::find_by_id($lesson_id);
@@ -97,86 +98,73 @@
 			</div>
 			<div id="task-list-table" class="row">
 				<div class="small-12 columns">
-					<table>
-						<thead>
-							<tr>
-								<th width="200">Asset Name</th>
-								<th>Team Member</th>
-								<th>Actionable?</th>
-								<th>Completed?</th>
-								<th>Delivered?</th>
-								<th>Time Spent</th>
-								<?php if($session->is_admin()) echo "<th>Actions</th>";?>
-							</tr>
-						</thead>
-						<tbody>
+				  <h3 class="group-heading">Assets</h3>
+           <ol class="group">
 							<?php foreach($assets as $task): ?> <!-- For every task -->
-							<tr
-							<?php
-							if ($task->is_completed ) {
-								echo "class='completed'";
-							} else if ($task->is_actionable) {
-								echo "class='actionable'";
-							} else if ($task->is_completed) {
-								echo "class='completed'";
-							} ?>
-							>
-								<td><?php echo $task->task_name; ?></td>
-								<td><?php echo $task->team_member_name; ?></td>
-								<td><?php echo ($task->is_actionable ? 'yes' : 'no'); ?></td>
-								<td><?php echo ($task->is_completed ? 'yes' : 'no'); ?></td>
-								<td><?php echo ($task->is_delivered ? 'yes' : 'no'); ?></td>
-								<td><?php echo seconds_to_timecode($task->time_actual, 6); ?></td>
-								<?php
-								if ($session->is_admin()) { ?>
-									<td>
-										<a href="edit-task.php?id=<?php echo $task->id; ?>">Edit</a>
-									</td>
-								<?php } ?>
-							</tr>
+							<div class="group-item<?php if($task->is_completed) { echo " ready"; } ?>">
+                <div class="member">
+                  <div class="member-image">
+                    <img src="img/headshot-<?php echo strtolower($task->team_member_name); ?>.png">
+                  </div>
+                  <p class="member-name">
+            				<?php if($session->is_admin()) {
+          				    echo "<a href='task-sheet.php?member={$task->team_member_id}'>{$task->team_member_name}</a>";  
+          				  } else {
+            				  echo $task->team_member_name;
+          				  } ?>
+                  </p>
+        				</div>
+        				<div class="task-info">
+          				<p class="task-title"><?php echo $task->task_name; ?></p>
+          				<p class="date"><?php echo "Due ".$task->task_due_date; ?></p>
+        				</div>
+                <div class="actions">
+        					<a class="action-item" href="#"><img src="img/icon-add-issue.png"></a>
+        				</ul>
+                </div>
+        			</div>
 							<?php endforeach; ?> <!-- End for every asset -->
-						</tbody>
-					</table>
-					<table>
-						<thead>
-							<tr>
-								<th width="200">Task Name</th>
-								<th>Team Member</th>
-								<th>Actionable?</th>
-								<th>Completed?</th>
-								<th>Delivered?</th>
-								<th>Time Spent</th>
-								<?php if($session->is_admin()) echo "<th>Actions</th>";?>
-							</tr>
-						</thead>
-						<tbody>	
+           </ol>
+					
+					<h3 class="group-heading">Tasks</h3>
+					<ol class="group">
 							<?php foreach($tasks as $task): ?> <!-- For every task -->
-							<tr
-							<?php
-							if ($task->is_completed ) {
-								echo "class='completed'";
-							} else if ($task->is_actionable) {
-								echo "class='actionable'";
-							} else if ($task->is_completed) {
-								echo "class='completed'";
-							} ?>
-							>
-								<td><?php echo $task->task_name; ?></td>
-								<td><?php echo $task->team_member_name; ?></td>
-								<td><?php echo ($task->is_actionable ? 'yes' : 'no'); ?></td>
-								<td><?php echo ($task->is_completed ? 'yes' : 'no'); ?></td>
-								<td><?php echo ($task->is_delivered ? 'yes' : 'no'); ?></td>
-								<td><?php echo seconds_to_timecode($task->time_actual, 6); ?></td>
-								<?php
-								if ($session->is_admin()) { ?>
-									<td>
-										<a href="edit-task.php?id=<?php echo $task->id; ?>">Edit</a>
-									</td>
-								<?php } ?>
-							</tr>
+							<div class="group-item<?php if($task->is_completed) { echo " ready"; } ?>">
+                <div class="member">
+                  <div class="member-image">
+                    <img src="img/headshot-<?php echo strtolower($task->team_member_name); ?>.png">
+                  </div>
+                  <p class="member-name">
+            				<?php if($session->is_admin()) {
+          				    echo "<a href='task-sheet.php?member={$task->team_member_id}'>{$task->team_member_name}</a>";  
+          				  } else {
+            				  echo $task->team_member_name;
+          				  } ?>
+                  </p>
+        				</div>
+        				<div class="task-info">
+          				<p class="task-title"><?php echo $task->task_name; ?></p>
+          				<p class="date">
+          				  <?php 
+          				  if($task->is_completed) {
+          				    echo "Completed";
+          				    if($task->completed_time > 0) {
+            				    echo " on ".$logged_in_user->local_time($task->completed_time);
+          				    } 
+          				    echo " in ".seconds_to_timecode($task->time_actual, 6);
+          				  } else {
+            				  echo "Due ".$task->task_due_date;
+          				  }
+          				  ?>
+          				 </p>
+        				</div>
+                <div class="actions">
+        					<a class="action-item" href="#"><img src="img/icon-add-issue.png"></a>
+        				</ul>
+                </div>
+        			</div>
 							<?php endforeach; ?> <!-- End for every asset -->
-						</tbody>
-					</table>
+						</ol>
 				</div>
 			</div>
 		</div>
