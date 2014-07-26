@@ -1,3 +1,10 @@
+// Special CSS for layout
+
+div.column {
+  float: inherit;
+}
+
+
 // Generic Group CSS
 ol.group {
 	margin:0 0 5px;
@@ -10,6 +17,39 @@ ol.group {
 div.group-item {
 	border-bottom: 1px solid #c5d5dd;
 	overflow: hidden;
+}
+
+div.group-item.active {
+  background: rgb(247,255,201); /* Old browsers */
+  background: -moz-linear-gradient(left,  rgba(247,255,201,1) 0%, rgba(255,255,255,1) 50%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(247,255,201,1)), color-stop(50%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(left,  rgba(247,255,201,1) 0%,rgba(255,255,255,1) 50%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(left,  rgba(247,255,201,1) 0%,rgba(255,255,255,1) 50%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(left,  rgba(247,255,201,1) 0%,rgba(255,255,255,1) 50%); /* IE10+ */
+  background: linear-gradient(to right,  rgba(247,255,201,1) 0%,rgba(255,255,255,1) 50%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7ffc9', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 */
+}
+
+div.group-item.overdue {
+  background: rgb(255,201,201); /* Old browsers */
+  background: -moz-linear-gradient(left,  rgba(255,201,201,1) 0%, rgba(255,255,255,1) 50%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(255,201,201,1)), color-stop(50%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(left,  rgba(255,201,201,1) 0%,rgba(255,255,255,1) 50%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(left,  rgba(255,201,201,1) 0%,rgba(255,255,255,1) 50%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(left,  rgba(255,201,201,1) 0%,rgba(255,255,255,1) 50%); /* IE10+ */
+  background: linear-gradient(to right,  rgba(255,201,201,1) 0%,rgba(255,255,255,1) 50%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffc9c9', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 */
+}
+
+div.group-item.ready {
+  background: rgb(195,255,191); /* Old browsers */
+  background: -moz-linear-gradient(left,  rgba(195,255,191,1) 0%, rgba(255,255,255,1) 50%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(195,255,191,1)), color-stop(50%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(left,  rgba(195,255,191,1) 0%,rgba(255,255,255,1) 50%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(left,  rgba(195,255,191,1) 0%,rgba(255,255,255,1) 50%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(left,  rgba(195,255,191,1) 0%,rgba(255,255,255,1) 50%); /* IE10+ */
+  background: linear-gradient(to right,  rgba(195,255,191,1) 0%,rgba(255,255,255,1) 50%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c3ffbf', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 */
 }
 
 h3.group-heading{
