@@ -37,7 +37,18 @@ class Language extends DatabaseObject {
 	}
 	
 	public static function find_all() {
-		return self::find_all_limit(0);
+		$sql  = "SELECT ";		
+		foreach (static::$db_view_fields as $k => $v) {
+			$sql .= $k." AS ".$v;
+			$i++;
+			$i <= count(static::$db_view_fields) - 1 ? $sql .= ", " : $sql .= " ";
+		}
+		$sql .= "FROM ".static::$table_name." ";
+		foreach (static::$db_join_fields as $k => $v) {
+			$sql .= "JOIN ".$k." ON ".$v." ";
+		}
+		$sql .= "ORDER BY language.name ";
+		return self::find_by_sql($sql);
 	}
 	
 }

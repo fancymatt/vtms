@@ -43,6 +43,14 @@ class LanguageSeries extends DatabaseObject {
 		return self::find_all_child_for_parent($series_id, $child_table_name, $parent_table_name, $group_by_sql);
 	}
 	
+	public static function find_all_language_series_for_language($language_id) {
+		$child_table_name = "languageSeries";
+		$parent_table_name = "language";
+		$group_by_sql = "GROUP BY id ORDER BY series.title ASC, level.id ASC";
+		return self::find_all_child_for_parent($language_id, $child_table_name, $parent_table_name, $group_by_sql);
+	}
+	
+	
 	public static function get_language_series_title_from_id($language_series_id) {
 		$series = LanguageSeries::find_by_id($language_series_id);
 		return $series->language_series_title;
@@ -50,7 +58,7 @@ class LanguageSeries extends DatabaseObject {
 	
 	public function display_full_language_series() {
 		echo "<img src='images/{$this->level_code}.png'> ";
-		echo "<a href='language-series.php?id=".$this->id."'>";
+		echo "<a href='language-series.php?series=".$this->series_id."&id=".$this->id."'>";
 		echo $this->language_series_title;
 		echo "</a>";
 	}
@@ -64,34 +72,6 @@ class LanguageSeries extends DatabaseObject {
 		echo "<a href='language-series.php?series=".$this->series_id."&id=".$this->id."'>";
 		echo $this->language_series_title;
 		echo "</a>";
-	}
-	
-	public function generate_ill_tv_code() {
-		$code = '<rss xmlns:media="http://search.yahoo.com/mrss/" xmlns:creativeCommons="http://backend.userland.com/creativeCommonsRssModule" version="2.0">'."\n";
-		$code .= "<channel>"."\n";
-		$code .= "<title>".$this->language_series_title."</title>"."\n";
-		$code .= "<link/>"."\n";
-		$code .= "<description></description>"."\n";
-		$lessons = Lesson::find_all_lessons_for_language_series($this->id);
-		foreach($lessons as $lesson) {
-			if($lesson->is_uploaded_for_ill_tv) {
-				$code .= "<item>"."\n";
-				$code .= "<title>".$lesson->title."</title>"."\n";
-				$code .= "<guid isPermaLink=\"false\">".$lesson->lesson_code()."</guid>"."\n";
-				$code .= "<description></description>"."\n";
-				$code .= "<media:group>"."\n";
-				$code .= '<media:content url="'.$lesson->ill_tv_url("h").'" bitrate="1200" duration="' . $lesson->trt . '" medium="video" type="video/quicktime"/>'."\n";
-				$code .= '<media:content url="'.$lesson->ill_tv_url("m").'" bitrate="800" duration="' . $lesson->trt . '" medium="video" type="video/quicktime"/>'."\n";
-				$code .= '<media:content url="'.$lesson->ill_tv_url("l").'" bitrate="500" duration="' . $lesson->trt . '" medium="video" type="video/quicktime"/>'."\n";
-				$code .= "</media:group>"."\n";
-				$code .= '<media:thumbnail url="'.$lesson->ill_tv_thumbnail_url().'"/>'."\n";
-				$code .= "</item>"."\n";
-			}
-		}
-		$code .= "</channel>"."\n";
-		$code .= "</rss>";		
-		
-		return $code;
 	}
 	
 }

@@ -97,12 +97,12 @@ function seconds_to_timecode($seconds="",$digits=4) {
 	// 6 = 00:01:21
 	if($digits==6) {
 		$hours = floor($seconds / 3600);
-		
+
 		return $hours.":".gmdate("i:s", $seconds);
 	} else {
 		return gmdate("i:s", $seconds);
 	}
-	
+
 }
 
 function logged_in() {
