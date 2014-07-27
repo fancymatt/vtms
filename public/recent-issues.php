@@ -14,11 +14,9 @@
   		  <h3>Issues</h3>
   		</div>
 		</div>
-		
+		<?php if($recent_issues) { ?>
 		<div id="recent-issues" class="small-12 columns">
   		<h3 class="group-heading">Recently Fixed Issues</h3>
-      <?php
-      if($recent_issues) { ?>
       <ol class="group">
       <?php
       foreach($recent_issues as $issue) : 
@@ -47,8 +45,8 @@
     		</div>
       <?php endforeach; ?>
       </ol>
-      <?php } ?>
     </div>
+    <?php } ?>
     
     <div id="pending-issues" class="small-12 columns">
   		<h3 class="group-heading">Pending Issues</h3>
