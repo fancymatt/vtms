@@ -5762,16 +5762,19 @@ th.hide-for-touch {
 div.column {
   float: inherit; }
 
+span.strong {
+  font-weight: bold; }
+
 ol.group {
   margin: 0 0 5px;
   background: #f7fbfc;
-  border: 1px solid black;
+  border: 1px solid #ccc;
   font-size: 13px;
   list-style-type: none;
   border-collapse: collapse; }
 
 div.group-item {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #ccc;
   min-height: 70px;
   overflow: hidden; }
 
@@ -5865,7 +5868,7 @@ p.date {
   margin-bottom: 5px; }
 
 div.lesson-info a.lesson-title {
-  background: #ddd;
+  background: #f4f4f4;
   display: block;
   font-size: 14px;
   font-weight: bold;
@@ -5890,7 +5893,7 @@ p.lesson-status-item {
   margin: 5px 0px; }
 
 a.issues-bar {
-  background: #ddd;
+  background: #f4f4f4;
   color: #fff;
   display: block;
   font-size: 14px;
@@ -5903,6 +5906,29 @@ a.issues-bar {
 
 a.issues-bar:hover {
   background: #ccc; }
+
+div.series-info {
+  background: #eee; }
+
+div.series-status {
+  width: 273px;
+  float: right; }
+
+div.series-status p {
+  font-size: 12px; }
+
+a.series-title {
+  background: #f4f4f4;
+  display: block;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: left;
+  color: black;
+  height: 70px;
+  padding: 5px; }
+
+a.series-title:hover {
+  background: #eee; }
 
 div.task-info {
   margin-left: 55px;

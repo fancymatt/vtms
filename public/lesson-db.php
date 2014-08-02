@@ -17,39 +17,21 @@
 	
 	<div id="series-list-table" class="row">
 		<div class="small-11 small-centered columns">
-		<table>
-			<thead>
-				<tr>
-					<th width="600">Name</th>
-					<th width="150">TRT</th>
-					<?php if ($session->is_admin()) { ?> <!-- If logged in, show actions column -->
-					<th width="150">Actions</th>
-					<?php } ?>
-				</tr>
-			</thead>
-			<tbody>
+		  <ol class="group">
 				<?php foreach($series as $row): ?> <!-- For every series -->
-				<tr>
-					<td><a href="series.php?id=<?php echo $row->id; ?>"><?php echo $row->title; ?></a></td>
-					<td><?php echo $row->series_trt; ?></td>
-					
-					<?php if ($session->is_admin()) { ?>
-					<td>
-						<a href="edit-series.php?id=<?php echo $row->id; ?>">Edit</a>
-					</td>
-					<?php } ?>
-						
-				</tr>
+				<div class="group-item">
+				  <div class="series-status">
+				    <p>Total Running Time: <span class="strong"><?php echo $row->series_trt; ?></span></p>
+				  </div>
+			    <div class="series-info">
+    				<a class="series-title" href="series.php?id=<?php echo $row->id; ?>"><?php echo $row->title; ?></a>
+  				</div>
+    		</div>
 				<?php endforeach; ?> <!-- End for every series -->
-				
-				<tr> <!-- Add new list item row -->
-					<td><a href="new-series.php">Add new Series</a></td>
-					<td></td>
-					<?php if ($session->is_admin()) { ?> <!-- If you're not logged in, no actions column -->
-					<td></td>
-					<?php } ?>
-			</tbody>
-		</table>
+				<div class="add">
+				  <a href="new-series.php">Add new Series</a>
+				</div>
+		  </ol>
 		</div>
 	</div>
 

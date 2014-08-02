@@ -17,44 +17,29 @@
 	</div>
 	
 	<div id="page-header" class="row">
-		<header class="medium-10 medium-margin-1 columns">
+		<header class="small-11 small-centered columns">
 			<h3><?php echo $series->title; ?></h3>
 		</header>
 	</div>
 	
 	<div id="series-list-table" class="row">
-		<div class="medium-11 medium-margin-1 small-12 columns">
-			<table>
-				<thead>
-					<tr>
-						<th width="600">Name</th>
-						<th width="150">Series TRT</th>
-						<?php if ($session->is_admin()) { ?> <!-- If logged in, show actions column -->
-						<th width="150">Actions</th>
-						<?php } ?>
-					</tr>
-				</thead>
-				<tbody>
-					<?php foreach($languageSeries as $series): ?> <!-- For every language series -->
-					<tr>
-						<td><a href="language-series.php?id=<?php echo $series->id; ?>"><?php $series->display_full_language_series(); ?></a></td>
-						<td><?php echo $series->total_trt; ?></td>
-						
-						<?php if ($session->is_admin()) { ?>
-						<td>
-							<a href="edit-language-series.php?id=<?php echo $row->id; ?>">Edit</a>
-						</td>
-						<?php } ?>
-							
-					</tr>
-					<?php endforeach; ?> <!-- End for every series -->
-					
-					<tr> <!-- Add new list item row -->
-						<td colspan="3"><a href="new-language-series.php?inSeries=<?php echo $series->id; ?>">Add new Language Series</a></td>
-					</tr>
-				</tbody>
-			</table>
+		<div class="small-11 small-centered columns">
+		  <ol class="group">
+    		<?php foreach($languageSeries as $row): ?> <!-- For every series -->
+    		<div class="group-item">
+    		  <div class="series-status">
+    		    <p>Total Running Time: <span class="strong"><?php echo $row->total_trt; ?></span></p>
+    		  </div>
+    	    <div class="series-info">
+    				<a class="series-title" href="language-series.php?id=<?php echo $row->id; ?>"><?php echo $row->language_series_title." (".$row->level_code.")"; ?></a>
+    			</div>
+    		</div>
+    		<?php endforeach; ?> <!-- End for every series -->
+    		<div class="add">
+    		  <a href="new-series.php">Add new Series</a>
+    		</div>
+		  </ol>
 		</div>
-	</div>
+  </div>
 	
 <?php include_layout_template('footer.php'); ?>
