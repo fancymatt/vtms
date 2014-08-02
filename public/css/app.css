@@ -5855,6 +5855,11 @@ li.task ul.actions li.action-item {
   vertical-align: bottom;
   height: 40px; }
 
+div.lesson-production {
+  width: 273px;
+  height: 100%;
+  float: right; }
+
 div.lesson-info {
   position: absolute;
   width: 270px; }
@@ -5864,14 +5869,25 @@ div.lesson-status {
   margin-left: 270px;
   width: 273px;
   background: white;
-  border: 1px solid #ddd;
-  padding: 0px 5px;
-  margin-top: 5px;
-  margin-bottom: 5px; }
+  border-left: 1px solid #ddd;
+  float: right;
+  padding: 0px 5px; }
 
 p.lesson-status-item {
   display: inline-block;
   margin: 5px 0px; }
+
+a.issues-bar {
+  background: #ddd;
+  color: #fff;
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  width: 273px;
+  height: 100%;
+  float: right;
+  color: black; }
 
 div.task-info {
   margin-left: 55px;
