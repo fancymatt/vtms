@@ -45,37 +45,16 @@
 				  <ol class="group">
 						<?php foreach($language_series_lessons as $lesson): ?> <!-- For every lesson -->
 						<div class="group-item<?php echo $lesson->files_moved ? " ready" : ""?>">
-      				<div class="lesson-info">
-        				<a href="lesson.php?id=<?php echo $lesson->id; ?>">
-        				<p class="lesson-title"><?php echo $lesson->number.". ".$lesson->title; ?></p>
-        				<p class="date"><?php echo "Publish Date: ".$lesson->publish_date; ?></p>
-        				</a>
-      				</div>
-      				<div class="lesson-status">
-      				  <p class="lesson-status-item">
-      				    <img src="<?php echo $lesson->is_shot ? "img/lesson-status-yes-shot.png" : "img/lesson-status-not-shot.png"?>">
-      				  </p>
-      				  <p class="lesson-status-item">
-      				    <img src="<?php echo $lesson->is_checkable ? "img/lesson-status-yes-checkable.png" : "img/lesson-status-not-checkable.png"?>">
-      				  </p>
-      				  <p class="lesson-status-item">
-      				    <img src="<?php echo $lesson->checked_language ? "img/lesson-status-yes-language.png" : "img/lesson-status-not-language.png"?>">
-      				  </p>
-      				  <p class="lesson-status-item">
-      				    <img src="<?php echo $lesson->checked_video ? "img/lesson-status-yes-video.png" : "img/lesson-status-not-video.png"?>">
-      				  </p>
-      				  <p class="lesson-status-item">
-      				    <img src="<?php echo $lesson->files_moved ? "img/lesson-status-yes-moved.png" : "img/lesson-status-not-moved.png"?>">
-      				  </p>
+  				<?php $lesson->display_lesson_status_bar(); ?>
+  				    <div class="lesson-info">
+        				<a class="lesson-title" href="lesson.php?id=<?php echo $lesson->id; ?>"><?php echo $lesson->number.". ".$lesson->title; ?></a>
+        				<p class="date"><?php echo "Publish on ".$lesson->publish_date; ?></p>
       				</div>
         		</div>
         	<?php endforeach; ?> <!-- End for every series -->
-							
-							<tr> <!-- Add new list item row -->
-								<td colspan="6"><a href="new-language-series.php?inSeries=<?php echo $series->id; ?>">Add new Language Series</a></td>
-							</tr>
-						</tbody>
-					</table>
+						<div class="add">
+						  <a href="new-lesson.php?inLanguageSeries=<?php echo $language_series_id; ?>">Add new Lesson</a>
+						</div>
 				</div>
 			</div>
 		</div>

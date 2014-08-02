@@ -8,13 +8,13 @@ div.column {
 ol.group {
 	margin:0 0 5px;
 	background:#f7fbfc;
-	border:1px solid #c5d5dd;
+	border:1px solid black;
 	font-size: 13px;
 	list-style-type: none;
 }
 
 div.group-item {
-	border-bottom: 1px solid #c5d5dd;
+	border-bottom: 1px solid black;
 	min-height: 70px;
 	overflow: hidden;
 }
@@ -63,15 +63,6 @@ h3.group-heading{
 	border-bottom: 0px;
 }
 
-p.date {
-	display: block;
-	float: left;
-	margin: 1px 5px;
-	font-size:12px;
-	color:#3a505b;
-	text-shadow:0 1px white;
-}
-
 div.actions {
   text-align: right;
   height: 100%;
@@ -88,13 +79,38 @@ li.task ul.actions li.action-item {
 
 div.lesson-production {
   width: 273px;
-  height: 100%;
   float: right;
 }
 
 div.lesson-info {
-  position: absolute;
-  width: 270px;
+  width: 100%;
+}
+
+div.lesson-info p.date {
+  background: #fff;
+  border-radius: 10px;
+  font-size: 12px;
+  width: 150px;
+  font-weight: italic;
+  color: black;
+  padding: 2px;
+  margin-left: 5px;
+  text-align: center;
+  margin-top: 5px;
+}
+
+div.lesson-info a.lesson-title {
+  background: #ddd;
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: left;
+  color: black;
+  padding-left: 5px;
+}
+
+div.lesson-info a.lesson-title:hover {
+  background: #ccc;
 }
 
 div.lesson-status {
@@ -125,6 +141,10 @@ a.issues-bar {
   color: black;
 }
 
+a.issues-bar:hover {
+  background:#ccc;
+}
+
 
 // Task Group CSS
 
@@ -132,13 +152,6 @@ div.task-info {
   margin-left: 55px;
   float: left;
   height: 100%
-}
-
-p.lesson-title {
-  margin:1px 5px;
-	font-size:14px;
-	font-weight:bold;
-	color:#333;
 }
 
 p.task-title {

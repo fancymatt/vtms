@@ -159,7 +159,6 @@ class Lesson extends DatabaseObject {
 		$sql .= "AND DATE(lesson.publishDateSite) > 0 ";
 		$sql .= "GROUP BY lesson.id ";
 		$sql .= "ORDER BY publish_date ASC, series.title ASC, language.name ASC ";
-		$sql .= "LIMIT 2 ";
 		return static::find_by_sql($sql);
 	}
 	
@@ -614,9 +613,7 @@ class Lesson extends DatabaseObject {
 	}
 	
 	public function display_full_lesson() {
-		echo "<a href='lesson.php?id=".$this->id."'>";
 		echo $this->language_name ." ". $this->series_name . " (".strtoupper($this->level_code).") #" . $this->number;
-		echo "</a>";
 	}
 	
 	public function display_full_lesson_text() {
@@ -632,7 +629,7 @@ class Lesson extends DatabaseObject {
 	  echo "<div class='lesson-production'>";
 	  echo "  <div class='lesson-issues'>";
   	$issues = Issue::get_unfinished_issues_for_lesson($this->id);
-  	echo "    <a class='issues-bar' href='#'>Issues: ".count($issues)."</a>";
+  	echo "    <a class='issues-bar' href='issues-for-lesson.php?id=".$this->id."'>Issues: ".count($issues)."</a>";
   	echo "  </div>";
 	  echo "  <div class='lesson-status'>";
     echo "	  <p class='lesson-status-item'>";
@@ -658,6 +655,11 @@ class Lesson extends DatabaseObject {
   	echo "	  <p class='lesson-status-item'>";
   	echo "      <img src='";
   	echo $this->files_moved ? 'img/lesson-status-yes-moved.png' : 'img/lesson-status-not-moved.png';
+  	echo "'>";
+  	echo "    </p>";
+  	echo "	  <p class='lesson-status-item'>";
+  	echo "      <img src='";
+  	echo $this->is_detected ? 'img/lesson-status-yes-published.png' : 'img/lesson-status-not-published.png';
   	echo "'>";
   	echo "    </p>";
 	  echo "  </div>";

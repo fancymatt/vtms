@@ -21,12 +21,11 @@
       <?php
       foreach($upcoming_lessons as $lesson) : ?>
         <div class="group-item<?php if (strtotime($upcoming_lesson->publish_date) < time()) { echo " overdue"; } ?>">
-  				<div class="lesson-info">
-    				<p class="lesson-title"><?php echo $lesson->display_full_lesson(); ?></p>
-    				<p class="lesson-title"><?php echo $lesson->title; ?></p>
+          <?php $lesson->display_lesson_status_bar(); ?>
+			    <div class="lesson-info">
+    				<a class="lesson-title" href="lesson.php?id=<?php echo $lesson->id; ?>"><?php echo $lesson->display_full_lesson(); ?></a>
     				<p class="date"><?php echo "Due ".$lesson->publish_date; ?></p>
   				</div>
-  				<?php $lesson->display_lesson_status_bar(); ?>
     		</div>
       <?php endforeach; ?>
       </ol>
