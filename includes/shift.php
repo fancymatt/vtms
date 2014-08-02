@@ -41,7 +41,7 @@ class Shift extends DatabaseObject {
 		foreach (self::$db_join_fields as $k => $v) {
 			$sql .= "LEFT JOIN ".$k." ON ".$v." ";
 		}
-		$sql .= "ORDER BY shift.clockIn DESC";
+		$sql .= "ORDER BY shift.isActive DESC, shift.clockOut DESC";
 		return static::find_by_sql($sql);
 	}
 	
