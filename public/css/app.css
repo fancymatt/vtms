@@ -5925,16 +5925,34 @@ div.task-info p.lesson-title {
   width: 100%; }
 
 div.issue-info {
-  margin-left: 55px;
-  float: left;
-  height: 100%;
-  width: 270px; }
+  margin-left: 55px; }
+
+div.issue-info p.lesson-title {
+  margin-bottom: 0em;
+  background: #ddd;
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: left;
+  color: black;
+  padding-left: 5px;
+  width: 100%; }
+
+div.issue-info p.date {
+  float: left; }
 
 div.issue-content {
-  height: 100%; }
+  height: 100%;
+  margin-left: 270px; }
 
 p.issue-body {
-  font-size: 14px; }
+  background: white;
+  padding: 5px;
+  font-size: 12px;
+  margin-bottom: 0.25em;
+  margin-top: 5px;
+  margin-right: 5px;
+  border: dotted 1px #ddd; }
 
 div.member {
   position: absolute;

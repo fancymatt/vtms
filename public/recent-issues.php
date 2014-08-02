@@ -35,8 +35,7 @@
             </p>
   				</div>
   				<div class="issue-info">
-    				<p class="lesson-title"><?php echo $task->display_full_task_lesson(); ?></p>
-    				<p class="task-title"><?php echo $task->task_name; ?></p>
+    				<p class="lesson-title"><?php echo $task->display_full_task_lesson()." ".$task->task_name; ?></p>
     				<p class="date"><?php echo "Completed ".$logged_in_user->local_time($issue->time_completed); ?></p>
   				</div>
   				<div class="issue-content">
@@ -71,8 +70,7 @@
             </p>
   				</div>
   				<div class="issue-info">
-    				<p class="lesson-title"><?php echo $task->display_full_task_lesson(); ?></p>
-    				<p class="task-title"><?php echo $task->task_name; ?></p>
+    				<p class="lesson-title"><?php echo $task->display_full_task_lesson()." ".$task->task_name; ?></p>
     				<p class="date"><?php echo "Due ".$task->task_due_date; ?></p>
   				</div>
   				<div class="issue-content">
