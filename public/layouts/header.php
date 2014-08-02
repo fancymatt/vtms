@@ -34,6 +34,7 @@
 						<li><a href="operations.php">Operations</a></li>
 						<li><a href="publishing.php">Publishing</a></li>
 						<li><a href="publishing-on-date.php">Today</a></li>
+						<li><a href="shifts.php">Shifts</a></li>
 					</ul>
 				</li>
 			</ul>

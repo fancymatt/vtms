@@ -5981,6 +5981,46 @@ p.issue-body {
   margin-right: 5px;
   border: dotted 1px #ddd; }
 
+div.activity-list {
+  margin-left: 55px; }
+
+div.activity {
+  background: #fff; }
+
+div.activity a.activity-name {
+  margin-left: 150px;
+  padding: 5px; }
+
+div.activity.active {
+  background: #f7ffc9;
+  /* Old browsers */
+  background: -moz-linear-gradient(left, #f7ffc9 0%, white 50%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%, #f7ffc9), color-stop(50%, white));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(left, #f7ffc9 0%, white 50%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(left, #f7ffc9 0%, white 50%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(left, #f7ffc9 0%, white 50%);
+  /* IE10+ */
+  background: linear-gradient(to right, #f7ffc9 0%, white 50%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f7ffc9', endColorstr='#ffffff',GradientType=1 );
+  /* IE6-9 */ }
+
+p.start-time {
+  position: absolute;
+  margin-left: 5px;
+  width: 70px;
+  font-size: 10pt; }
+
+p.end-time {
+  position: absolute;
+  margin-left: 70px;
+  width: 70px;
+  font-size: 10pt; }
+
 div.member {
   position: absolute;
   text-align: left;
