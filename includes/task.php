@@ -397,10 +397,7 @@ class Task extends DatabaseObject {
 	}
 	
 	public function display_full_task_lesson() {
-		echo "<img src='images/{$this->level_code}.png'> ";
-		echo "<a href='lesson.php?id=".$this->lesson_id."'>";
-		echo $this->language_name . " - " . $this->series_name . " #" . $this->lesson_number;
-		echo "</a>";
+		echo $this->language_name ." ". $this->series_name . " (".strtoupper($this->level_code).") #" . $this->lesson_number;
 	}
 	
 	public function display_full_task_lesson_task() {
