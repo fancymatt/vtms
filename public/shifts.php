@@ -46,8 +46,7 @@
   				</div>
   				<div class="activity-list">
     		<?php if($activities) { ?>
-      	  <?php foreach($activities as $activity) : 
-      		  $task = Task::find_by_id($activity->task_id);	?>
+      	  <?php foreach($activities as $activity) : ?>
       		  <div class="activity<?php if($activity->is_active) { echo " active"; } ?>">
       		    <p class="start-time"><?php echo date("g:i a", strtotime($logged_in_user->local_time($activity->time_start)));?></p>
       		    <p class="end-time">
@@ -57,9 +56,15 @@
       		    </p>
         		  <a class="activity-name" href="<?php echo $activity->task_id;?>">
         		  <?php 
-        		  echo $activity->activity.": ";
-        		  echo $task->display_full_task_lesson();
-        		  echo " ".$task->task_name; ?>
+        		  if($activity->task_id) {
+        		    $task = Task::find_by_id($activity->task_id);
+          		  echo $activity->activity.": ";
+          		  echo $task->display_full_task_lesson();
+          		  echo " ".$task->task_name;
+        		  } else {
+        		    echo $activity->activity;
+        		  }
+        		  ?>
         		  </a>      		  
         		</div>
           <?php endforeach; ?>	

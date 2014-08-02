@@ -81,4 +81,5 @@
       </ol>
       <?php } ?>
     </div>
+    
 <?php include_layout_template('footer.php'); ?>
