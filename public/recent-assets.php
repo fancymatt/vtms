@@ -75,8 +75,6 @@
 	    				<p class="date"><?php echo "Due ".$task->task_due_date; ?></p>
 	  				</div>
 	  				<div class="actions">
-	  				  <a class="action-item" href="#"><img src="img/icon-add-issue.png"></a>
-	  					<a class="action-item" href="#"><img src="img/icon-add-issue.png"></a>
 	    			</div>
 	    		</div>
 	      <?php endforeach; ?>

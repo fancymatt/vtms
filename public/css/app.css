@@ -5767,7 +5767,8 @@ ol.group {
   background: #f7fbfc;
   border: 1px solid black;
   font-size: 13px;
-  list-style-type: none; }
+  list-style-type: none;
+  border-collapse: collapse; }
 
 div.group-item {
   border-bottom: 1px solid black;
