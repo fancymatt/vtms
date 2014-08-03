@@ -62,6 +62,32 @@
 	  $working_on_issues = FALSE;
 	}
 	
+	if($_POST['submitted_custom_status']) {
+	  $custom_status = $db->escape_value($_POST['custom_status']);
+	  
+	  $activity = new Activity();
+		$activity->shift_id = $active_shift->id;
+		$activity->time_start = $current_time->format('Y-m-d H:i:s');
+		$activity->is_active = 1;
+		$activity->activity = $custom_status;
+		$activity->create();
+		
+  	$_SESSION['message'] = "You've begun ".$custom_status;
+  	redirect_to("task-sheet.php?member={$team_member_id}");
+	}
+	
+	if($_POST['stop_custom_task']) {
+  	// Whatever your current activity is, complete it
+	  if(is_object($active_activity)) {
+  		$active_activity->is_active = 0;
+  		$active_activity->is_completed = 1;
+  		$active_activity->time_end = $current_time->format('Y-m-d H:i:s');
+  		$active_activity->update();
+  		$_SESSION['message'] = "You've stopped ".$active_activity->activity;
+      redirect_to("task-sheet.php?member={$team_member_id}");
+	  }
+	}
+	
 	if($_POST['end_shift']) {
 	  // If there is a task going on, deactivate it
 	  $active_tasks = Task::get_active_tasks_for_member($team_member_id);
@@ -97,7 +123,7 @@
     			$task->deactivate_task();
   			}
 			}
-		}	
+		}
 	
 		$activated_task_id = $_POST['task_id'];
 		$activated_task = Task::find_by_id($activated_task_id);
@@ -109,7 +135,7 @@
 		$activity->time_start = $current_time->format('Y-m-d H:i:s');
 		$activity->task_id = $activated_task_id;
 		$activity->is_active = 1;
-		$activity->activity = "Working on task";
+		$activity->activity = "Working on a task";
 		$activity->create();
 		
 		$_SESSION['message'] = $activated_task->language_name . " ". $activated_task->series_name." #".$activated_task->lesson_number . " - ". $activated_task->task_name . " has been activated.";
@@ -208,7 +234,8 @@
     <?php if(is_object($active_activity)) { ?>
       <div class="row"> 
       <div class="small-12 columns">
-      <p class="status"><?php echo $team_member->first_name. " is ". lcfirst($active_activity->activity); ?></p> 
+      <p class="status"><?php echo $team_member->first_name. " is ". lcfirst($active_activity->activity); ?></p>
+      </p>
       <?php if($active_tasks) { ?>         
       <ol class="group">
         <?php
@@ -256,10 +283,32 @@
       		</div>
         <?php endforeach; ?>
       </ol>
+      <?php } else { // not if(is_object($active_tasks)) -- we're saying it's custom ?>
+      <div>
+        <form action='task-sheet.php?member=<?php echo $team_member_id; ?>' method='post'>
+					<input type='submit' name='stop_custom_task' value="I'm Done">
+				</form>
+      </div>
       <?php } // end if(is_object($active_tasks)) ?>
       </div>
     </div>
-    <?php } // end if(is_object($active_activity)) ?>
+    <?php } else { // not if(is_object($active_activity)) ?>
+    <div class="small-12 columns">
+	    <div class="member-status">
+	      <p><span data-tooltip class="has-tip" title="If you're working on something that isn't a task, asset, or issue, enter it here.">What are you doing?</span></p>
+        <div class="row collapse">
+          <div class="small-10 columns">
+          <span class="status-name"><?php echo $team_member->first_name; ?> is: </span><form method="post" action="task-sheet.php?member=<?php echo $team_member_id; ?>">
+          <input type="text" class="status-entry" name="custom_status">
+          </div>
+          <div class="small-2 columns">
+            <input type="submit" class="button postfix" name="submitted_custom_status">
+            </form>
+          </div>
+        </div>
+	    </div>
+	  </div>
+    <?php } //end if(is_object($active_activity)) ?>
   	<div id="tabs" class="row">
   	  <div class="small-12 columns">
 			<ul class="tabs" data-tab>
@@ -489,7 +538,7 @@
     	<form method="post" action="task-sheet.php?member=<?php echo $team_member_id; ?>">
     		<input type="submit" class="button" name="start_shift" value="Start Shift">
     	</form>
-    	<span data-tooltip class="has-tip" title="Basically I'm tracking you more closely. Deal with it.">What's this?</span>
+    	<span data-tooltip class="has-tip" title="Pressing the button will begin a new shift, which will represent one day's worth of activities.">What's this?</span>
     	<p></p>
     </div>
   </div>

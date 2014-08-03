@@ -64,7 +64,7 @@
         		  } else if ($activity->activity == "Fixing issues") {
           		  echo "Fixing ".$activity->issues_fixed." Issues";
         		  } else {
-        		    echo $activity->activity;
+        		    echo ucfirst($activity->activity);
         		  }
         		  ?>
         		  </a>      		  

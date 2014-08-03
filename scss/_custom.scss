@@ -8,6 +8,35 @@ span.strong {
   font-weight: bold;
 }
 
+// Task Sheet CSS
+
+div.member-status {
+  background: #eee;
+}
+
+div.member-status p {
+  padding-top: 5px;
+  padding-left: 15px;
+  margin-bottom: 0em;
+  font-style: oblique;
+  
+}
+
+div.member-status div.row {
+  padding: 15px;
+  margin-bottom: 10px;
+}
+
+span.status-name {
+  font-size: 17pt;
+  width: 120px;
+  position: absolute;
+}
+
+input.status-entry {
+  margin-left: 120px;
+}
+
 // Generic Group CSS
 ol.group {
 	margin:0 0 5px;
