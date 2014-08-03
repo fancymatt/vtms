@@ -10,7 +10,11 @@ class Activity extends DatabaseObject {
 										'activity.isCompleted' => 'is_completed',
 										'activity.timeStart' => 'time_start',
 										'activity.timeEnd' => 'time_end',
-										'activity.activity' => 'activity'
+										'activity.activity' => 'activity',
+										'(SELECT COUNT(taskComment.id) 
+										 FROM taskComment 
+										 WHERE taskComment.fkActivity=activity.id
+                     )' => 'issues_fixed'
 										);
 										
 	protected static $db_edit_fields = array('activity.fkShift' => 'shift_id',
@@ -32,6 +36,7 @@ class Activity extends DatabaseObject {
 	public $time_start;
 	public $time_end;
 	public $activity;
+	public $issues_fixed;
 	
 	public static function find_all() {
 		return self::find_all_limit(0);

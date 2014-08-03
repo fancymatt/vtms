@@ -12,7 +12,8 @@ class Issue extends DatabaseObject {
 										'taskComment.creator' => 'issue_creator',
 										'taskComment.timecode' => 'issue_timecode',
 										'taskComment.fkTask' => 'task_id',
-										'task.fkLesson' => 'lesson_id'
+										'task.fkLesson' => 'lesson_id',
+										'taskComment.fkActivity' => 'activity_id'
 										);
 										
 	protected static $db_edit_fields = array('taskComment.isCompleted' => 'is_completed',
@@ -20,7 +21,8 @@ class Issue extends DatabaseObject {
 											'taskComment.body' => 'issue_body',
 											'taskComment.creator' => 'issue_creator',
 											'taskComment.timecode' => 'issue_timecode',
-											'taskComment.fkTask' => 'task_id'
+											'taskComment.fkTask' => 'task_id',
+											'taskComment.fkActivity' => 'activity_id'
 											);
 										
 	protected static $db_join_fields = array('task' => 'taskComment.fkTask=task.id',
@@ -45,6 +47,7 @@ class Issue extends DatabaseObject {
 	public $issue_reply;
 	public $task_id;
 	public $lesson_id;
+	public $activity_id;
 	
 	public static function get_unfinished_issues_for_member($member_id) {
 		
@@ -133,7 +136,7 @@ class Issue extends DatabaseObject {
 		return static::find_by_sql($sql);
 	}
 	
-	public function complete_issue() {
+	public function complete_issue($activity_id) {
 		global $database;
 		$current_time = new DateTime(null, new DateTimeZone('UTC'));
 
@@ -141,6 +144,7 @@ class Issue extends DatabaseObject {
 		$sql  = "UPDATE taskComment ";
 		$sql .= "SET isCompleted=1 ";
 		$sql .= ", timeCompleted='{$current_time->format('Y-m-d H:i:s')}'" ;
+		$sql .= ", fkActivity={$activity_id} ";
 		$sql .= "WHERE id={$this->id} ";
 		$sql .= "LIMIT 1";
 		

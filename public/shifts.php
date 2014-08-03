@@ -61,6 +61,8 @@
           		  echo $activity->activity.": ";
           		  echo $task->display_full_task_lesson();
           		  echo " ".$task->task_name;
+        		  } else if ($activity->activity == "Fixing issues") {
+          		  echo "Fixing ".$activity->issues_fixed." Issues";
         		  } else {
         		    echo $activity->activity;
         		  }
