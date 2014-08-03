@@ -4,8 +4,18 @@ div.column {
   float: inherit;
 }
 
+div.centered {
+  text-align: center;
+}
+
 span.strong {
   font-weight: bold;
+}
+
+p.inspirational {
+  font-style: oblique;
+  font-family: cursive;
+  font-size: 26px;
 }
 
 // Task Sheet CSS

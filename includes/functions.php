@@ -115,4 +115,12 @@ function confirm_logged_in() {
 		}
 	}
 
+function get_random_inspirational_quote() {
+  $quotes = Array("You are one click away from a day of video task delights...",
+                  "Alexander the Great wept when he realized there were no more video tasks to conquer...",
+                  "The tasks desire to envelope you in a warm embrace..."
+                  );
+  return $quotes[array_rand($quotes)];
+}
+
 ?>

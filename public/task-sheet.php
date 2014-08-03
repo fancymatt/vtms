@@ -225,12 +225,12 @@
 	  <a href="#" class="close">&times;</a>
 	</div>
 	<?php } ?>
-    <div class="row">
+	<?php if(is_object($active_shift)) { ?>
+	  <div class="row">
   		<div class="small-12 columns">
   		  <h3><?php echo $team_member->first_name."'s Task Sheet"; ?></h3>
   		</div>
 		</div>
-	<?php if(is_object($active_shift)) { ?>
     <?php if(is_object($active_activity)) { ?>
       <div class="row"> 
       <div class="small-12 columns">
@@ -533,8 +533,9 @@
     	</div>
   	</div>
 <?php } else { // else not if($active_shift) ?>
-  <div class="row">
+  <div class="row centered">
     <div class="small-12 columns">
+      <p class="inspirational"><?php echo get_random_inspirational_quote(); ?></p>
     	<form method="post" action="task-sheet.php?member=<?php echo $team_member_id; ?>">
     		<input type="submit" class="button" name="start_shift" value="Start Shift">
     	</form>
