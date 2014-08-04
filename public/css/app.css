@@ -5871,11 +5871,11 @@ h3.group-heading {
   border: 1px solid #c5d5dd;
   border-bottom: 0px; }
 
-div.actions {
+.actions {
   text-align: right;
   height: 100%; }
 
-li.task ul.actions li.action-item {
+.actions .action-item {
   display: inline-block;
   vertical-align: bottom;
   height: 40px; }
@@ -5889,12 +5889,13 @@ div.lesson-info {
 
 p.date {
   font-size: 12px;
-  font-weight: italic;
+  font-style: oblique;
   color: black;
   padding: 2px;
   margin-left: 5px;
   margin-top: 5px;
-  margin-bottom: 5px; }
+  margin-bottom: 2px;
+  float: left; }
 
 div.lesson-info a.lesson-title {
   background: #f4f4f4;
@@ -6076,6 +6077,12 @@ div.member {
   text-transform: uppercase; }
 
 button.no-format {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background-color: transparent; }
+
+input.no-format {
   padding: 0;
   margin: 0;
   border: 0;
