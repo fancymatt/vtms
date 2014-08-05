@@ -1,13 +1,14 @@
 <?php require_once("../includes/initialize.php"); ?>
 <?php
 	confirm_logged_in();
-	if($_POST['changed_qa_log']) {
+	if($_POST['changed_qa']) {
 		$qa_lesson_id = $db->escape_value($_POST['qa_lesson_id']);
 		$qa_log = $db->escape_value($_POST['qa_log']);
-		$message = "QA Log changed to: " . $qa_log;
 		$lesson = Lesson::find_by_id($qa_lesson_id);
 		$lesson->qa_log = $qa_log;
 		$lesson->update();
+		$_SESSION['message'] = "QA Info for ".$lesson->language_name." ".$lesson->series_name." #".$lesson->number. " is now: ".$qa_log." (".$qa_url.")";
+		redirect_to('qa.php');
 	}
 	
 	$sort_by = $db->escape_value($_GET['sort']);
