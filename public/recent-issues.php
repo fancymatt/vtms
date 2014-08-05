@@ -88,7 +88,12 @@
   				</div>
   				<div class="issue-info">
     				<p class="lesson-title"><a href="lesson.php?id=<?php echo $task->lesson_id; ?>"><?php echo $task->display_full_task_lesson(); ?></a> <?php echo $task->task_name; ?></p>
-    				<p class="date"><?php echo "Due ".$task->task_due_date; ?></p>
+  				<p class="date"><?php echo "Reported by ".$issue->issue_creator; ?></p>
+          <p class="date"><?php if($issue->issue_timecode) { 
+                              echo $issue->issue_timecode;
+                            } else {
+                              echo "No timecode.";
+                            } ?></p>
   				</div>
   				<div class="issue-content">
   				  <p class="issue-body"><?php echo $issue->issue_body; ?></p>
