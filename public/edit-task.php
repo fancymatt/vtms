@@ -34,11 +34,16 @@
 ?>
 
 <?php include_layout_template('header.php'); ?>
-		<div>
+
+
+		<div class="row">
 		<h2><?php echo $task->display_full_task_lesson(). " - " .$task->task_name; ?>
 		</h2>
 		<?php echo $session->message(); ?>
 		<p><a href="lesson.php?series=<?php echo $lesson->series_id; ?>&langSeries=<?php echo $lesson->language_series_id; ?>&lesson=<?php echo $task->lesson_id; ?>"><- Return to Lesson Page</a></p>
+		
+		<p>Original Due Date: <?php echo $task->task_due_date; ?></p>
+		
 		<form action="edit-task.php?id=<?php echo $task->id; ?>" method="post">
 			<p><label for="is_completed">Completed?</label><input type="checkbox" name="is_completed" value="1" <?php echo $task->is_completed ? "checked" : ""; ?>></p>
 			<?php if ($task->is_completed) {
