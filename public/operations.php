@@ -116,7 +116,7 @@
   					</li>
   					<li class="action-item">
   					  <form action='operations.php' method='post'>
-                <input type='hidden' name='qa_lesson_id' value='{$qa_lesson->id}'>
+                <input type='hidden' name='qa_lesson_id' value='<?php echo $lesson->id; ?>'>
                 <input type='submit' class="no-format" name='marked_lesson_language_checked' value='Mark Language Checked' data-tooltip class="has-tip" title="Mark as Language Checked"></form>
   					</li>
     			</div>

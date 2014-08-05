@@ -82,30 +82,4 @@
     </div>
 	</div>
 					
-					
-					
-					
-					
-					<?php /*
-						echo "<tr>";
-						echo "<td>";
-						echo $qa_lesson->display_full_lesson();
-						echo "</td>";
-						echo "<td><form action='qa.php' method='post'><input type='hidden' name='qa_lesson_id' value='{$qa_lesson->id}'>";
-						echo "<label for='qa_log'>Log:</label><input type='text' size=40 name='qa_log' value='{$qa_lesson->qa_log}'>";
-						echo "<input type='submit' name='changed_qa_log' value='Update'></form><br />";
-						echo "<label for='qa_url'>Link:</label><input type='text' size=40 name='qa_url' value='{$qa_lesson->qa_url}'>";
-						echo "</td>";
-						echo "<td>";
-						echo $qa_lesson->display_list_of_issues_with_link(); 
-						echo "</td>";
-						echo "<td>";
-						echo $qa_lesson->publish_date;
-						echo "</td>";
-						echo "</tr>";
-					} 
-				 } */ ?>		
-
-
-
 <?php include_layout_template('footer.php'); ?>
