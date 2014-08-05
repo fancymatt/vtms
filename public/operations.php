@@ -24,6 +24,8 @@
 		$lesson = Lesson::find_by_id($qa_lesson_id);
 		$lesson->checked_language = 1;
 		$lesson->update();
+		$_SESSION['message'] = $lesson->language_name." ".$lesson->series_name." #".$lesson->number. " has been language checked.";
+		redirect_to('operations.php');
 	}
 	
 	if($_POST['add_to_dropbox']) {
