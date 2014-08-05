@@ -35,12 +35,16 @@
 
 <?php include_layout_template('header.php'); ?>
 
+  <div id="breadcrumbs" class="row">
+  	<ul class="breadcrumbs">
+  		<li><a href="lesson.php?id=<?php echo $lesson->id ?>"><?php echo $task->display_full_task_lesson(); ?></a></li>
+  		<li class="current"><?php echo $task->task_name; ?></a></li>
+  	</ul>
+  </div>
 
 		<div class="row">
 		<h2><?php echo $task->display_full_task_lesson(). " - " .$task->task_name; ?>
 		</h2>
-		<?php echo $session->message(); ?>
-		<p><a href="lesson.php?series=<?php echo $lesson->series_id; ?>&langSeries=<?php echo $lesson->language_series_id; ?>&lesson=<?php echo $task->lesson_id; ?>"><- Return to Lesson Page</a></p>
 		
 		<p>Original Due Date: <?php echo $task->task_due_date; ?></p>
 		
