@@ -118,10 +118,11 @@
           				<p class="task-title"><?php echo $task->task_name; ?></p>
           				<p class="date"><?php echo "Due ".$task->task_due_date; ?></p>
         				</div>
+        				<?php if($session->is_admin()) { ?>
                 <div class="actions">
-        					<a class="action-item" href="#"><img src="img/icon-add-issue.png"></a>
-        				</ul>
+        					<a class="action-item" href="edit-task.php?id=<?php echo $task->id; ?>">Edit</a>
                 </div>
+                <?php } ?>
         			</div>
 							<?php endforeach; ?> <!-- End for every asset -->
            </ol>
@@ -158,10 +159,11 @@
           				  ?>
           				 </p>
         				</div>
+                <?php if($session->is_admin()) { ?>
                 <div class="actions">
-        					<a class="action-item" href="#"><img src="img/icon-add-issue.png"></a>
-        				</ul>
+        					<a class="action-item" href="edit-task.php?id=<?php echo $task->id; ?>">Edit</a>
                 </div>
+                <?php } ?>
         			</div>
 							<?php endforeach; ?> <!-- End for every asset -->
 						</ol>
