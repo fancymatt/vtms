@@ -1,6 +1,15 @@
 <?php require_once("../includes/initialize.php"); ?>
 <?php
 	confirm_logged_in();
+	
+  if($_POST['issue_completed']) {
+		$completed_issue_id = $_POST['issue_id'];
+		$completed_issue = Issue::find_by_id($completed_issue_id);
+		$completed_issue->complete_issue();
+		$_SESSION['message'] = "The issue: ".$completed_issue->issue_body." has been marked as complete.";
+		redirect_to("recent-issues.php");
+	}
+	
 	$days_past = 1;
 	$recent_issues = Issue::get_recently_completed_issues($days_past);
 	$actionable_issues = Issue::get_all_unfinished_issues();
@@ -8,6 +17,14 @@
 ?>
 
 <?php include_layout_template('header.php'); ?>
+
+	<?php 
+	if($message) { ?>
+  <div data-alert class="alert-box">
+	  <?php echo $message; ?>
+	  <a href="#" class="close">&times;</a>
+	</div>
+	<?php } ?>
 		
 		<div class="row">
   		<div class="small-12 medium-8 medium-centered columns">
@@ -35,7 +52,7 @@
             </p>
   				</div>
   				<div class="issue-info">
-    				<p class="lesson-title"><?php echo $task->display_full_task_lesson()." ".$task->task_name; ?></p>
+    				<p class="lesson-title"><a href="lesson.php?id=<?php echo $task->lesson_id; ?>"><?php echo $task->display_full_task_lesson(); ?></a> <?php echo $task->task_name; ?></p>
     				<p class="date"><?php echo "Completed ".$logged_in_user->local_time($issue->time_completed); ?></p>
   				</div>
   				<div class="issue-content">
@@ -70,13 +87,21 @@
             </p>
   				</div>
   				<div class="issue-info">
-    				<p class="lesson-title"><?php echo $task->display_full_task_lesson()." ".$task->task_name; ?></p>
+    				<p class="lesson-title"><a href="lesson.php?id=<?php echo $task->lesson_id; ?>"><?php echo $task->display_full_task_lesson(); ?></a> <?php echo $task->task_name; ?></p>
     				<p class="date"><?php echo "Due ".$task->task_due_date; ?></p>
   				</div>
   				<div class="issue-content">
   				  <p class="issue-body"><?php echo $issue->issue_body; ?></p>
   				</div>
-    		</div>
+      		<?php if($session->is_admin()) { ?>
+          <div class="actions">
+            <form action='recent-issues.php' method='post'>
+              <input type='hidden' name='issue_id' value='<?php echo $issue->id; ?>'>
+              <input type='submit' name='issue_completed' value='Fixed'>
+            </form>
+          </div>
+        </div>
+				<?php } ?>
       <?php endforeach; ?>
       </ol>
       <?php } ?>

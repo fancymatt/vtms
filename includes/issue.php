@@ -136,7 +136,7 @@ class Issue extends DatabaseObject {
 		return static::find_by_sql($sql);
 	}
 	
-	public function complete_issue($activity_id) {
+	public function complete_issue($activity_id = NULL) {
 		global $database;
 		$current_time = new DateTime(null, new DateTimeZone('UTC'));
 
@@ -144,7 +144,9 @@ class Issue extends DatabaseObject {
 		$sql  = "UPDATE taskComment ";
 		$sql .= "SET isCompleted=1 ";
 		$sql .= ", timeCompleted='{$current_time->format('Y-m-d H:i:s')}'" ;
-		$sql .= ", fkActivity={$activity_id} ";
+		if($activity_id) {
+  		$sql .= ", fkActivity={$activity_id} ";
+		}
 		$sql .= "WHERE id={$this->id} ";
 		$sql .= "LIMIT 1";
 		
