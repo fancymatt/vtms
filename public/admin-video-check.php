@@ -58,7 +58,7 @@
   				<ul class="actions">
   					<li class="action-item">
   						<form action='admin-video-check.php' method='post'>
-  							<input type='hidden' name='qa_lesson_id' value='<?php echo $qa_lesson->id; ?>'>
+  							<input type='hidden' name='qa_lesson_id' value='<?php echo $lesson->id; ?>'>
   							<button type="submit" class="no-format" name="mark_lesson_as_moved" data-tooltip class="has-tip" title="Move Files"><img src="img/icon-move-files.png"></button>
   						</form>
   					</li>
@@ -83,7 +83,7 @@
   				</div>
   				<ul class="actions">
 						<li class="action-item">
-							<a class="item" href="issues-for-lesson.php?id=<?php echo $qa_lesson->id; ?>" data-tooltip class="has-tip" title="Add Issue"><img src="img/icon-add-issue.png"></a>
+							<a class="item" href="issues-for-lesson.php?id=<?php echo $lesson->id; ?>" data-tooltip class="has-tip" title="Add Issue"><img src="img/icon-add-issue.png"></a>
 						</li>
 						<li class="action-item">
 							<form action='admin-video-check.php' method='post'>
