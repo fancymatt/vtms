@@ -518,12 +518,6 @@
   				<h3 class="group-heading">Your Shift</h3>
           <div id="current_shift_stats" class="panel">
       			<p>Began: <?php echo $logged_in_user->local_time($active_shift->clock_in); ?></p>
-      			<p>Time Spent on Tasks: </p>
-      			<p>Tasks Completed: </p>
-      			<p>Time Spent on Issues: </p>
-      			<p>Issues Completed: </p>
-      			<p>Total Work Time: </p>
-      			<p>Idle Time: </p>
       			<form method="post" action="task-sheet.php?member=<?php echo $team_member_id; ?>">
       			<input type="submit" name="end_shift" value="End Shift">
             </form>
