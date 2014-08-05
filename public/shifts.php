@@ -64,7 +64,7 @@
         		  } else if ($activity->activity == "Fixing issues") {
           		  echo "Fixing ".$activity->issues_fixed." Issues";
         		  } else {
-        		    echo ucfirst($activity->activity);
+        		    echo ucfirst(stripslashes($activity->activity));
         		  }
         		  ?>
         		  </a>      		  

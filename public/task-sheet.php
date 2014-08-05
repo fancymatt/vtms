@@ -72,7 +72,7 @@
 		$activity->activity = $custom_status;
 		$activity->create();
 		
-  	$_SESSION['message'] = "You've begun ".$custom_status;
+  	$_SESSION['message'] = "You've begun ".stripslashes($custom_status);
   	redirect_to("task-sheet.php?member={$team_member_id}");
 	}
 	
@@ -234,7 +234,7 @@
     <?php if(is_object($active_activity)) { ?>
       <div class="row"> 
       <div class="small-12 columns">
-      <p class="status"><?php echo $team_member->first_name. " is ". lcfirst($active_activity->activity); ?></p>
+      <p class="status"><?php echo $team_member->first_name. " is ". lcfirst(stripslashes($active_activity->activity)); ?></p>
       </p>
       <?php if($active_tasks) { ?>         
       <ol class="group">
