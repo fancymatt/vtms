@@ -49,13 +49,25 @@
 ?>
 
 <?php include_layout_template('header.php'); ?>
-		<h2 id="main_title">Exporting</h2>
-		<?php if ($message) {
-			echo "<p>{$message}</p>";
-		} ?>
-	<p><a href="operations.php"><- Return to Operations page</a></p>
+
+	<div id="breadcrumbs" class="row">
+		<ul class="breadcrumbs">
+		  <li><a href="operations.php">Operations</a></li>
+			<li class="current"><a href="operations.php">Render Queue</a></li>
+		</ul>
+	</div>
+
+  <?php if($message) { ?>
+	<div data-alert class="alert-box">
+	  <?php echo $message; ?>
+	  <a href="#" class="close">&times;</a>
+	</div>
+	<?php } ?>
+
+<div class="row">
+    <div id="admin-qa" class="small-12 columns">
 	<div id="export-these">
-		<h3>Export These</h3>
+		<h5>Export These</h3>
 		<table>
 			<tr><th>Lesson</th><th>Actions</th><th>Last Action</th><th>Action Time</th><th>Due Date</th></tr>
 				<?php 
@@ -97,7 +109,7 @@
 	</div>
 		
 	<div id="export-queue">
-		<h3>Export Queue</h3>
+		<h5>Export Queue</h3>
 		<table>
 			<tr><th>Lesson</th><th>Queued Time</th><th>Actions</th></tr>
 				<?php 
