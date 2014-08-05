@@ -255,7 +255,7 @@
     				</div>
     				
     				<div class="task-info">
-      				<p class="lesson-title"><?php echo $task->display_full_task_lesson(). " ".$task->task_name; ?></p>
+      				<p class="lesson-title"><a href="lesson.php?id=<?php echo $task->lesson_id; ?>"><?php echo $task->display_full_task_lesson(); ?></a> <?php echo $task->task_name; ?></p>
       				<p class="date">
     				  <?php 
     				  if($task->is_completed) {
@@ -350,7 +350,7 @@
                     </p>
           				</div>
           				<div class="task-info">
-            				<p class="lesson-title"><?php echo $task->display_full_task_lesson(). " ".$task->task_name; ?></p>
+            				<p class="lesson-title"><a href="lesson.php?id=<?php echo $task->lesson_id; ?>"><?php echo $task->display_full_task_lesson(); ?></a> <?php echo $task->task_name; ?></p>
             				<p class="date"><?php echo "Due ".$task->task_due_date; ?></p>
           				</div>
                   <div class="actions">
@@ -393,7 +393,7 @@
                     </p>
           				</div>
           				<div class="task-info">
-            				<p class="lesson-title"><?php echo $task->display_full_task_lesson(). " ".$task->task_name; ?></p>
+            				<p class="lesson-title"><a href="lesson.php?id=<?php echo $task->lesson_id; ?>"><?php echo $task->display_full_task_lesson(); ?></a> <?php echo $task->task_name; ?></p>
             				<p class="date"><?php echo "Due ".$task->task_due_date; ?></p>
           				</div>
                   <div class="actions">
@@ -435,7 +435,7 @@
                     </p>
           				</div>
           				<div class="task-info">
-            				<p class="lesson-title"><?php echo $task->display_full_task_lesson(). " ".$task->task_name; ?></p>
+            				<p class="lesson-title"><a href="lesson.php?id=<?php echo $task->lesson_id; ?>"><?php echo $task->display_full_task_lesson(); ?></a> <?php echo $task->task_name; ?></p>
             				<p class="date"><?php echo "Due ".$task->task_due_date; ?></p>
           				</div>
                   <div class="actions">
@@ -488,7 +488,7 @@
                   </p>
         				</div>
         				<div class="issue-info">
-          				<p class="lesson-title"><?php echo $task->display_full_task_lesson()." ".$task->task_name; ?></p>
+          				<p class="lesson-title"><a href="lesson.php?id=<?php echo $task->lesson_id; ?>"><?php echo $task->display_full_task_lesson(); ?></a> <?php echo $task->task_name; ?></p>
           				<p class="date"><?php echo "Due ".$task->task_due_date; ?></p>
         				</div>
         				<div class="issue-content">
