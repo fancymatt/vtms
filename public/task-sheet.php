@@ -12,6 +12,13 @@
 	  $working_on_issues = TRUE;
 	}
 	
+	if(isset($_SESSION['last_shift'])) {
+  	// We just finished a shift and should be back at the start page
+  	$last_shift = Shift::find_by_id($_SESSION['last_shift']);
+  	$last_shift_activities = Activity::find_all_activities_for_shift($last_shift->id);
+  	unset($_SESSION['last_shift']);
+  }
+	
 	if (!$session->is_admin()) {
 		// then you'd better be this user
 		if ($_SESSION['user_id'] != $team_member->user_id) {
@@ -107,6 +114,7 @@
 	  	  
 		$active_shift->clock_out_team_member($team_member_id);
 		$_SESSION['message'] = "You have been clocked out. おつかれさま！";
+		$_SESSION['last_shift'] = $_POST['shift_id'];
 		redirect_to("task-sheet.php?member={$team_member_id}");
 	}
 
@@ -519,6 +527,7 @@
           <div id="current_shift_stats" class="panel">
       			<p>Began: <?php echo $logged_in_user->local_time($active_shift->clock_in); ?></p>
       			<form method="post" action="task-sheet.php?member=<?php echo $team_member_id; ?>">
+            <input type="hidden" name="shift_id" value="<?php echo $active_shift->id; ?>">
       			<input type="submit" name="end_shift" value="End Shift">
             </form>
       		</div>
@@ -527,6 +536,64 @@
     	</div>
   	</div>
 <?php } else { // else not if($active_shift) ?>
+  <?php if(isset($last_shift)) { ?>
+  
+  <div id="shifts" class="small-12 columns">
+  		<h3 class="group-heading">Your Day</h3>
+      <ol class="group">
+        <div class="group-item">
+          <div class="member">
+            <div class="member-image">
+              <img src="img/headshot-<?php echo strtolower($team_member->first_name); ?>.png">
+            </div>
+            <p class="member-name"><?php echo $team_member->first_name; ?></p>
+  				</div>
+  				<div class="issue-info">
+    				<p class="lesson-title"><?php 
+    				echo date("M jS", strtotime($logged_in_user->local_time($last_shift->clock_in)))." ";
+    				echo date("g:i a", strtotime($logged_in_user->local_time($last_shift->clock_in)))." - ";
+    				if($shift->is_active) {
+      				echo "now";
+    				} else {
+      				echo date("g:i a", strtotime($logged_in_user->local_time($last_shift->clock_out)));
+    				} ?>
+    				</p>
+  				</div>
+  				<div class="activity-list">
+    		<?php if($last_shift_activities) { ?>
+      	  <?php foreach($last_shift_activities as $activity) : ?>
+      		  <div class="activity<?php if($activity->is_active) { echo " active"; } ?>">
+      		    <p class="start-time"><?php echo date("g:i a", strtotime($logged_in_user->local_time($activity->time_start)));?></p>
+      		    <p class="end-time">
+      		    <?php if(!$activity->is_active) { ?>
+        		    <?php echo date("g:i a", strtotime($logged_in_user->local_time($activity->time_end))); ?>
+      		    <?php } else { echo "now"; } ?>
+      		    </p>
+        		  <a class="activity-name" href="<?php echo $activity->task_id;?>">
+        		  <?php 
+        		  if($activity->task_id) {
+        		    $task = Task::find_by_id($activity->task_id);
+          		  echo $activity->activity.": ";
+          		  echo $task->display_full_task_lesson();
+          		  echo " ".$task->task_name;
+        		  } else if ($activity->activity == "Fixing issues") {
+          		  echo "Fixing ".$activity->issues_fixed." Issues";
+        		  } else {
+        		    echo ucfirst(stripslashes($activity->activity));
+        		  }
+        		  ?>
+        		  </a>      		  
+        		</div>
+          <?php endforeach; ?>	
+    		<?php } else { ?>
+      		  <div class="activity">
+      		    <a class="activity-name">No activities for this shift</a>
+      		  </div>
+    		<?php } ?>
+    		  </div>
+    		</div>
+    
+  <?php } else { ?>
   <div class="row centered">
     <div class="small-12 columns">
       <p class="inspirational">Good morning!</p>
@@ -537,6 +604,7 @@
     	<p></p>
     </div>
   </div>
+  <?php } // end if(isset($last_shift)) ?>
 <?php } // end if($active_shift) ?>
 
 <?php include_layout_template('footer.php'); ?>
