@@ -161,7 +161,7 @@
 		$completed_task_id = $_POST['task_id'];
 		$completed_task = Task::find_by_id($completed_task_id);
 		
-		$activity = Activity::get_active_activity_for_member($member_id);
+		$activity = Activity::get_active_activity_for_member($team_member_id);
 		$activity->is_active = 0;
 		$activity->is_completed = 1;
 		$activity->time_end = $current_time->format('Y-m-d H:i:s');
