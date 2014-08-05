@@ -87,7 +87,7 @@
 						</li>
 						<li class="action-item">
 							<form action='admin-video-check.php' method='post'>
-								<input type='hidden' name='qa_lesson_id' value='<?php echo $qa_lesson->id; ?>'>
+								<input type='hidden' name='qa_lesson_id' value='<?php echo $lesson->id; ?>'>
                 <button type="submit" class="no-format" name="mark_lesson_as_checked" data-tooltip class="has-tip" title="Mark Lesson as Checked"><img src="img/icon-move-files.png"></button>
 							</form>
 						</li>
