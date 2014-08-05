@@ -535,7 +535,7 @@
 <?php } else { // else not if($active_shift) ?>
   <div class="row centered">
     <div class="small-12 columns">
-      <p class="inspirational"><?php echo get_random_inspirational_quote(); ?></p>
+      <p class="inspirational">Good morning!</p>
     	<form method="post" action="task-sheet.php?member=<?php echo $team_member_id; ?>">
     		<input type="submit" class="button" name="start_shift" value="Start Shift">
     	</form>
