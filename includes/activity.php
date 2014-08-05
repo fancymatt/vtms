@@ -89,7 +89,7 @@ class Activity extends DatabaseObject {
 			$sql .= "LEFT JOIN ".$k." ON ".$v." ";
 		}
 		$sql .= "WHERE activity.fkShift={$shift_id} ";
-		$sql .= "ORDER BY activity.fkShift DESC ";
+		$sql .= "ORDER BY activity.timeStart ASC ";
 		return static::find_by_sql($sql);
 	}
 }
