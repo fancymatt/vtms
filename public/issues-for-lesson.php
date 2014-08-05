@@ -22,8 +22,8 @@
 ?>
 
 <?php include_layout_template('header.php'); ?>
-	<div>
-		<p><a href="qa.php"><- Return to QA</a></p>
+	<div class="row">
+		<a href="qa.php" class="button">QA Lessons</a>    <a href="lesson.php?id=<?php echo $current_lesson->id; ?>" class="button">Return to Lesson</a>
 		<h2><?php echo $current_lesson->display_full_lesson().": ".$current_lesson->title; ?></h2>
 		<?php if ($message) {
 			echo "<p>{$message}</p>";
@@ -56,8 +56,7 @@
 			<?php }
 		} ?>
 		</ul>
-		<p><a href="qa.php"><- Return to QA</a></p>
-		<br />
+		<a href="qa.php" class="button">QA Lessons</a>    <a href="lesson.php?id=<?php echo $current_lesson->id; ?>" class="button">Return to Lesson</a>
 	</div>
 		
 		

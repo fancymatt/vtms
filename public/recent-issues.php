@@ -10,12 +10,12 @@
 <?php include_layout_template('header.php'); ?>
 		
 		<div class="row">
-  		<div class="small-12 columns">
+  		<div class="small-12 medium-8 medium-centered columns">
   		  <h3>Issues</h3>
   		</div>
 		</div>
 		<?php if($recent_issues) { ?>
-		<div id="recent-issues" class="small-12 columns">
+		<div id="recent-issues" class="small-12 medium-8 medium-centered columns">
   		<h3 class="group-heading">Recently Fixed Issues</h3>
       <ol class="group">
       <?php
@@ -47,7 +47,7 @@
     </div>
     <?php } ?>
     
-    <div id="pending-issues" class="small-12 columns">
+    <div id="pending-issues" class="small-12 medium-8 medium-centered columns">
   		<h3 class="group-heading">Pending Issues</h3>
       <?php
       if($actionable_issues) { ?>
