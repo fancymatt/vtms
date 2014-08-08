@@ -3,6 +3,8 @@
 	$asset_id = $db->escape_value($_GET['id']);
 	$asset = Task::find_by_id($asset_id);
 	$lesson = Lesson::find_by_id($asset->lesson_id);
+	$logged_in_user = User::find_by_id($session->user_id);
+	$active_shift = Shift::get_active_shift_for_member($team_member_id);
 	
 	if($_POST['shot_completed']) {
 		$shot_id = $_POST['shot_id'];
@@ -15,12 +17,28 @@
 		// If it's not activated, activate it
 		if(!$asset->is_active) {
 			$asset->activate_task();
+			
+			if(is_object($active_shift)) {
+  		  $activity = new Activity();
+    		$activity->shift_id = $active_shift->id;
+    		$activity->time_start = $current_time->format('Y-m-d H:i:s');
+    		$activity->task_id = $asset_id;
+    		$activity->is_active = 1;
+    		$activity->create();	
+			}
 			$message = "This asset has been set to active because you began completing shots. To undo, go to your task sheet";
 		}
 		
 		// If this completes the asset, mark it as complete
 		if(count(Shot::find_all_shots_for_asset($asset_id)) <= count(Shot::find_all_completed_shots_for_asset($asset_id))) {
 			$asset->complete_task();
+			
+			$activity = Activity::get_active_activity_for_member($logged_in_user->id);
+  		$activity->is_active = 0;
+  		$activity->is_completed = 1;
+  		$activity->time_end = $current_time->format('Y-m-d H:i:s');
+  		$activity->update();
+			
 			$message = "Asset Completed";
 		}
 	}
