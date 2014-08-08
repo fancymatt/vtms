@@ -55,10 +55,7 @@
 ?>
 
 <?php include_layout_template('header.php'); ?>
-	<div id="lesson-header">
-		<h3><?php $lesson->display_full_lesson_navigation(); ?></h3>
-		<h4><?php $lesson->display_lesson_topbar("script"); ?></h4>
-	</div>
+
 	<?php foreach($assets as $asset): ?>
 		<div class="panel">
 			<h3><?php echo $asset->task_name; ?></h3>
@@ -67,7 +64,7 @@
 			<p><a href="record-asset.php?id=<?php echo $asset->id; ?>">Go to Recording Interface</a></p>
 		</div>
 	<?php endforeach; ?>
-	<div id="script">
+	<div id="script" class="row">
 	<form action="lesson-script.php?id=<?php echo $lesson->id; ?>" method="post">
 	<table class="script" id="lesson-script">
 		<th>Asset</th><th>Section</th><th>Shot</th><th>Script</th><th>Script English</th>
