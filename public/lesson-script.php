@@ -2,6 +2,8 @@
 <?php		
 	$lesson_id = $db->escape_value($_GET['id']);
 	$lesson = Lesson::find_by_id($lesson_id);
+	$language_series = LanguageSeries::find_by_id($lesson->language_series_id);
+	$series = Series::find_by_id($language_series->series_id);
 	
 	if($_POST['edited_script']) {
 		$shot_ids = $_POST['shot_id'];
@@ -56,6 +58,26 @@
 
 <?php include_layout_template('header.php'); ?>
 
+<div id="breadcrumbs" class="row">
+	<ul class="breadcrumbs">
+		<li><a href="lesson-db.php">Lesson DB</a></li>
+		<li><a href="series.php?id=<?php echo $series->id; ?>"><?php echo $series->title; ?></a></li>
+		<li>
+			<a href="language-series.php?id=<?php echo $language_series->id; ?>">
+				<?php echo $language_series->language_series_title." (".$language_series->level_code.")"; ?>
+			</a>
+		</li> 
+		<li>
+		  <a href="lesson.php?id=<?php echo $lesson->id; ?>"><?php echo $lesson->number.". ".$lesson->title; ?></a>
+		</li>
+		<li class="current">
+			<a href="#">Script</a>
+		</li>
+	</ul>
+</div>
+
+
+<div class="row">
 	<?php foreach($assets as $asset): ?>
 		<div class="panel">
 			<h3><?php echo $asset->task_name; ?></h3>
@@ -64,6 +86,8 @@
 			<p><a href="record-asset.php?id=<?php echo $asset->id; ?>">Go to Recording Interface</a></p>
 		</div>
 	<?php endforeach; ?>
+</div>
+
 	<div id="script" class="row">
 	<form action="lesson-script.php?id=<?php echo $lesson->id; ?>" method="post">
 	<table class="script" id="lesson-script">

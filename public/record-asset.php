@@ -3,6 +3,8 @@
 	$asset_id = $db->escape_value($_GET['id']);
 	$asset = Task::find_by_id($asset_id);
 	$lesson = Lesson::find_by_id($asset->lesson_id);
+	$language_series = LanguageSeries::find_by_id($lesson->language_series_id);
+	$series = Series::find_by_id($language_series->series_id);
 	$logged_in_user = User::find_by_id($session->user_id);
 	$active_shift = Shift::get_active_shift_for_member($logged_in_user->id);
 	
@@ -34,12 +36,14 @@
 			$asset->complete_task();
 			
 			$activity = Activity::get_active_activity_for_member($logged_in_user->id);
-  		$activity->is_active = 0;
-  		$activity->is_completed = 1;
-  		$activity->time_end = $current_time->format('Y-m-d H:i:s');
-  		$activity->update();
-			
-			$message = "Asset Completed";
+			if($activity) {
+  		  $activity->is_active = 0;
+    		$activity->is_completed = 1;
+    		$activity->time_end = $current_time->format('Y-m-d H:i:s');
+    		$activity->update();
+  			
+  			$message = "Asset Completed";	
+			}
 		}
 	}
 	
@@ -60,6 +64,26 @@
 	$incomplete_shots = Shot::find_all_incomplete_shots_for_asset($asset_id);
 ?>
 <?php include_layout_template('header.php'); ?>
+
+<div id="breadcrumbs" class="row">
+	<ul class="breadcrumbs">
+		<li><a href="lesson-db.php">Lesson DB</a></li>
+		<li><a href="series.php?id=<?php echo $series->id; ?>"><?php echo $series->title; ?></a></li>
+		<li>
+			<a href="language-series.php?id=<?php echo $language_series->id; ?>">
+				<?php echo $language_series->language_series_title." (".$language_series->level_code.")"; ?>
+			</a>
+		</li> 
+		<li>
+		  <a href="lesson.php?id=<?php echo $lesson->id; ?>"><?php echo $lesson->number.". ".$lesson->title; ?></a>
+		</li>
+		<li><a href="lesson-script.php?id=<?php echo $lesson->id; ?>">Script</a></li>
+		<li class="current">
+			<a href="#"><?php echo $asset->task_name; ?></a>
+		</li>
+	</ul>
+</div>
+
 	<?php if($message) {
 		echo "<p>{$message}</p>";
 	} ?>
