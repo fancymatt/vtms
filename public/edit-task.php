@@ -6,6 +6,10 @@
 	}
 	$task_id = $db->escape_value($_GET['id']);
 	$task = Task::find_by_id($task_id);
+	$lesson = Lesson::find_by_id($task->lesson_id);
+	$language_series = LanguageSeries::find_by_id($lesson->language_series_id);
+	$series = Series::find_by_id($language_series->series_id);
+	
 	$logged_in_user = User::find_by_id($session->user_id);
 		
 	if($_POST['edited_task']) {
@@ -21,7 +25,7 @@
 		}
 		$task->team_member_id = $db->escape_value($_POST['team_member_id']);
 		$task->update();
-		redirect_to("lesson.php?series={$task->series_id}&langSeries={$task->language_series_id}&lesson={$task->lesson_id}");
+		redirect_to("lesson.php?id={$task->lesson_id}");
 	}
 	$time_actual = (int) $task->time_actual;
 	$time_actual_seconds = (int) ($time_actual%60);
@@ -35,12 +39,23 @@
 
 <?php include_layout_template('header.php'); ?>
 
-  <div id="breadcrumbs" class="row">
-  	<ul class="breadcrumbs">
-  		<li><a href="lesson.php?id=<?php echo $lesson->id ?>"><?php echo $task->display_full_task_lesson(); ?></a></li>
-  		<li class="current"><?php echo $task->task_name; ?></a></li>
-  	</ul>
-  </div>
+<div id="breadcrumbs" class="row">
+	<ul class="breadcrumbs">
+		<li><a href="lesson-db.php">Lesson DB</a></li>
+		<li><a href="series.php?id=<?php echo $series->id; ?>"><?php echo $series->title; ?></a></li>
+		<li>
+			<a href="language-series.php?id=<?php echo $language_series->id; ?>">
+				<?php echo $language_series->language_series_title." (".$language_series->level_code.")"; ?>
+			</a>
+		</li> 
+		<li>
+		  <a href="lesson.php?id=<?php echo $lesson->id; ?>"><?php echo $lesson->number.". ".$lesson->title; ?></a>
+		</li>
+		<li class="current">
+			<a href="#"><?php echo $task->task_name; ?></a>
+		</li>
+	</ul>
+</div>
 
 		<div class="row">
 		<h2><?php echo $task->display_full_task_lesson(). " - " .$task->task_name; ?>
@@ -99,7 +114,6 @@
 			</select></p>
 			<p><input type="submit" value="Edit" name="edited_task"></p>
 		</form>
-		<p><a href="lesson.php?series=<?php echo $lesson->series_id; ?>&langSeries=<?php echo $lesson->language_series_id; ?>&lesson=<?php echo $task->lesson_id; ?>"><- Return to Lesson Page</a></p>
 		</div>
 <?php include_layout_template('footer.php'); ?>
 	
