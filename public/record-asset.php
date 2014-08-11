@@ -4,7 +4,7 @@
 	$asset = Task::find_by_id($asset_id);
 	$lesson = Lesson::find_by_id($asset->lesson_id);
 	$logged_in_user = User::find_by_id($session->user_id);
-	$active_shift = Shift::get_active_shift_for_member($team_member_id);
+	$active_shift = Shift::get_active_shift_for_member($logged_in_user->id);
 	
 	if($_POST['shot_completed']) {
 		$shot_id = $_POST['shot_id'];
@@ -64,11 +64,7 @@
 		echo "<p>{$message}</p>";
 	} ?>
 
-	<div id="lesson-header">
-		<h3><?php $lesson->display_full_lesson_navigation(); ?></h3>
-		<p><a href='lesson-script.php?id=<?php echo $lesson->id; ?>'>Return to Script</a>
-	</div>
-	<div id="teleprompter_script">
+	<div id="teleprompter_script" class="row">
 		<textarea rows="10" cols="100">
 		<?php if($incomplete_shots) {
 			echo "\n\n";
@@ -85,37 +81,39 @@
 		} ?>
 		</textarea>
 	</div>
-	<div id="list">
-	<table class="script">
-		<tr><th>Shot</th><th>Script</th><th>Script English</th><th>Recording Comments</th><th>Actions</th></tr>
-		<?php foreach($shots as $shot): ?>
-					<tr<?php if($shot->is_completed) { echo " class='completed'"; } ?>> 
-						<td>
-							<?php echo "{$shot->section} {$shot->shot} - {$shot->type}"; ?>
-						</td>
-						<td>
-							<?php echo nl2br($shot->script); ?>
-						</td>
-						<td>
-							<?php echo nl2br($shot->script_english); ?>
-						</td>
-						<td>
-							<form method="post" action="record-asset.php?id=<?php echo $asset_id; ?>">
-							<input type="hidden" name="shot_id" value="<?php echo $shot->id; ?>">
-							<textarea name="shoot_notes" rows=5 cols=20><?php echo $shot->script_video; ?></textarea>
-							<input type="submit" name="shot_completed" value="<?php echo ($shot->is_completed ? "Update Log" :  "Mark as Complete") ?>"></form>
-						</td>
-						<td>
-							<?php if($shot->is_completed) { ?>
-							<form method="post" action="record-asset.php?id=<?php echo $asset_id; ?>">
-							<input type="hidden" name="shot_id" value="<?php echo $shot->id; ?>">
-							<input type="submit" name="shot_uncompleted" value="Mark as Incomplete"></form>	
-							<?php } ?>
-						</td>
-					</tr>
-				<?php endforeach; ?>
-				</table>
-	<p><a href="lesson-db.php"><- Return to Parent List</a></p>
+	<div id="list" class="row">
+	  <div class="small-12 columns">
+    	<table class="script">
+    		<tr><th>Shot</th><th>Script</th><th>Script English</th><th>Recording Comments</th><th>Actions</th></tr>
+    		<?php foreach($shots as $shot): ?>
+				<tr<?php if($shot->is_completed) { echo " class='completed'"; } ?>> 
+					<td>
+						<?php echo "{$shot->section} {$shot->shot} - {$shot->type}"; ?>
+					</td>
+					<td>
+						<?php echo nl2br($shot->script); ?>
+					</td>
+					<td>
+						<?php echo nl2br($shot->script_english); ?>
+					</td>
+					<td>
+						<form method="post" action="record-asset.php?id=<?php echo $asset_id; ?>">
+						<input type="hidden" name="shot_id" value="<?php echo $shot->id; ?>">
+						<textarea name="shoot_notes" rows=5 cols=20><?php echo $shot->script_video; ?></textarea>
+						<input type="submit" name="shot_completed" value="<?php echo ($shot->is_completed ? "Update Log" :  "Mark as Complete") ?>"></form>
+					</td>
+					<td>
+						<?php if($shot->is_completed) { ?>
+						<form method="post" action="record-asset.php?id=<?php echo $asset_id; ?>">
+						<input type="hidden" name="shot_id" value="<?php echo $shot->id; ?>">
+						<input type="submit" name="shot_uncompleted" value="Mark as Incomplete"></form>	
+						<?php } ?>
+					</td>
+				</tr>
+			<?php endforeach; ?>
+			</table>
+	  </div>
+	</div>
 </div>
 
 <?php include_layout_template('footer.php'); ?>
