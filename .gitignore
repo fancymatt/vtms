@@ -5,3 +5,4 @@ artwork/*
 /.sass-cache/*
 *.DS_Store
 /stylesheets/*
+/includes/config.php
