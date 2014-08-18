@@ -101,7 +101,7 @@ class Issue extends DatabaseObject {
 		return static::find_by_sql($sql);
 	}
 
-	public static function get_all_unfinished_issues() {
+	public static function get_all_unfinished_issues($limit = FALSE) {
 		$sql  = "SELECT ";		
 		foreach (self::$db_view_fields as $k => $v) {
 			$sql .= $k." AS ".$v;
@@ -113,6 +113,9 @@ class Issue extends DatabaseObject {
 			$sql .= "LEFT JOIN ".$k." ON ".$v." ";
 		}
 		$sql .= "WHERE NOT taskComment.isCompleted=1 ";
+		if($limit) {
+  		$sql .= "LIMIT {$limit} ";
+		}
 		return static::find_by_sql($sql);
 	}
 	

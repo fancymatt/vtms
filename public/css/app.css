@@ -5791,9 +5791,6 @@ span.status-name {
   width: 120px;
   position: absolute; }
 
-input.status-entry {
-  margin-left: 120px; }
-
 ol.group {
   margin: 0 0 5px;
   background: #f7fbfc;
@@ -5887,16 +5884,6 @@ div.lesson-production {
 
 div.lesson-info {
   width: 100%; }
-
-p.date {
-  font-size: 12px;
-  font-style: oblique;
-  color: black;
-  padding: 2px;
-  margin-left: 5px;
-  margin-top: 5px;
-  margin-bottom: 2px;
-  float: left; }
 
 div.lesson-info a.lesson-title {
   background: #f4f4f4;
@@ -6052,39 +6039,147 @@ p.end-time {
   width: 70px;
   font-size: 10pt; }
 
-div.member {
-  position: absolute;
-  text-align: left;
-  margin: 2px 2px;
-  font-size: 16px;
-  width: 50px;
-  border: 1px solid #ddd; }
-
-.member-image {
-  background: #fff;
-  height: 40px;
-  margin: 2px 0px 0px 0px;
-  text-align: center; }
-
-.member-name {
-  background: #ddd;
-  text-align: center;
-  height: 20px;
-  margin-bottom: 0em; }
-
-.member-name a {
-  font-size: 10px;
-  color: black;
-  text-transform: uppercase; }
-
 button.no-format {
   padding: 0;
   margin: 0;
   border: 0;
   background-color: transparent; }
 
+.button.action {
+  padding: 9px;
+  padding-top: 6px;
+  min-width: 92px;
+  height: 30px;
+  margin: 3px; }
+
 input.no-format {
   padding: 0;
   margin: 0;
   border: 0;
   background-color: transparent; }
+
+div.task-sheet-tabs {
+  padding: 5px;
+  background: #e6f1f6;
+  border: 1px solid #c5d5dd; }
+
+div.tabs-content .content {
+  padding: 0em; }
+
+.tabs dd > a .tab-title.active a, .tabs .tab-title.active a {
+  background: #008cba;
+  color: white; }
+.tabs dd > a .tab-title a, .tabs .tab-title a {
+  background: #e6f1f6;
+  color: #222; }
+.tabs dd > a .tab-title a:active, .tabs .tab-title a:active {
+  background: #008cba; }
+.tabs dd > a .tab-title a:hover, .tabs .tab-title a:hover {
+  background: white;
+  color: black; }
+
+div.panel {
+  background: #e6f1f6;
+  border: 1px solid #c5d5dd;
+  overflow: hidden;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 5px; }
+  div.panel input {
+    margin: 5px; }
+  div.panel p {
+    line-height: 1em;
+    margin: 5px;
+    font-size: 14px; }
+
+div.group-header {
+  margin-top: 5px;
+  padding: 5px 8px;
+  background: #e6f1f6;
+  border: 1px solid #c5d5dd;
+  overflow: hidden; }
+  div.group-header h3.group-title {
+    font-size: 13px;
+    color: #3a505b;
+    text-shadow: 0 1px white;
+    margin: 4px;
+    margin-top: 6px;
+    float: left; }
+  div.group-header div.group-item-sort-options {
+    text-align: right;
+    color: #618698;
+    font-size: 13px;
+    margin: 7px; }
+    div.group-header div.group-item-sort-options a {
+      margin-right: 5px; }
+
+div.group-item {
+  border-bottom: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  background: #f7fbfc;
+  font-size: 13px;
+  border-collapse: collapse;
+  overflow: hidden; }
+  div.group-item div.member {
+    margin: 3px;
+    border: 1px solid #ddd;
+    float: left; }
+    div.group-item div.member div.member-image {
+      background: #fff;
+      height: 40px;
+      text-align: center; }
+    div.group-item div.member p.member-name {
+      background: #ddd;
+      text-align: center;
+      height: 20px;
+      margin-bottom: 0em;
+      font-size: 10px;
+      text-transform: uppercase;
+      padding-top: 2px; }
+      div.group-item div.member p.member-name a {
+        color: black; }
+  div.group-item div.group-item-body div.group-item-header {
+    margin: 3px;
+    border: 1px solid #ddd;
+    background: #f4f4f4;
+    overflow: hidden; }
+    div.group-item div.group-item-body div.group-item-header h3.group-item-title {
+      display: block;
+      font-size: 14px;
+      font-weight: bold;
+      text-align: left;
+      color: black;
+      padding-left: 5px; }
+  div.group-item div.group-item-body p.status-prompt {
+    padding-top: 5px;
+    font-size: 1.5em;
+    text-align: center;
+    font-family: serif; }
+  div.group-item div.group-item-body input[type=text] {
+    font-size: 1.5em;
+    font-family: serif; }
+  div.group-item div.group-item-body div.group-item-content {
+    display: table-row; }
+    div.group-item div.group-item-body div.group-item-content div.group-item-metadata {
+      min-width: 150px;
+      display: table-cell;
+      padding: 7px; }
+      div.group-item div.group-item-body div.group-item-content div.group-item-metadata p {
+        font-size: 12px;
+        line-height: 1em;
+        margin-bottom: .75em; }
+    div.group-item div.group-item-body div.group-item-content div.group-item-text {
+      display: table-cell;
+      width: 100%; }
+      div.group-item div.group-item-body div.group-item-content div.group-item-text p {
+        background: white;
+        padding: 5px;
+        font-size: 12px;
+        border: dotted 1px #ddd;
+        word-break: break-word; }
+    div.group-item div.group-item-body div.group-item-content div.group-item-actions {
+      display: table-cell;
+      min-width: 100px;
+      max-width: 100px;
+      text-align: right; }

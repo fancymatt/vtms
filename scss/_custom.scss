@@ -1,3 +1,5 @@
+
+
 // Special CSS for layout
 
 div.column {
@@ -41,10 +43,6 @@ span.status-name {
   font-size: 17pt;
   width: 120px;
   position: absolute;
-}
-
-input.status-entry {
-  margin-left: 120px;
 }
 
 // Generic Group CSS
@@ -131,15 +129,8 @@ div.lesson-info {
   width: 100%;
 }
 
-p.date {
-  font-size: 12px;
-  font-style: oblique;
-  color: black;
-  padding: 2px;
-  margin-left: 5px;
-  margin-top: 5px;
-  margin-bottom: 2px;
-  float: left;
+div.group-item-top-bar {
+  
 }
 
 div.lesson-info a.lesson-title {
@@ -327,36 +318,6 @@ p.end-time {
   font-size: 10pt;
 }
 
-// Member display
-div.member {
-	position: absolute;
-	text-align: left;
-	margin: 2px 2px;
-	font-size:16px;
-	width: 50px;
-	border: 1px solid #ddd;
-}
-
-.member-image {
-  background: #fff;
-  height: 40px;
-  margin: 2px 0px 0px 0px;
-  text-align: center;
-}
-
-.member-name {
-  background: #ddd;
-  text-align: center;
-  height: 20px;
-  margin-bottom: 0em;
-}
-
-.member-name a {
-  font-size: 10px;
-  color: black;
-  text-transform: uppercase;
-}
-
 // Invisible buttons for form submit images
 button.no-format {
   padding:0; 
@@ -365,9 +326,196 @@ button.no-format {
   background-color:transparent;
 }
 
+.button.action {
+  padding: 9px;
+  padding-top: 6px;
+  min-width: 92px;
+  height: 30px;
+  margin: 3px;
+}
+
 input.no-format {
   padding:0; 
   margin:0;
   border:0;
   background-color:transparent;
+}
+
+
+div.task-sheet-tabs {
+  padding: 5px;
+  background:#e6f1f6;
+  border: 1px solid #c5d5dd;
+}
+
+div.tabs-content {
+  .content {
+    padding: 0em;
+  }
+}
+
+.tabs dd > a, .tabs {
+  .tab-title.active a {
+    background: #008cba;
+    color: white;
+  }
+  
+  .tab-title {
+    
+    a {
+      background: #e6f1f6;
+      color: #222;
+    }
+    
+    a:active {
+      background: #008cba;
+    }
+    
+    a:hover {
+      background: white;
+      color: black;
+    }
+  } 
+}
+
+div.panel {
+	background:#e6f1f6;
+	border: 1px solid #c5d5dd;
+	overflow: hidden;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	padding: 5px;
+	input {
+  	margin: 5px;
+	}
+	p {
+  	line-height: 1em;
+  	margin: 5px;
+  	font-size: 14px;
+  	
+	}
+}
+
+// Trying again to get the CSS right
+
+div.group-header {
+  margin-top: 5px;
+	padding:5px 8px;
+	background:#e6f1f6;
+	border: 1px solid #c5d5dd;
+	overflow: hidden;
+  
+  h3.group-title {
+    font-size:13px;
+  	color:#3a505b;
+  	text-shadow:0 1px white;
+  	margin: 4px;
+  	margin-top: 6px;
+  	float: left;
+  }
+
+  div.group-item-sort-options {
+    text-align: right;
+    color:#618698;
+    font-size: 13px;
+    margin: 7px;
+    
+    a {
+      margin-right: 5px;
+    }
+  }
+}
+
+div.group-item {
+  border-bottom: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+	background:#f7fbfc;
+	font-size: 13px;
+	border-collapse: collapse;
+	overflow: hidden;
+  
+  div.member {
+    margin: 3px;
+  	border: 1px solid #ddd;
+  	float: left;
+    
+    div.member-image {
+      background: #fff;
+      height: 40px;
+      text-align: center;
+    } 
+    p.member-name {
+      background: #ddd;
+      text-align: center;
+      height: 20px;
+      margin-bottom: 0em;
+      font-size: 10px;
+      text-transform: uppercase; 
+      padding-top: 2px;
+      
+      a {
+        color: black;
+      }
+    }
+  }
+  div.group-item-body {
+    div.group-item-header {
+      margin: 3px;
+      border: 1px solid #ddd;
+      background: #f4f4f4;
+      overflow: hidden;
+      
+      h3.group-item-title {
+        display: block;
+        font-size: 14px;
+        font-weight: bold;
+        text-align: left;
+        color: black;
+        padding-left: 5px;
+      }   
+    }
+    
+    p.status-prompt {
+      padding-top: 5px;
+      font-size: 1.5em;
+      text-align: center;
+      font-family: serif;
+    }
+    input[type=text] {
+      font-size: 1.5em;
+      font-family: serif;
+    }
+    div.group-item-content {
+      display: table-row;
+      
+      div.group-item-metadata {
+        min-width: 150px;
+        display: table-cell;
+        padding: 7px;
+        p {
+          font-size: 12px;
+          line-height: 1em;
+          margin-bottom: .75em;
+        }
+      }
+      div.group-item-text {
+        p {
+          background: white;
+          padding: 5px;
+          font-size: 12px;
+          border: dotted 1px #ddd;
+          word-break: break-word;
+        }
+        display: table-cell;
+        width: 100%;
+      }
+      div.group-item-actions {
+        display: table-cell;
+        min-width: 100px;
+        max-width: 100px;
+        text-align: right;
+      }
+    }
+  }
 }

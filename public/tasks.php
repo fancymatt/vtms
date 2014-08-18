@@ -2,132 +2,140 @@
 <?php
 	confirm_logged_in();
 	$days_past = 1;
-	$recent_tasks = Task::get_recently_completed_tasks(25);
-	$active_tasks = Task::get_all_active_tasks();
-	$actionable_tasks = Task::get_all_actionable_tasks(25);
+	$tasks_recent = Task::get_recently_completed_tasks(10);
+	$tasks_active = Task::get_all_active_tasks();
+	$tasks_actionable = Task::get_all_actionable_tasks(10);
 	$logged_in_user = User::find_by_id($session->user_id);
 ?>
 
 <?php include_layout_template('header.php'); ?>
-  
-    <div class="row">
-  		<div class="small-12 columns">
-  		  <h3>Tasks</h3>
-  		</div>
-		</div>
-    <div class="column">
-      <?php if($active_tasks) { ?>
-      <div id="active-tasks" class="medium-6 small-12 columns">
-  		<h3 class="group-heading">Active Tasks</h3>
-      <ol class="group">
-      <?php
-      foreach($active_tasks as $task) : ?>
-        <div class="group-item active">
-          <div class="member">
-            <div class="member-image">
-              <img src="img/headshot-<?php echo strtolower($task->team_member_name); ?>.png">
 
-            </div>
-            <p class="member-name">
-      				<?php if($session->is_admin()) {
-    				    echo "<a href='task-sheet.php?member={$task->team_member_id}'>{$task->team_member_name}</a>";  
-    				  } else {
-      				  echo $task->team_member_name;
-    				  } ?>
-            </p>
-  				</div>
-  				<div class="task-info">
-    				<p class="lesson-title"><?php echo $task->display_full_task_lesson(). " ".$task->task_name; ?></p>
-    				<p class="date"><?php echo "Activated ".$logged_in_user->local_time($task->activated_time); ?></p>
-  				</div>
-  				<div class="actions">
-  				</ul>
-    			</div>
-    		</div>
-      <?php endforeach; ?>
-      </ol>
-		</div>
-  		<?php } ?>
-  		<div id="actionable-tasks" class="medium-6 small-12 columns">
-  		<h3 class="group-heading">Actionable Tasks</h3>
-      <?php
-      if($actionable_tasks) { ?>
-      <ol class="group">
-      <?php
-      foreach($actionable_tasks as $task) : ?>
-        <div class="group-item<?php if(strtotime($task->task_due_date) < time()) { echo " overdue"; } ?>">
-          <div class="member">
-            <div class="member-image">
-              <img src="img/headshot-<?php echo strtolower($task->team_member_name); ?>.png">
-            </div>
-            <p class="member-name">
-      				<?php if($session->is_admin()) {
-    				    echo "<a href='task-sheet.php?member={$task->team_member_id}'>{$task->team_member_name}</a>";  
-    				  } else {
-      				  echo $task->team_member_name;
-    				  } ?>
-            </p>
-  				</div>
-  				<div class="task-info">
-    				<p class="lesson-title"><?php echo $task->display_full_task_lesson(). " ".$task->task_name; ?></p>
-    				<p class="date"><?php echo "Due ".$task->task_due_date; ?></p>
-  				</div>
-          <div class="actions">
-  				</ul>
-          </div>
-  			</div>
-      <?php endforeach; ?>
-      </ol>
-      <?php } ?>
-		</div>
+<div id="tasks-actionable" class="small-12 medium-8 medium-centered columns">
+  <div class="group-header">
+    <h3 class="group-title">Active Tasks</h3>
+    <div class="group-item-sort-options">
     </div>
-  	<div class="column">
-  	  <div id="recent-tasks" class="medium-6 small-12 columns">
-  		<h3 class="group-heading">Recent Completed Tasks</h3>
-      <?php
-      if($recent_tasks) { ?>
-      <ol class="group">
-      <?php
-      foreach($recent_tasks as $task) : ?>
-        <div class="group-item">
-          <div class="member">
-            <div class="member-image">
-              <img src="img/headshot-<?php echo strtolower($task->team_member_name); ?>.png">
+  </div>
+  <?php if($tasks_active) { ?>
+  <?php
+  foreach($tasks_active as $task) : 
+  ?>
+  <div class="group-item<?php if(strtotime($task->task_due_date) < time()) { echo " overdue"; } ?>">
+    <div class="group-item-body">
+      <div class="member">
+        <div class="member-image">
+          <img src="img/headshot-<?php echo strtolower($task->team_member_name); ?>.png">
+        </div>
+        <p class="member-name">
+  				<?php if($session->is_admin()) {
+  				    echo "<a href='task-sheet.php?member={$task->team_member_id}'>{$task->team_member_name}</a>";  
+  				  } else {
+    				  echo $task->team_member_name;
+  				  } ?>
+        </p>
+  		</div>
+      <div class="group-item-header">
+        <h3 class="group-item-title"><a href="#"><?php echo $task->display_full_task_lesson(). "</a> ".$task->task_name; ?></h3>
+      </div>
+      <div class="group-item-content">
+        <div class="group-item-metadata">
+          <p>Activated <?php echo date("g:i a", strtotime($logged_in_user->local_time($task->activated_time))); ?></p>
+        </div>
+        <div class="group-item-text">
+        </div>
+        <div class="group-item-actions">
+        </div>
+      </div>
+    </div>
+  </div>
+  <?php endforeach; ?>
+  <?php } ?>
+</div>
 
-            </div>
-            <p class="member-name">
-      				<?php if($session->is_admin()) {
-    				    echo "<a href='task-sheet.php?member={$task->team_member_id}'>{$task->team_member_name}</a>";  
-    				  } else {
-      				  echo $task->team_member_name;
-    				  } ?>
-            </p>
-  				</div>
-  				<div class="task-info">
-    				<p class="lesson-title"><?php echo $task->display_full_task_lesson(). " ".$task->task_name; ?></p>
-    				<p class="date">
-          				  <?php 
-          				  if($task->is_completed) {
-          				    echo "Completed";
-          				    if($task->completed_time > 0) {
-            				    echo " on ".$logged_in_user->local_time($task->completed_time);
-          				    } 
-          				    echo " in ".seconds_to_timecode($task->time_actual, 6);
-          				  } else {
-            				  echo "Due ".$task->task_due_date;
-          				  }
-          				  ?>
-          				 </p>
-  				</div>
-  				<div class="actions">
-  				</ul>
-    			</div>
-    		</div>
-      <?php endforeach; ?>
-      </ol>
-      <?php } ?>
-      </div>	
+<div id="tasks-recent" class="small-12 medium-8 medium-centered columns">
+  <div class="group-header">
+    <h3 class="group-title">Recently Completed Tasks</h3>
+    <div class="group-item-sort-options">
+    </div>
+  </div>
+<?php if($tasks_recent) { ?>
+  <?php
+  foreach($tasks_recent as $task) : 
+  ?>
+  <div class="group-item">
+    <div class="member">
+      <div class="member-image">
+        <img src="img/headshot-<?php echo strtolower($task->team_member_name); ?>.png">
+      </div>
+      <p class="member-name">
+				<?php if($session->is_admin()) {
+				    echo "<a href='task-sheet.php?member={$task->team_member_id}'>{$task->team_member_name}</a>";  
+				  } else {
+  				  echo $task->team_member_name;
+				  } ?>
+      </p>
 		</div>
-		
+    <div class="group-item-body">
+      <div class="group-item-header">
+        <h3 class="group-item-title"><a href="#"><?php echo $task->display_full_task_lesson(). "</a> ".$task->task_name; ?></h3>
+      </div>
+      <div class="group-item-content">
+        <div class="group-item-metadata">
+          <p><?php echo date("M jS, g:i a", strtotime($logged_in_user->local_time($task->completed_time))); ?></p>
+          <p>Duration: <?php echo seconds_to_timecode($task->time_actual, 6); ?></p>
+        </div>
+        <div class="group-item-text">
+        </div>
+        <div class="group-item-actions">
+        </div>
+      </div>
+    </div>
+  </div>
+  <?php endforeach; ?>
+  <?php } ?>
+</div>
+
+<div id="tasks-actionable" class="small-12 medium-8 medium-centered columns">
+  <div class="group-header">
+    <h3 class="group-title">Actionable Tasks</h3>
+    <div class="group-item-sort-options">
+    </div>
+  </div>
+<?php if($tasks_actionable) { ?>
+  <?php
+  foreach($tasks_actionable as $task) : 
+  ?>
+  <div class="group-item<?php if(strtotime($task->task_due_date) < time()) { echo " overdue"; } ?>">
+    <div class="member">
+      <div class="member-image">
+        <img src="img/headshot-<?php echo strtolower($task->team_member_name); ?>.png">
+      </div>
+      <p class="member-name">
+				<?php if($session->is_admin()) {
+				    echo "<a href='task-sheet.php?member={$task->team_member_id}'>{$task->team_member_name}</a>";  
+				  } else {
+  				  echo $task->team_member_name;
+				  } ?>
+      </p>
+		</div>
+    <div class="group-item-body">
+      <div class="group-item-header">
+        <h3 class="group-item-title"><a href="#"><?php echo $task->display_full_task_lesson(). "</a> ".$task->task_name; ?></h3>
+      </div>
+      <div class="group-item-content">
+        <div class="group-item-metadata">
+          <p><?php echo "Due ".$task->task_due_date; ?></p>
+        </div>
+        <div class="group-item-text">
+        </div>
+        <div class="group-item-actions">
+        </div>
+      </div>
+    </div>
+  </div>
+  <?php endforeach; ?>
+  <?php } ?>
+</div>
+<br />
 
 <?php include_layout_template('footer.php'); ?>
