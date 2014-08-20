@@ -16,9 +16,16 @@
 		</ul>
 	</div>
 	
+	<?php if($message) { ?>
+  <div data-alert class="alert-box">
+    <?php echo $message; ?>
+    <a href="#" class="close">&times;</a>
+  </div>
+  <?php } ?>
+	
 	<div id="page-header" class="row">
 		<header class="small-11 small-centered columns">
-			<h3><?php echo $series->title; ?></h3>
+			<h4><?php echo $series->title; ?></h4>
 		</header>
 	</div>
 	
@@ -36,7 +43,7 @@
     		</div>
     		<?php endforeach; ?> <!-- End for every series -->
     		<div class="add">
-    		  <a href="new-series.php">Add new Series</a>
+    		  <a href="new-series.php">Add new Language in this Series</a>
     		</div>
 		  </ol>
 		</div>
