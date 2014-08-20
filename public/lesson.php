@@ -51,28 +51,23 @@
 
 <?php include_layout_template('header.php'); ?>
 	
-	<div id="breadcrumbs" class="row">
-		<ul class="breadcrumbs">
-			<li><a href="lesson-db.php">Lesson DB</a></li>
-			<li><a href="series.php?id=<?php echo $series->id; ?>"><?php echo $series->title; ?></a></li>
-			<li>
-				<a href="language-series.php?id=<?php echo $language_series->id; ?>">
-					<?php echo $language_series->language_series_title." (".$language_series->level_code.")"; ?>
-				</a>
-			</li> 
-			<li class="current">
-				<a href="#">
-					<?php echo $lesson->number.". ".$lesson->title; ?>
-				</a>
-			</li>
-		</ul>
-	</div>
-	
-	<div id="page-header" class="row">
-		<div class="small-12 columns">
-			<h3><?php echo $language_series->language_series_title." (".ucwords($language_series->level_code).")"; ?>
-			<?php echo $lesson->number.". ".$lesson->title; ?></h3>
-		</div>
+	<div class="small-12 medium-8 medium-centered columns">
+  	<div id="breadcrumbs" class="row">
+  		<ul class="breadcrumbs">
+  			<li><a href="lesson-db.php">Lesson DB</a></li>
+  			<li><a href="series.php?id=<?php echo $series->id; ?>"><?php echo $series->title; ?></a></li>
+  			<li>
+  				<a href="language-series.php?id=<?php echo $language_series->id; ?>">
+  					<?php echo $language_series->language_series_title." (".$language_series->level_code.")"; ?>
+  				</a>
+  			</li> 
+  			<li class="current">
+  				<a href="#">
+  					<?php echo $lesson->number.". ".$lesson->title; ?>
+  				</a>
+  			</li>
+  		</ul>
+  	</div>
 	</div>
 	
 	<?php if($message) { ?>
@@ -82,22 +77,24 @@
 	</div>
 	<?php } ?>
 	
-	<div id="tabs" class="row">
-		<ul class="tabs" data-tab>
-			<li class="tab-title active"><a href="#panel-tasks">Tasks</a></li>
-			<li class="tab-title"><a href="#panel-script">Script</a></li>
-			<li class="tab-title"><a href="#panel-issues">Issues</a></li>
-			<li class="tab-title"><a href="#panel-edit">Edit</a></li>
-		</ul>
+	<div class="small-12 medium-8 medium-centered columns">
+		<h3><?php echo $language_series->language_series_title." (".ucwords($language_series->level_code).")"; ?>
+		<?php echo $lesson->number.". ".$lesson->title; ?></h3>
 	</div>
 	
-	<div class="tabs-content">
-		<div class="content active" id="panel-tasks">
-			<div id="section-header" class="row">
-				<header class="small-12 columns"><h4>Assets and Tasks</h4></header>
-			</div>
-			<div id="task-list-table" class="row">
-				<div class="small-12 columns">
+	<div class="small-12 medium-8 medium-centered columns">
+  	<div class="task-sheet-tabs">
+  		<ul class="tabs" data-tab>
+  			<li class="tab-title active"><a href="#panel-tasks">Tasks</a></li>
+  			<li class="tab-title"><a href="#panel-script">Script</a></li>
+  			<li class="tab-title"><a href="#panel-issues">Issues</a></li>
+  			<li class="tab-title"><a href="#panel-edit">Edit</a></li>
+  		</ul>
+  	</div>
+  	
+  	<div class="tabs-content">
+  		<div class="content active" id="panel-tasks">
+  			<div id="task-list-table" class="row">
 				  <h3 class="group-heading">Assets</h3>
            <ol class="group">
 							<?php foreach($assets as $task): ?> <!-- For every task -->
@@ -168,17 +165,13 @@
 							<?php endforeach; ?> <!-- End for every asset -->
 						</ol>
 				</div>
-			</div>
-		</div>
-		<div class="content" id="panel-script">
-			<div id="script" class="row">
-				<div id="section-header" class="small-12 columns">
-					<header><h4>Script Preview</h4></header>
-				</div>
-			</div>
-			<div id="shot-list-table"  class="row">
-				<div class="small-12 columns">
-					<p><a href="lesson-script.php?id=<?php echo $lesson->id; ?>">Go to full script page</a></p>
+  		</div>
+  		<div class="content" id="panel-script">
+  		  <div class="panel centered">
+          <a href="lesson-script.php?id=<?php echo $lesson->id; ?>" class="action button">Full Script Page</a>
+        </div>
+  			<div id="shot-list-table"  class="row">
+					
 					<table class="script">
 						<thead>
 							<th>Section</th>
@@ -205,27 +198,22 @@
 							<?php } ?>
 						</tbody>
 					</table>
-				</div>
-			</div>
-		</div>
-		<div class="content" id="panel-issues">
-			<div id="section-header" class="row">
-				<header class="small-12 columns"><h4>Current QA Log</h4></header>
-			</div>
-			<div id="qa-log" class="row">
-				<div class="small-12 columns">
-					<form action='lesson.php?id=<?php echo $lesson->id; ?>' method='post'>
-					<input type='text' size=70 name='qa_log' value='<?php echo $lesson->qa_log; ?>'>
-					<input type='hidden' name='qa_lesson_id' value='<?php echo $lesson->id; ?>'>
-					<input type='submit' name='changed_qa_log'>
-					</form>
-				</div>
-			</div>
-			<div id="section-header" class="row">
-				<header class="small-12 columns"><h4>Issues</h4></header>
-			</div>
-			<div id="issues-list" class="row">
-				<div class="small-12 columns">
+  				</div>
+  		</div>
+  		<div class="content" id="panel-issues">
+  			<div class="panel centered">
+  			  <label>Current QA Log
+  					<form action='lesson.php?id=<?php echo $lesson->id; ?>' method='post'>
+  					<input type='text' size=70 name='qa_log' value='<?php echo $lesson->qa_log; ?>'>
+  					<input type='hidden' name='qa_lesson_id' value='<?php echo $lesson->id; ?>'>
+  					<input type='submit' class="action button" name='changed_qa_log'>
+  					</form>
+  				</label>
+  			</div>
+  			<div id="section-header" class="row">
+  				<h3 class="group-heading">Issues</h3>
+  			</div>
+  			<div id="issues-list" class="row">
 					<table>
 						<thead>
 							<tr>
@@ -255,13 +243,9 @@
 							<?php } ?>
 						</tbody>
 					</table>
-				</div>
-			</div>
-			<div id="section-header" class="row">
-				<header class="small-12 columns"><h4>Add an Issue</h4></header>
-			</div>
-			<div id="add-an-issue" class="row">
-				<div class="small-12 columns">
+  			</div>
+  			<h3 class="group-heading">Add an Issue</h3>
+  			<div id="add-an-issue" class="row">
 					<table>
 						<thead>
 							<tr>
@@ -287,71 +271,63 @@
 						</tbody>
 					</table>
 				</div>
-			</div>
-		</div>
-		<div class="content" id="panel-edit">
-			<div id="section-header" class="row">
-				<header class="small-12 columns"><h4>Edit</h4></header>
-			</div>
-			<div id="edit" class="row">
-				<div class="small-12 columns">
+  		</div>
+  		<div class="content" id="panel-edit">
+  			<div id="edit" class="row">
 					<form action='lesson.php?id=<?php echo $lesson->id; ?>' method='post'>
-						<label>QA Log</label><input type='text' size=60 name='edited_qa_log' value='<?php echo $lesson->qa_log; ?>'>
-						<label>QA URL</label><input type='text' size=60 name='edited_qa_url' value='<?php echo $lesson->qa_url; ?>'>
-						<label for="edited_lesson_title">Title</label> <input type="text" size="50" name="edited_lesson_title" value="<?php echo $lesson->title; ?>">
-						<label for="edited_lesson_publish_date">Publish Date</label> <input type="text" size="50" name="edited_lesson_publish_date" value="<?php echo $lesson->publish_date; ?>">
-				</div>
-			</div>
-			<div class="row">
-				<div class="small-6 columns">
-					<label>TRT Minutes</label>
-					<select name="edited_lesson_trt_minutes" id="edited_lesson_trt_minutes">
-						<?php for($i=0; $i<20; $i++) {
-							echo "<option value='{$i}'";
-							if ($i == $trt_minutes) {
-								echo " selected";
-							}
-							echo ">{$i}</option>";
-						} ?>
-					</select>
-				</div>
-				<div class="small-6 columns">
-					<label>TRT Seconds</label>
-					<select name="edited_lesson_trt_seconds" id="edited_lesson_trt_seconds">
-						<?php for($i=0; $i<60; $i++) {
-							echo "<option value='{$i}'";
-							if ($i == $trt_seconds) {
-								echo " selected";
-							}
-							echo ">{$i}</option>";
-						} ?>
-					</select></p>
-				</div>
-			</div>
-			<div class="row">
-				<div class="small-3 columns">
-					<input type="checkbox" name="edited_lesson_checked_language" value="1" <?php echo $lesson->checked_language ? "checked" : ""; ?>>
-					<label for "edited_lesson_checked_language" class="right">Language Checked<label>
-				</div>
-				<div class="small-3 columns">
-					<input type="checkbox" name="edited_lesson_checked_video" value="1" <?php echo $lesson->checked_video ? "checked" : ""; ?>>
-					<label  for "edited_lesson_checked_video" class="right">Video Checked<label>
-				</div>
-				<div class="small-3 columns">
-					<input type="checkbox" name="edited_lesson_files_moved" value="1" <?php echo $lesson->files_moved ? "checked" : ""; ?>>
-					<label for "edited_lesson_files_moved" class="right">Files Moved<label>
-				</div>
-				<div class="small-3 columns">
-					<input type="checkbox" name="edited_lesson_is_detected" value="1" <?php echo $lesson->is_detected ? "checked" : "" ?>>
-					<label for "edited_lesson_is_detected" class="right">Lesson Detected<label>
-				</div>
-				<div class="small-12 columns"
-						<input type="hidden" name="edited_lesson_id" value="<?php echo $current_record->id; ?>">
-						<p><input type="submit" name="edited_lesson" id="edited_lesson" value="Edit"></p>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
+						<label>QA Log<input type='text' size=60 name='edited_qa_log' value='<?php echo $lesson->qa_log; ?>'></label>
+						<label>QA URL<input type='text' size=60 name='edited_qa_url' value='<?php echo $lesson->qa_url; ?>'></label>
+						<label>Title <input type="text" size="50" name="edited_lesson_title" value="<?php echo $lesson->title; ?>"></label>
+						<label>Publish Date<input type="text" size="50" name="edited_lesson_publish_date" value="<?php echo $lesson->publish_date; ?>"></label>
+  			</div>
+  			<div class="row collapse">
+  				<div class="small-6 columns">
+  					<label>TRT Minutes</label>
+  					<select name="edited_lesson_trt_minutes" id="edited_lesson_trt_minutes">
+  						<?php for($i=0; $i<20; $i++) {
+  							echo "<option value='{$i}'";
+  							if ($i == $trt_minutes) {
+  								echo " selected";
+  							}
+  							echo ">{$i}</option>";
+  						} ?>
+  					</select>
+  				</div>
+  				<div class="small-6 columns">
+  					<label>TRT Seconds</label>
+  					<select name="edited_lesson_trt_seconds" id="edited_lesson_trt_seconds">
+  						<?php for($i=0; $i<60; $i++) {
+  							echo "<option value='{$i}'";
+  							if ($i == $trt_seconds) {
+  								echo " selected";
+  							}
+  							echo ">{$i}</option>";
+  						} ?>
+  					</select></p>
+  				</div>
+  			</div>
+  			<div class="row collapse">
+  				<div class="small-6 columns">
+  					<input type="checkbox" name="edited_lesson_checked_language" value="1" <?php echo $lesson->checked_language ? "checked" : ""; ?>><label>Language Checked</label>
+  				</div>
+  				<div class="small-6 columns">
+  					<input type="checkbox" name="edited_lesson_checked_video" value="1" <?php echo $lesson->checked_video ? "checked" : ""; ?>><label>Video Checked</label>
+  				</div>
+          <div class="small-6 columns">
+            <input type="checkbox" name="edited_lesson_files_moved" value="1" <?php echo $lesson->files_moved ? "checked" : ""; ?>><label>Files Moved</label>
+          </div>
+          <div class="small-6 columns">
+            <input type="checkbox" name="edited_lesson_is_detected" value="1" <?php echo $lesson->is_detected ? "checked" : "" ?>><label>Lesson Detected<label></label>
+            </div>
+            </div>
+  				<div class="row collapse"
+  						<input type="hidden" name="edited_lesson_id" value="<?php echo $current_record->id; ?>">
+  						<p><input type="submit" class="action button" name="edited_lesson" id="edited_lesson" value="Edit"></p>
+  					</form>
+  				</div>
+  			</div>
+  		</div>
+  	</div>
+  </div>
 
 <?php include_layout_template('footer.php'); ?>
