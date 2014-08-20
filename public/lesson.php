@@ -94,111 +94,106 @@
   	
   	<div class="tabs-content">
   		<div class="content active" id="panel-tasks">
-  			<div id="task-list-table" class="row">
-				  <h3 class="group-heading">Assets</h3>
-           <ol class="group">
-							<?php foreach($assets as $task): ?> <!-- For every task -->
-							<div class="group-item<?php if($task->is_completed) { echo " ready"; } ?>">
-                <div class="member">
-                  <div class="member-image">
-                    <img src="img/headshot-<?php echo strtolower($task->team_member_name); ?>.png">
-                  </div>
-                  <p class="member-name">
-            				<?php if($session->is_admin()) {
-          				    echo "<a href='task-sheet.php?member={$task->team_member_id}'>{$task->team_member_name}</a>";  
-          				  } else {
-            				  echo $task->team_member_name;
-          				  } ?>
-                  </p>
-        				</div>
-        				<div class="task-info">
-          				<p class="task-title"><?php echo $task->task_name; ?></p>
-          				<p class="date"><?php echo "Due ".$task->task_due_date; ?></p>
-        				</div>
-        				<?php if($session->is_admin()) { ?>
-                <div class="actions">
-        					<a class="action-item" href="edit-task.php?id=<?php echo $task->id; ?>">Edit</a>
+			  <h3 class="group-heading">Assets</h3>
+         <ol class="group">
+						<?php foreach($assets as $task): ?> <!-- For every task -->
+						<div class="group-item<?php if($task->is_completed) { echo " ready"; } ?>">
+              <div class="member">
+                <div class="member-image">
+                  <img src="img/headshot-<?php echo strtolower($task->team_member_name); ?>.png">
                 </div>
-                <?php } ?>
-        			</div>
-							<?php endforeach; ?> <!-- End for every asset -->
-           </ol>
-					
-					<h3 class="group-heading">Tasks</h3>
-					<ol class="group">
-							<?php foreach($tasks as $task): ?> <!-- For every task -->
-							<div class="group-item<?php if($task->is_completed) { echo " ready"; } ?>">
-                <div class="member">
-                  <div class="member-image">
-                    <img src="img/headshot-<?php echo strtolower($task->team_member_name); ?>.png">
-                  </div>
-                  <p class="member-name">
-            				<?php if($session->is_admin()) {
-          				    echo "<a href='task-sheet.php?member={$task->team_member_id}'>{$task->team_member_name}</a>";  
-          				  } else {
-            				  echo $task->team_member_name;
-          				  } ?>
-                  </p>
-        				</div>
-        				<div class="task-info">
-          				<p class="task-title"><?php echo $task->task_name; ?></p>
-          				<p class="date">
-          				  <?php 
-          				  if($task->is_completed) {
-          				    echo "Completed";
-          				    if($task->completed_time > 0) {
-            				    echo " on ".$logged_in_user->local_time($task->completed_time);
-          				    } 
-          				    echo " in ".seconds_to_timecode($task->time_actual, 6);
-          				  } else {
-            				  echo "Due ".$task->task_due_date;
-          				  }
-          				  ?>
-          				 </p>
-        				</div>
-                <?php if($session->is_admin()) { ?>
-                <div class="actions">
-        					<a class="action-item" href="edit-task.php?id=<?php echo $task->id; ?>">Edit</a>
+                <p class="member-name">
+          				<?php if($session->is_admin()) {
+        				    echo "<a href='task-sheet.php?member={$task->team_member_id}'>{$task->team_member_name}</a>";  
+        				  } else {
+          				  echo $task->team_member_name;
+        				  } ?>
+                </p>
+      				</div>
+      				<div class="task-info">
+        				<p class="task-title"><?php echo $task->task_name; ?></p>
+        				<p class="date"><?php echo "Due ".$task->task_due_date; ?></p>
+      				</div>
+      				<?php if($session->is_admin()) { ?>
+              <div class="actions">
+      					<a class="action-item" href="edit-task.php?id=<?php echo $task->id; ?>">Edit</a>
+              </div>
+              <?php } ?>
+      			</div>
+						<?php endforeach; ?> <!-- End for every asset -->
+         </ol>
+				
+				<h3 class="group-heading">Tasks</h3>
+				<ol class="group">
+						<?php foreach($tasks as $task): ?> <!-- For every task -->
+						<div class="group-item<?php if($task->is_completed) { echo " ready"; } ?>">
+              <div class="member">
+                <div class="member-image">
+                  <img src="img/headshot-<?php echo strtolower($task->team_member_name); ?>.png">
                 </div>
-                <?php } ?>
-        			</div>
-							<?php endforeach; ?> <!-- End for every asset -->
-						</ol>
-				</div>
-  		</div>
+                <p class="member-name">
+          				<?php if($session->is_admin()) {
+        				    echo "<a href='task-sheet.php?member={$task->team_member_id}'>{$task->team_member_name}</a>";  
+        				  } else {
+          				  echo $task->team_member_name;
+        				  } ?>
+                </p>
+      				</div>
+      				<div class="task-info">
+        				<p class="task-title"><?php echo $task->task_name; ?></p>
+        				<p class="date">
+        				  <?php 
+        				  if($task->is_completed) {
+        				    echo "Completed";
+        				    if($task->completed_time > 0) {
+          				    echo " on ".$logged_in_user->local_time($task->completed_time);
+        				    } 
+        				    echo " in ".seconds_to_timecode($task->time_actual, 6);
+        				  } else {
+          				  echo "Due ".$task->task_due_date;
+        				  }
+        				  ?>
+        				 </p>
+      				</div>
+              <?php if($session->is_admin()) { ?>
+              <div class="actions">
+      					<a class="action-item" href="edit-task.php?id=<?php echo $task->id; ?>">Edit</a>
+              </div>
+              <?php } ?>
+      			</div>
+						<?php endforeach; ?> <!-- End for every asset -->
+					</ol>
+			</div>
   		<div class="content" id="panel-script">
   		  <div class="panel centered">
           <a href="lesson-script.php?id=<?php echo $lesson->id; ?>" class="action button">Full Script Page</a>
         </div>
-  			<div id="shot-list-table"  class="row">
-					
-					<table class="script">
-						<thead>
-							<th>Section</th>
-							<th>Shot</th>
-							<th>Script</th>
-							<th>Script English</th>
-						</thead>
-						<tbody>
-							<?php if($shots) { ?>
-								<?php foreach($shots as $shot): ?>
-									<tr>
-										<td><?php echo $shot->section; ?></td>
-										<td><?php echo $shot->shot." - ".$shot->type; ?></td>
-										<td><?php echo nl2br($shot->script); ?></td>
-										<td><?php echo nl2br($shot->script_english); ?></td>
-									</tr>
-								<?php endforeach; ?>
-							<?php } else { ?> <!-- End of if($shots) -->
+				<table class="script">
+					<thead>
+						<th>Section</th>
+						<th>Shot</th>
+						<th>Script</th>
+						<th>Script English</th>
+					</thead>
+					<tbody>
+						<?php if($shots) { ?>
+							<?php foreach($shots as $shot): ?>
 								<tr>
-									<td colspan="5">
-										<a href="lesson-script.php?id=<?php echo $lesson->id; ?>">No script. Click to edit.</a>
-									</td>
+									<td><?php echo $shot->section; ?></td>
+									<td><?php echo $shot->shot." - ".$shot->type; ?></td>
+									<td><?php echo nl2br($shot->script); ?></td>
+									<td><?php echo nl2br($shot->script_english); ?></td>
 								</tr>
-							<?php } ?>
-						</tbody>
-					</table>
-  				</div>
+							<?php endforeach; ?>
+						<?php } else { ?> <!-- End of if($shots) -->
+							<tr>
+								<td colspan="5">
+									<a href="lesson-script.php?id=<?php echo $lesson->id; ?>">No script. Click to edit.</a>
+								</td>
+							</tr>
+						<?php } ?>
+					</tbody>
+				</table>
   		</div>
   		<div class="content" id="panel-issues">
   			<div class="panel centered">
@@ -210,123 +205,108 @@
   					</form>
   				</label>
   			</div>
-  			<div id="section-header" class="row">
-  				<h3 class="group-heading">Issues</h3>
-  			</div>
-  			<div id="issues-list" class="row">
-					<table>
-						<thead>
+        <h3 class="group-heading">Issues</h3>
+				<table>
+					<thead>
+						<tr>
+							<th>Task</th>
+							<th>Creator</th>
+							<th>Timecode</th>
+							<th>Issue</th>
+							<th>Status</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php if($all_issues) { ?>
+							<?php foreach($all_issues as $issue): ?>
+							<?php $task_for_issue_id = Task::find_by_id($issue->task_id); ?>
 							<tr>
-								<th>Task</th>
-								<th>Creator</th>
-								<th>Timecode</th>
-								<th>Issue</th>
-								<th>Status</th>
+								<td><?php echo $task_for_issue_id->task_name; ?></td>
+								<td><?php echo $issue->issue_creator; ?></td>
+								<td><?php echo $issue->issue_timecode; ?></td>
+								<td><?php echo $issue->issue_body; ?></td>
+								<td><?php echo $issue->is_completed ? "Finished" : "Incomplete"; ?></td>
 							</tr>
-						</thead>
-						<tbody>
-							<?php if($all_issues) { ?>
-								<?php foreach($all_issues as $issue): ?>
-								<?php $task_for_issue_id = Task::find_by_id($issue->task_id); ?>
-								<tr>
-									<td><?php echo $task_for_issue_id->task_name; ?></td>
-									<td><?php echo $issue->issue_creator; ?></td>
-									<td><?php echo $issue->issue_timecode; ?></td>
-									<td><?php echo $issue->issue_body; ?></td>
-									<td><?php echo $issue->is_completed ? "Finished" : "Incomplete"; ?></td>
-								</tr>
-								<?php endforeach; ?>
-							<?php } else { ?>
-								<tr>
-									<td colspan="5">No issues for this lesson</td>
-								</tr>
-							<?php } ?>
-						</tbody>
-					</table>
-  			</div>
-  			<h3 class="group-heading">Add an Issue</h3>
-  			<div id="add-an-issue" class="row">
-					<table>
-						<thead>
+							<?php endforeach; ?>
+						<?php } else { ?>
 							<tr>
-								<th width="400">Problem</th>
-								<th width="400">Task Name</th>
+								<td colspan="5">No issues for this lesson</td>
 							</tr>
-						</thead>
-						<tbody>
-						<?php foreach($tasks_and_assets as $task) {
-							$global_task = GlobalTask::find_by_id($task->global_task_id);
-							if ($global_task->can_add_issues) { ?>
-								<tr>
-									<td>
-										<a href="issues-for-task.php?id=<?php echo $task->id; ?>">
-									<?php echo $global_task->issue_reporting_friendly_text; ?></a>
-									</td>
-									<td>
-										<?php echo $global_task->task_name; ?>
-									</td>
-								</tr>
-							<?php } ?>
 						<?php } ?>
-						</tbody>
-					</table>
-				</div>
+					</tbody>
+				</table>
+  			<h3 class="group-heading">Add an Issue</h3>
+				<table>
+					<thead>
+						<tr>
+							<th width="400">Problem</th>
+							<th width="400">Task Name</th>
+						</tr>
+					</thead>
+					<tbody>
+					<?php foreach($tasks_and_assets as $task) {
+						$global_task = GlobalTask::find_by_id($task->global_task_id);
+						if ($global_task->can_add_issues) { ?>
+							<tr>
+								<td>
+									<a href="issues-for-task.php?id=<?php echo $task->id; ?>">
+								<?php echo $global_task->issue_reporting_friendly_text; ?></a>
+								</td>
+								<td>
+									<?php echo $global_task->task_name; ?>
+								</td>
+							</tr>
+						<?php } ?>
+					<?php } ?>
+					</tbody>
+				</table>
   		</div>
   		<div class="content" id="panel-edit">
-  			<div id="edit" class="row">
 					<form action='lesson.php?id=<?php echo $lesson->id; ?>' method='post'>
 						<label>QA Log<input type='text' size=60 name='edited_qa_log' value='<?php echo $lesson->qa_log; ?>'></label>
 						<label>QA URL<input type='text' size=60 name='edited_qa_url' value='<?php echo $lesson->qa_url; ?>'></label>
 						<label>Title <input type="text" size="50" name="edited_lesson_title" value="<?php echo $lesson->title; ?>"></label>
 						<label>Publish Date<input type="text" size="50" name="edited_lesson_publish_date" value="<?php echo $lesson->publish_date; ?>"></label>
   			</div>
-  			<div class="row collapse">
-  				<div class="small-6 columns">
-  					<label>TRT Minutes</label>
-  					<select name="edited_lesson_trt_minutes" id="edited_lesson_trt_minutes">
-  						<?php for($i=0; $i<20; $i++) {
-  							echo "<option value='{$i}'";
-  							if ($i == $trt_minutes) {
-  								echo " selected";
-  							}
-  							echo ">{$i}</option>";
-  						} ?>
-  					</select>
-  				</div>
-  				<div class="small-6 columns">
-  					<label>TRT Seconds</label>
-  					<select name="edited_lesson_trt_seconds" id="edited_lesson_trt_seconds">
-  						<?php for($i=0; $i<60; $i++) {
-  							echo "<option value='{$i}'";
-  							if ($i == $trt_seconds) {
-  								echo " selected";
-  							}
-  							echo ">{$i}</option>";
-  						} ?>
-  					</select></p>
-  				</div>
-  			</div>
-  			<div class="row collapse">
-  				<div class="small-6 columns">
-  					<input type="checkbox" name="edited_lesson_checked_language" value="1" <?php echo $lesson->checked_language ? "checked" : ""; ?>><label>Language Checked</label>
-  				</div>
-  				<div class="small-6 columns">
-  					<input type="checkbox" name="edited_lesson_checked_video" value="1" <?php echo $lesson->checked_video ? "checked" : ""; ?>><label>Video Checked</label>
-  				</div>
-          <div class="small-6 columns">
-            <input type="checkbox" name="edited_lesson_files_moved" value="1" <?php echo $lesson->files_moved ? "checked" : ""; ?>><label>Files Moved</label>
-          </div>
-          <div class="small-6 columns">
-            <input type="checkbox" name="edited_lesson_is_detected" value="1" <?php echo $lesson->is_detected ? "checked" : "" ?>><label>Lesson Detected<label></label>
-            </div>
-            </div>
-  				<div class="row collapse"
-  						<input type="hidden" name="edited_lesson_id" value="<?php echo $current_record->id; ?>">
-  						<p><input type="submit" class="action button" name="edited_lesson" id="edited_lesson" value="Edit"></p>
-  					</form>
-  				</div>
-  			</div>
-  		</div>
+				<div class="small-6 columns">
+					<label>TRT Minutes</label>
+					<select name="edited_lesson_trt_minutes" id="edited_lesson_trt_minutes">
+						<?php for($i=0; $i<20; $i++) {
+							echo "<option value='{$i}'";
+							if ($i == $trt_minutes) {
+								echo " selected";
+							}
+							echo ">{$i}</option>";
+						} ?>
+					</select>
+				</div>
+				<div class="small-6 columns">
+					<label>TRT Seconds</label>
+					<select name="edited_lesson_trt_seconds" id="edited_lesson_trt_seconds">
+						<?php for($i=0; $i<60; $i++) {
+							echo "<option value='{$i}'";
+							if ($i == $trt_seconds) {
+								echo " selected";
+							}
+							echo ">{$i}</option>";
+						} ?>
+					</select></p>
+				</div>
+				<div class="small-6 columns">
+					<input type="checkbox" name="edited_lesson_checked_language" value="1" <?php echo $lesson->checked_language ? "checked" : ""; ?>><label>Language Checked</label>
+				</div>
+				<div class="small-6 columns">
+					<input type="checkbox" name="edited_lesson_checked_video" value="1" <?php echo $lesson->checked_video ? "checked" : ""; ?>><label>Video Checked</label>
+				</div>
+        <div class="small-6 columns">
+          <input type="checkbox" name="edited_lesson_files_moved" value="1" <?php echo $lesson->files_moved ? "checked" : ""; ?>><label>Files Moved</label>
+        </div>
+        <div class="small-6 columns">
+          <input type="checkbox" name="edited_lesson_is_detected" value="1" <?php echo $lesson->is_detected ? "checked" : "" ?>><label>Lesson Detected</label>
+        </div>  
+				<input type="hidden" name="edited_lesson_id" value="<?php echo $current_record->id; ?>">
+				<p><input type="submit" class="action button" name="edited_lesson" id="edited_lesson" value="Edit"></p>
+			</form>
   	</div>
   </div>
 
