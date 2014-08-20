@@ -8,6 +8,13 @@
 			<li class="current"><a href="lesson-db.php">Lesson DB</a></li>
 		</ul>
 	</div>
+	
+	<?php if($message) { ?>
+    <div data-alert class="alert-box">
+      <?php echo $message; ?>
+      <a href="#" class="close">&times;</a>
+    </div>
+    <?php } ?>
 
 	<div id="page-header" class="row">
 		<header class="small-11 small-centered columns">

@@ -32,6 +32,17 @@
 <?php include_layout_template('header.php'); ?>
 	<div class="small-12 medium-8 medium-centered columns">
 	
+  	<div id="breadcrumbs" class="row">
+  		<ul class="breadcrumbs">
+  			<li><a href="lesson-db.php">Lesson DB</a></li>
+  			<li class="current">
+  				<a href="#">
+  					Add New Series
+  				</a>
+  			</li> 
+  		</ul>
+  	</div>
+	
 	<?php if($message) { ?>
   <div data-alert class="alert-box">
     <?php echo $message; ?>
@@ -41,17 +52,17 @@
 	
 	  <h4>Create new series</h4>
 	  
-		<p><span id="errorMessage"></span></p>
+		<span id="errorMessage"></span></p>
 		<?php echo $session->form_errors($errors); ?>
 		<form action="new-series.php" method="POST" id="new_series_form">
 		
-			<p><span data-tooltip class="has-tip" title="This is the name that will appear in task sheets. It doesn't have to be the complete name as directed by Marketing">Name</span> 
-			<input type="text" size="50" name="series_name" id="series_name" value="<?php echo $_SESSION["series_name"]; ?>"></p>
+			<label><span data-tooltip class="has-tip" title="This is the name that will appear in task sheets. It doesn't have to be the complete name as directed by Marketing">Name</span>
+			<input type="text" size="50" name="series_name" id="series_name" value="<?php echo $_SESSION["series_name"]; ?>"></label>
 			
-			<p><span data-tooltip class="has-tip" title="This is the shorthand to distinguish the series in file names.">Code</span> 
-			<input type="text" name="series_code" value="<?php echo $_SESSION["series_code"]; ?>"></p>
+			<label><span data-tooltip class="has-tip" title="This is the shorthand to distinguish the series in file names.">Code</span> 
+			<input type="text" name="series_code" value="<?php echo $_SESSION["series_code"]; ?>"></label>
 			
-			<p><input type="submit" name="submit_new_series" class="action button" id="submit_new_series"></p>
+			<input type="submit" name="submit_new_series" class="action button" id="submit_new_series">
 		</form>
 	</div>
 	<script src="script.js"></script>

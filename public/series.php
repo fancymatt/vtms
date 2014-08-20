@@ -43,7 +43,7 @@
     		</div>
     		<?php endforeach; ?> <!-- End for every series -->
     		<div class="add">
-    		  <a href="new-series.php">Add new Language in this Series</a>
+    		  <a href="new-language-series.php?inSeries=<?php echo $series->id; ?>">Add new Language in this Series</a>
     		</div>
 		  </ol>
 		</div>
