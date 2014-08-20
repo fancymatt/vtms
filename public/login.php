@@ -29,10 +29,8 @@
 	}
 ?>
 <?php include_layout_template('header.php'); ?>
-	<div id="page-header" class="row">
-		<div class="small-12 columns">
+	<div class="small-12 medium-8 medium-centered columns">
 			<h3>Log In</h3>
-		</div>
 	</div>
 	
 	<?php if($message) { ?>
@@ -42,12 +40,14 @@
 	</div>
 	<?php } ?>
 	
-	<div id="log-in" class="panel">
-		<form method="POST" action="login.php">
-			<p><label for="username">Username:</label><input type="text" name="username" value="<?php echo $submitted_username; ?>"></p>
-			<p><label for="password">Password:</label><input type="password" name="password"></p>
-			<p><input type="submit" id="login_user" name="login_user"></p>
-		</form>
+	<div class="small-12 medium-8 medium-centered columns">
+  	<div id="log-in" class="panel">
+  		<form method="POST" action="login.php">
+  			<p><label for="username">Username:</label><input type="text" name="username" value="<?php echo $submitted_username; ?>"></p>
+  			<p><label for="password">Password:</label><input type="password" name="password"></p>
+  			<p><input type="submit" class="action button" id="login_user" name="login_user"></p>
+  		</form>
+  	</div>
 	</div>
 	
 <?php include_layout_template('footer.php'); ?>
