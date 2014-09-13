@@ -31,7 +31,7 @@
 		$message = "TRT for " . $changed_records . " lessons have been updated.";
 	}
 	
-	$recently_completed_lessons = Lesson::find_all_recently_completed_lessons();
+	$recently_completed_lessons = Lesson::find_all_recently_completed_lessons("order");
 ?>
 
 <?php include_layout_template('header.php'); ?>

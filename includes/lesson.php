@@ -36,7 +36,7 @@ class Lesson extends DatabaseObject {
 											'(SELECT MAX(task.timeCompleted) FROM task WHERE task.fkLesson = lesson.id)' => 'last_task_time',
 											'(SELECT MAX(taskComment.timeCompleted) FROM taskComment JOIN task ON taskComment.fkTask=task.id WHERE task.fkLesson = lesson.id)' => 'last_issue_time',
 											'(SELECT taskComment.id FROM taskComment JOIN task ON task.id = taskComment.fkTask WHERE task.fkLesson = lesson.id ORDER BY taskComment.timeCompleted DESC LIMIT 1)' => 'last_issue_id',
-											'IF(IFNULL((SELECT MAX(task.timeCompleted) FROM task WHERE task.fkLesson = lesson.id),0) > IFNULL((SELECT MAX(taskComment.timeCompleted) FROM taskComment JOIN task ON taskComment.fkTask=task.id WHERE task.fkLesson = lesson.id),0), "task", "issue")' => 'last_action'
+											'IF(IFNULL((SELECT MAX(task.timeCompleted) FROM task JOIN taskGlobal ON task.fkTaskGlobal=taskGlobal.id WHERE lesson.id=lesson.id),0) > IFNULL((SELECT MAX(taskComment.timeCompleted) FROM taskComment JOIN task ON taskComment.fkTask=task.id WHERE task.fkLesson = lesson.id),0), "task", "issue")' => 'last_action'
 											);
 										
 	protected static $db_edit_fields = array('lesson.fkLanguageSeries' => 'language_series_id',
@@ -329,7 +329,11 @@ class Lesson extends DatabaseObject {
 		$sql .= "				FROM lesson sub_lesson ";
 		$sql .= "					JOIN task ";
 		$sql .= "					  ON sub_lesson.id=task.fkLesson ";
-		$sql .= "				WHERE sub_lesson.id=lesson.id) ";
+		$sql .= "         JOIN taskGlobal ";
+		$sql .= "           ON task.fkTaskGlobal=taskGlobal.id ";
+		$sql .= "				WHERE sub_lesson.id=lesson.id ";
+		// Only new tasks can add lessons to the render queue, not delivered assets
+		$sql .= "       AND NOT taskGlobal.isAsset = 1 ) ";
 		$sql .= "  		) OR ( ";
 		$sql .= "		lesson.exportedTime < ";
 		$sql .= "			(SELECT MAX(taskComment.timeCompleted) ";
@@ -593,7 +597,7 @@ class Lesson extends DatabaseObject {
 		return static::find_by_sql($sql);
 	}
 	
-	public static function find_all_recently_completed_lessons() {
+	public static function find_all_recently_completed_lessons($sort="date") {
 		// detect the latest task completion time and issue fixed time
 		$sql  = "SELECT ";		
 		foreach (self::$db_view_fields as $k => $v) {
@@ -607,11 +611,16 @@ class Lesson extends DatabaseObject {
 			}
 		$sql .= "WHERE lesson.filesMoved = 1 ";
 		$sql .= "AND lesson.trt < 1 ";
-		$sql .= "ORDER BY lesson.publishDateSite ASC ";
+		if ($sort=="date") {
+  	  $sql .= "ORDER BY lesson.publishDateSite ASC ";	
+		} else { 
+  		$sql .= "ORDER BY series.title ASC, language.name ASC, level.number ASC, lesson.number ASC ";
+		}
 		
 		return static::find_by_sql($sql);
 	}
 	
+
 	public function display_full_lesson() {
 		echo $this->language_name ." ". $this->series_name . " (".strtoupper($this->level_code).") #" . $this->number;
 	}
