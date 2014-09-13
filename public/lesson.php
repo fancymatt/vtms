@@ -267,8 +267,8 @@
 						<label>QA URL<input type='text' size=60 name='edited_qa_url' value='<?php echo $lesson->qa_url; ?>'></label>
 						<label>Title <input type="text" size="50" name="edited_lesson_title" value="<?php echo $lesson->title; ?>"></label>
 						<label>Publish Date<input type="text" size="50" name="edited_lesson_publish_date" value="<?php echo $lesson->publish_date; ?>"></label>
-  			</div>
 				<div class="small-6 columns">
+				  <div class="small-6 columns">
 					<label>TRT Minutes</label>
 					<select name="edited_lesson_trt_minutes" id="edited_lesson_trt_minutes">
 						<?php for($i=0; $i<20; $i++) {
@@ -279,8 +279,8 @@
 							echo ">{$i}</option>";
 						} ?>
 					</select>
-				</div>
-				<div class="small-6 columns">
+				  </div>
+				  <div class="small-6 columns">
 					<label>TRT Seconds</label>
 					<select name="edited_lesson_trt_seconds" id="edited_lesson_trt_seconds">
 						<?php for($i=0; $i<60; $i++) {
@@ -291,22 +291,18 @@
 							echo ">{$i}</option>";
 						} ?>
 					</select></p>
+					</div>
 				</div>
 				<div class="small-6 columns">
-					<input type="checkbox" name="edited_lesson_checked_language" value="1" <?php echo $lesson->checked_language ? "checked" : ""; ?>><label>Language Checked</label>
-				</div>
-				<div class="small-6 columns">
-					<input type="checkbox" name="edited_lesson_checked_video" value="1" <?php echo $lesson->checked_video ? "checked" : ""; ?>><label>Video Checked</label>
-				</div>
-        <div class="small-6 columns">
-          <input type="checkbox" name="edited_lesson_files_moved" value="1" <?php echo $lesson->files_moved ? "checked" : ""; ?>><label>Files Moved</label>
-        </div>
-        <div class="small-6 columns">
-          <input type="checkbox" name="edited_lesson_is_detected" value="1" <?php echo $lesson->is_detected ? "checked" : "" ?>><label>Lesson Detected</label>
+					<p><input type="checkbox" name="edited_lesson_checked_language" value="1" <?php echo $lesson->checked_language ? "checked" : ""; ?>><label>Language Checked</label></p>
+					<p><input type="checkbox" name="edited_lesson_checked_video" value="1" <?php echo $lesson->checked_video ? "checked" : ""; ?>><label>Video Checked</label></p>
+          <p><input type="checkbox" name="edited_lesson_files_moved" value="1" <?php echo $lesson->files_moved ? "checked" : ""; ?>><label>Files Moved</label></p>
+          <p><input type="checkbox" name="edited_lesson_is_detected" value="1" <?php echo $lesson->is_detected ? "checked" : "" ?>><label>Lesson Detected</label></p>
         </div>  
 				<input type="hidden" name="edited_lesson_id" value="<?php echo $current_record->id; ?>">
 				<p><input type="submit" class="action button" name="edited_lesson" id="edited_lesson" value="Edit"></p>
 			</form>
+			</div>
   	</div>
   </div>
 
