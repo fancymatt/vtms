@@ -36,28 +36,48 @@
 ?>
 
 <?php include_layout_template('header.php'); ?>
-<h2>User Dashboard</h2>
-<form action="user-dashboard.php" method="post">
-<?php if($message) echo "<p>".$message."</p>"; ?>
-<div class="panel">
-<h3>User Info</h3>
-<p>User Name: <input name="user_name" value="<?php echo $current_user->user_name; ?>"></p>
-<p>Time Zone: <select name="user_time_zone">
-	<?php foreach($all_time_zones as $time_zone) {
-		echo "<option value='{$time_zone}'";
-		if ($time_zone == $current_user->time_zone) { 
-			echo "selected";
-		}
-		echo ">{$time_zone}</option>";
-	} ?>
-</select></p>
+
+<?php if($message) { ?>
+	<div data-alert class="alert-box">
+	  <?php echo $message; ?>
+	  <a href="#" class="close">&times;</a>
+	</div>
+	<?php } ?>
+	
+
+<div class="small-12 medium-8 medium-centered columns">
+  <h3>User Dashboard</h3>
+  <div class="panel">
+    <h4>User Info</h4>
+    <div class="small-12 medium-3 columns">
+      <label>User Name: 
+    </div>
+    <div class="small-12 medium-9 columns">
+      <form action="user-dashboard.php" method="post">
+      <input name="user_name" value="<?php echo $current_user->user_name; ?>"></label>
+    </div>
+  
+  
+  
+  <label>Time Zone: <select name="user_time_zone">
+  	<?php foreach($all_time_zones as $time_zone) {
+  		echo "<option value='{$time_zone}'";
+  		if ($time_zone == $current_user->time_zone) { 
+  			echo "selected";
+  		}
+  		echo ">{$time_zone}</option>";
+  	} ?>
+  </select></label>
+  </div>
+  <div class="panel">
+  <h4>Change Password</h4>
+  <label>New Password: <input name="user_password" type="password"></label>
+  <label>New Password: <input name="user_password_confirm" type="password" placeholder="please re-enter"></label>
+  </div>
+  <div class="panel">
+    <label>Current Password: <input name="user_old_password" type="password" placeholder="required to edit"></label>
+    <input type="submit" name="user_edited" class="action button" value="Edit User Information">
+    </form>
+  </div>
 </div>
-<div class="panel">
-<h3>Change Password</h3>
-<p>New Password: <input name="user_password" type="password"></p>
-<p>New Password: <input name="user_password_confirm" type="password" placeholder="please re-enter"></p>
-</div>
-<p>Current Password: <input name="user_old_password" type="password" placeholder="required to edit"></p>
-<p><input type="submit" name="user_edited" value="Edit User Information"></p>
-</form>
 <?php include_layout_template('footer.php'); ?>
