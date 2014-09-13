@@ -4,40 +4,37 @@ require_once(LIB_PATH.DS.'database.php');
 class Lesson extends DatabaseObject {
 	protected static $table_name="lesson";
 	protected static $db_view_fields = array('lesson.id' => 'id',
-											'series.id' => 'series_id',
-											'series.title' => 'series_name',
-											'lesson.fkLanguageSeries' => 'language_series_id',
-											'languageSeries.seriesTitle' => 'language_series_title',
-											'language.id' => 'language_id',
-											'language.name' => 'language_name',
-											'lesson.number' => 'number',
-											'IF ((SELECT SUM(taskGlobal.completionValue) FROM task JOIN taskGlobal ON task.fkTaskGlobal=taskGlobal.id WHERE task.fkLesson=lesson.id AND task.isCompleted=1) >= (SELECT series.shotAt FROM series WHERE lesson.fkLanguageSeries=languageSeries.id AND languageSeries.fkSeries=series.id), 1, 0)' => 'is_shot',
-											'IF ((SELECT SUM(taskGlobal.completionValue) FROM task JOIN taskGlobal ON task.fkTaskGlobal=taskGlobal.id WHERE task.fkLesson=lesson.id AND task.isCompleted=1) >= (SELECT series.checkableAt FROM series WHERE lesson.fkLanguageSeries=languageSeries.id AND languageSeries.fkSeries=series.id), 1, 0)' => 'is_checkable',
-											'(SELECT SUM(taskGlobal.completionValue) FROM task JOIN taskGlobal ON task.fkTaskGlobal=taskGlobal.id WHERE task.fkLesson=lesson.id AND IF(taskGlobal.isAsset=1, task.isDelivered=1, task.isCompleted=1))' => 'comp_value',
-											'lesson.title' => 'title',
-											'lesson.trt' => 'trt',
-											'lesson.checkedLanguage' => 'checked_language',
-											'lesson.checkedVideo' => 'checked_video',
-											'lesson.filesMoved' => 'files_moved',
-											'level.code' => 'level_code',
-											'lesson.publishDateSite' => 'publish_date',
-											'lesson.publishDateSite - INTERVAL (lesson.bufferLength) DAY' => 'buffered_publish_date',
-											'lesson.qa_log' => 'qa_log',
-											'lesson.qa_url' => 'qa_url',
-											'lesson.isQueued' => 'is_queued',
-											'lesson.isDetected' => 'is_detected',
-											'lesson.queuedTime' => 'queued_time',
-											'lesson.exportedTime' => 'exported_time',
-											'lesson.timeUploadedDropbox' => 'dropbox_time',
-											'lesson.isUploadedForIllTv' => 'is_uploaded_for_ill_tv',
-											'lesson.illtvTestDate' => 'ill_tv_test_date',
-											'lesson.illtvisTested' => 'is_ill_tv_tested',
-											'(SELECT task.id FROM task WHERE task.fkLesson = lesson.id ORDER BY task.timeCompleted DESC LIMIT 1)' => 'last_task_id',
-											'(SELECT MAX(task.timeCompleted) FROM task WHERE task.fkLesson = lesson.id)' => 'last_task_time',
-											'(SELECT MAX(taskComment.timeCompleted) FROM taskComment JOIN task ON taskComment.fkTask=task.id WHERE task.fkLesson = lesson.id)' => 'last_issue_time',
-											'(SELECT taskComment.id FROM taskComment JOIN task ON task.id = taskComment.fkTask WHERE task.fkLesson = lesson.id ORDER BY taskComment.timeCompleted DESC LIMIT 1)' => 'last_issue_id',
-											'IF(IFNULL((SELECT MAX(task.timeCompleted) FROM task JOIN taskGlobal ON task.fkTaskGlobal=taskGlobal.id WHERE lesson.id=lesson.id),0) > IFNULL((SELECT MAX(taskComment.timeCompleted) FROM taskComment JOIN task ON taskComment.fkTask=task.id WHERE task.fkLesson = lesson.id),0), "task", "issue")' => 'last_action'
-											);
+										'series.id' => 'series_id',
+										'series.title' => 'series_name',
+										'lesson.fkLanguageSeries' => 'language_series_id',
+										'languageSeries.seriesTitle' => 'language_series_title',
+										'language.id' => 'language_id',
+										'language.name' => 'language_name',
+										'lesson.number' => 'number',
+										'IF ((SELECT SUM(taskGlobal.completionValue) FROM task JOIN taskGlobal ON task.fkTaskGlobal=taskGlobal.id WHERE task.fkLesson=lesson.id AND task.isCompleted=1) >= (SELECT series.shotAt FROM series WHERE lesson.fkLanguageSeries=languageSeries.id AND languageSeries.fkSeries=series.id), 1, 0)' => 'is_shot',
+										'IF ((SELECT SUM(taskGlobal.completionValue) FROM task JOIN taskGlobal ON task.fkTaskGlobal=taskGlobal.id WHERE task.fkLesson=lesson.id AND task.isCompleted=1) >= (SELECT series.checkableAt FROM series WHERE lesson.fkLanguageSeries=languageSeries.id AND languageSeries.fkSeries=series.id), 1, 0)' => 'is_checkable',
+										'(SELECT SUM(taskGlobal.completionValue) FROM task JOIN taskGlobal ON task.fkTaskGlobal=taskGlobal.id WHERE task.fkLesson=lesson.id AND IF(taskGlobal.isAsset=1, task.isDelivered=1, task.isCompleted=1))' => 'comp_value',
+										'lesson.title' => 'title',
+										'lesson.trt' => 'trt',
+										'lesson.checkedLanguage' => 'checked_language',
+										'lesson.checkedVideo' => 'checked_video',
+										'lesson.filesMoved' => 'files_moved',
+										'level.code' => 'level_code',
+										'lesson.publishDateSite' => 'publish_date',
+										'lesson.publishDateSite - INTERVAL (lesson.bufferLength) DAY' => 'buffered_publish_date',
+										'lesson.qa_log' => 'qa_log',
+										'lesson.qa_url' => 'qa_url',
+										'lesson.isQueued' => 'is_queued',
+										'lesson.isDetected' => 'is_detected',
+										'lesson.queuedTime' => 'queued_time',
+										'lesson.exportedTime' => 'exported_time',
+										'lesson.timeUploadedDropbox' => 'dropbox_time',
+										'(SELECT task.id FROM task WHERE task.fkLesson = lesson.id ORDER BY task.timeCompleted DESC LIMIT 1)' => 'last_task_id',
+										'(SELECT MAX(task.timeCompleted) FROM task WHERE task.fkLesson = lesson.id)' => 'last_task_time',
+										'(SELECT MAX(taskComment.timeCompleted) FROM taskComment JOIN task ON taskComment.fkTask=task.id WHERE task.fkLesson = lesson.id)' => 'last_issue_time',
+										'(SELECT taskComment.id FROM taskComment JOIN task ON task.id = taskComment.fkTask WHERE task.fkLesson = lesson.id ORDER BY taskComment.timeCompleted DESC LIMIT 1)' => 'last_issue_id',
+										'IF(IFNULL((SELECT MAX(task.timeCompleted) FROM task WHERE task.fkLesson = lesson.id),0) > IFNULL((SELECT MAX(taskComment.timeCompleted) FROM taskComment JOIN task ON taskComment.fkTask=task.id WHERE task.fkLesson = lesson.id),0), "task", "issue")' => 'last_action'
+										);
 										
 	protected static $db_edit_fields = array('lesson.fkLanguageSeries' => 'language_series_id',
 											'lesson.number' => 'number',
@@ -53,10 +50,7 @@ class Lesson extends DatabaseObject {
 											'lesson.queuedTime' => 'queued_time',
 											'lesson.exportedTime' => 'exported_time',
 											'lesson.publishDateSite' => 'publish_date',
-											'lesson.timeUploadedDropbox' => 'dropbox_time',
-											'lesson.isUploadedForIllTv' => 'is_uploaded_for_ill_tv',
-											'lesson.illtvTestDate' => 'ill_tv_test_date',
-											'lesson.illtvisTested' => 'is_ill_tv_tested'
+											'lesson.timeUploadedDropbox' => 'dropbox_time'
 											);
 										
 	protected static $db_join_fields = array('languageSeries' => 'languageSeries.id=lesson.fkLanguageSeries',
@@ -101,9 +95,6 @@ class Lesson extends DatabaseObject {
 	public $last_task_time;
 	public $last_issue_time;
 	public $last_action;
-	public $is_uploaded_for_ill_tv;
-	public $ill_tv_test_date;
-	public $is_ill_tv_tested;
 	
 	public static function find_all_lessons_for_language_series($language_series_id) {
 		$child_table_name = "lesson";
@@ -179,44 +170,6 @@ class Lesson extends DatabaseObject {
 		return static::find_by_sql($sql);
 	}
 	
-	public static function find_all_lessons_ready_to_upload_to_ill_tv() {
-		$sql  = "SELECT ";
-		foreach (self::$db_view_fields as $k => $v) {
-			$sql .= $k." AS ".$v;
-			$i++;
-			$i <= count(self::$db_view_fields) - 1 ? $sql .= ", " : $sql .= " ";
-		}
-		$sql .= "FROM ".self::$table_name." ";
-		foreach (self::$db_join_fields as $k => $v) {
-			$sql .= "LEFT JOIN ".$k." ON ".$v." ";
-			}
-		$sql .= "WHERE DATE(lesson.publishDateSite) <= CURDATE() ";
-		$sql .= "AND NOT isUploadedForIllTv = 1 ";
-		$sql .= "AND filesMoved = 1 ";
-		$sql .= "GROUP BY lesson.id ";
-		$sql .= "ORDER BY language.name ASC, series.title ASC, level.id, lesson.number ASC ";
-		return static::find_by_sql($sql);
-	}
-	
-	public static function find_all_lessons_ready_to_add_to_ill_tv() {
-		$sql  = "SELECT ";
-		foreach (self::$db_view_fields as $k => $v) {
-			$sql .= $k." AS ".$v;
-			$i++;
-			$i <= count(self::$db_view_fields) - 1 ? $sql .= ", " : $sql .= " ";
-		}
-		$sql .= "FROM ".self::$table_name." ";
-		foreach (self::$db_join_fields as $k => $v) {
-			$sql .= "LEFT JOIN ".$k." ON ".$v." ";
-			}
-		$sql .= "WHERE DATE(lesson.publishDateSite) <= CURDATE() ";
-		$sql .= "AND isUploadedForIllTv = 1 ";
-		$sql .= "AND NOT illtvIsTested = 1 ";
-		$sql .= "GROUP BY lesson.id ";
-		$sql .= "ORDER BY language.name ASC, series.title ASC, level.id, lesson.number ASC ";
-		return static::find_by_sql($sql);
-	}
-	
 	public static function find_all_qa_lessons() {
 		$sql  = "SELECT ";		
 		foreach (self::$db_view_fields as $k => $v) {
@@ -248,36 +201,6 @@ class Lesson extends DatabaseObject {
 		$sql .= "LIMIT 1";
 		
 		$database->query($sql);
-	}
-	
-	public function lesson_code() {
-		$language_series = LanguageSeries::find_by_id($this->language_series_id);
-		$series = Series::find_by_id($language_series->series_id);
-		$language = Language::find_by_id($language_series->language_id);
-		if($this->number < 10) {
-			$num = "0".$this->number;
-		} else {
-			$num = $this->number;
-		}
-		return $language->code."_".$series->code."_".$num;
-	}
-	
-	public function ill_tv_url($type) {
-		$language_series = LanguageSeries::find_by_id($this->language_series_id);
-		$language = Language::find_by_id($language_series->language_id);
-		$url  = "http://media.libsyn.com/media/";
-		$url .= $language->site_url_short;
-		$url .= "/";
-		$url .= $this->lesson_code();
-		$url .= "-";
-		$url .= $type;
-		$url .= ".mp4";
-		
-		return $url;
-	}
-	
-	public function ill_tv_thumbnail_url() {
-		return "http://www.url.com/thumbnail";
 	}
 	
 	// Operations Page Functions
@@ -329,11 +252,7 @@ class Lesson extends DatabaseObject {
 		$sql .= "				FROM lesson sub_lesson ";
 		$sql .= "					JOIN task ";
 		$sql .= "					  ON sub_lesson.id=task.fkLesson ";
-		$sql .= "         JOIN taskGlobal ";
-		$sql .= "           ON task.fkTaskGlobal=taskGlobal.id ";
-		$sql .= "				WHERE sub_lesson.id=lesson.id ";
-		// Only new tasks can add lessons to the render queue, not delivered assets
-		$sql .= "       AND NOT taskGlobal.isAsset = 1 ) ";
+		$sql .= "				WHERE sub_lesson.id=lesson.id) ";
 		$sql .= "  		) OR ( ";
 		$sql .= "		lesson.exportedTime < ";
 		$sql .= "			(SELECT MAX(taskComment.timeCompleted) ";
@@ -424,7 +343,7 @@ class Lesson extends DatabaseObject {
 		if ($sort_by=='abc') {
 			$sql .= "ORDER BY language.name, series.title, level.id, lesson.number ASC ";
 		} else if ($sort_by=='pub') {
-			$sql .= "ORDER BY lesson.publishDateSite ASC ";
+			$sql .= "ORDER BY lesson.publishDateSite ASC ";	
 		} else {
 			$sql .= "ORDER BY lesson.exportedTime DESC ";
 		}
@@ -597,7 +516,7 @@ class Lesson extends DatabaseObject {
 		return static::find_by_sql($sql);
 	}
 	
-	public static function find_all_recently_completed_lessons($sort="date") {
+	public static function find_all_recently_completed_lessons() {
 		// detect the latest task completion time and issue fixed time
 		$sql  = "SELECT ";		
 		foreach (self::$db_view_fields as $k => $v) {
@@ -611,22 +530,16 @@ class Lesson extends DatabaseObject {
 			}
 		$sql .= "WHERE lesson.filesMoved = 1 ";
 		$sql .= "AND lesson.trt < 1 ";
-		if ($sort=="date") {
-  	  $sql .= "ORDER BY lesson.publishDateSite ASC ";	
-		} else { 
-  		$sql .= "ORDER BY series.title ASC, language.name ASC, level.number ASC, lesson.number ASC ";
-		}
+		$sql .= "ORDER BY lesson.publishDateSite ASC ";
 		
 		return static::find_by_sql($sql);
 	}
 	
-
 	public function display_full_lesson() {
-		echo $this->language_name ." ". $this->series_name . " (".strtoupper($this->level_code).") #" . $this->number;
-	}
-	
-	public function display_full_lesson_text() {
-  	return $this->language_name . " - " . $this->series_name . " #" . $this->number;
+		echo "<img src='images/{$this->level_code}.png'> ";
+		echo "<a href='lesson.php?series=".$this->series_id."&langSeries=".$this->language_series_id."&lesson=".$this->id."'>";
+		echo $this->language_name . " - " . $this->series_name . " #" . $this->number;
+		echo "</a>";
 	}
 	
 	public function display_list_of_issues_with_link() {
@@ -634,45 +547,32 @@ class Lesson extends DatabaseObject {
 		echo "<a href='issues-for-lesson.php?id=".$this->id."'>Issues: ".count($issues)."</a>";
 	}
 	
-	public function display_lesson_status_bar() {
-	  echo "<div class='lesson-production'>";
-	  echo "  <div class='lesson-issues'>";
-  	$issues = Issue::get_unfinished_issues_for_lesson($this->id);
-  	echo "    <a class='issues-bar' href='issues-for-lesson.php?id=".$this->id."'>Issues: ".count($issues)."</a>";
-  	echo "  </div>";
-	  echo "  <div class='lesson-status'>";
-    echo "	  <p class='lesson-status-item'>";
-  	echo "      <img src='";
-  	echo $this->is_shot ? 'img/lesson-status-yes-shot.png' : 'img/lesson-status-not-shot.png';
-  	echo "'>";
-  	echo "    </p>";
-  	echo "    <p class='lesson-status-item'>";
-  	echo "      <img src='";
-  	echo $this->is_checkable ? 'img/lesson-status-yes-checkable.png' : 'img/lesson-status-not-checkable.png';
-  	echo "'>";
-  	echo "    </p>";
-  	echo "	  <p class='lesson-status-item'>";
-  	echo "      <img src='";
-  	echo $this->checked_language ? 'img/lesson-status-yes-language.png' : 'img/lesson-status-not-language.png';
-  	echo "'>";
-  	echo "    </p>";
-  	echo "	  <p class='lesson-status-item'>";
-  	echo "      <img src='";
-  	echo $this->checked_video ? 'img/lesson-status-yes-video.png' : 'img/lesson-status-not-video.png';
-  	echo "'>";
-  	echo "    </p>";
-  	echo "	  <p class='lesson-status-item'>";
-  	echo "      <img src='";
-  	echo $this->files_moved ? 'img/lesson-status-yes-moved.png' : 'img/lesson-status-not-moved.png';
-  	echo "'>";
-  	echo "    </p>";
-  	echo "	  <p class='lesson-status-item'>";
-  	echo "      <img src='";
-  	echo $this->is_detected ? 'img/lesson-status-yes-published.png' : 'img/lesson-status-not-published.png';
-  	echo "'>";
-  	echo "    </p>";
-	  echo "  </div>";
-	  echo "</div>";
+	public function display_full_lesson_navigation() {
+		echo "<a href='series.php?id=".$this->series_id."'>";
+		echo $this->series_name;
+		echo "</a>";
+		echo " > ";
+		echo "<img src='images/{$this->level_code}.png'> ";
+		echo "<a href='language-series.php?series=".$this->series_id."&id=".$this->language_series_id."'>";
+		echo $this->language_series_title;
+		echo "</a>";
+		echo " > ";
+		echo "#{$this->number} {$this->title}";
+	}
+	
+	public function display_lesson_topbar($active_page="main") {
+		
+		if($active_page=="main") {
+			echo "Lesson";
+		} else {
+			echo "<a href='lesson.php?series={$this->series_id}&langSeries={$this->language_series_id}&lesson={$this->id}'>Lesson</a>";
+		}
+		echo " | "; 
+		if ($active_page=="script") {
+			echo "Script";
+		} else {
+			echo "<a href='lesson-script.php?id={$this->id}'>Script</a>";
+		}
 	}
 	
 }
