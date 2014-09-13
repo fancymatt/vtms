@@ -29,7 +29,7 @@ class Shift extends DatabaseObject {
 		return self::find_all_limit(0);
 	}
 	
-	public static function find_all_recent_shifts() {
+	public static function find_all_recent_shifts($limit=0) {
 		$sql  = "SELECT ";
 		$i = 0;
 		foreach (self::$db_view_fields as $k => $v) {
@@ -41,7 +41,10 @@ class Shift extends DatabaseObject {
 		foreach (self::$db_join_fields as $k => $v) {
 			$sql .= "LEFT JOIN ".$k." ON ".$v." ";
 		}
-		$sql .= "ORDER BY shift.isActive DESC, shift.clockOut DESC";
+		$sql .= "ORDER BY shift.isActive DESC, shift.clockOut DESC ";
+		if ($limit) {
+  		$sql .= "LIMIT {$limit} ";
+		}
 		return static::find_by_sql($sql);
 	}
 	
