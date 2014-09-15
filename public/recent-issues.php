@@ -10,6 +10,14 @@
 		redirect_to("recent-issues.php");
 	}
 	
+	if($_POST['deleted_issue']) {
+  	$deleted_issue_id = $_POST['deleted_issue_id'];
+  	$deleted_issue = Issue::find_by_id($deleted_issue_id);
+  	$deleted_issue->delete();
+  	$_SESSION['message'] = "The issue: ".$deleted_issue->issue_body." has been deleted.";
+		redirect_to("recent-issues.php");
+	}
+	
 	$days_past = 1;
 	$issues_recent = Issue::get_recently_completed_issues($days_past);
 	$issues_actionable = Issue::get_all_unfinished_issues();
@@ -17,6 +25,14 @@
 ?>
 
 <?php include_layout_template('header.php'); ?>
+
+<?php 
+if($message) { ?>
+<div data-alert class="alert-box">
+  <?php echo $message; ?>
+  <a href="#" class="close">&times;</a>
+</div>
+<?php } ?>
 
 <div id="DIVTITLE" class="small-12 medium-8 medium-centered columns">
   <div class="group-header">
@@ -95,8 +111,14 @@
         <div class="group-item-text">
           <p><?php if($issue->issue_body) { echo $issue->issue_body; } else { echo "No text has been submitted."; }; ?></p>
         </div>
+        <?php if($session->is_admin()) { ?>
         <div class="group-item-actions">
+          <form action="recent-issues.php" method="post">
+            <input type="hidden" value="<?php echo $issue->id; ?>" id="deleted_issue_id" name="deleted_issue_id">
+            <input type="submit" value="Delete" name="deleted_issue" class="action button">
+          </form>
         </div>
+        <?php } ?>
       </div>
     </div>
   </div>
