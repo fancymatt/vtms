@@ -46,14 +46,16 @@
 						<?php foreach($language_series_lessons as $lesson): ?> <!-- For every lesson -->
 						<div class="group-item<?php echo $lesson->files_moved ? " ready" : ""?>">
               <?php $lesson->display_lesson_status_bar(); ?>
-  				    <div class="group-item-content">
-    				    <div class="lesson-info">
-          				<a class="lesson-title" href="lesson.php?id=<?php echo $lesson->id; ?>"><?php echo $lesson->number.". ".$lesson->title; ?></a>
-                </div>
-                <div class="group-item-metadata">
-                  <p><?php echo "Publish on ".$lesson->publish_date; ?></p>
-                </div>
-  				    </div>
+              <div class="group-item-body">
+    				    <div class="group-item-content">
+      				    <div class="lesson-info">
+            				<a class="lesson-title" href="lesson.php?id=<?php echo $lesson->id; ?>"><?php echo $lesson->number.". ".$lesson->title; ?></a>
+                  </div>
+                  <div class="group-item-metadata">
+                    <p><?php echo "Publish on ".$lesson->publish_date; ?></p>
+                  </div>
+    				    </div>
+              </div>
         		</div>
         	<?php endforeach; ?> <!-- End for every series -->
 						<div class="add">

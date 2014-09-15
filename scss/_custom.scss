@@ -117,6 +117,10 @@ h3.group-heading{
 	padding: 8px;
 }
 
+dl.sub-nav {
+  margin: 0em;
+}
+
 
 // Lesson Group CSS
 
@@ -483,16 +487,18 @@ div.group-item {
       font-family: serif;
     }
     input[type=text] {
-      font-size: 1.5em;
-      font-family: serif;
+      font-size: 1em;
+      font-family: sans-serif;
     }
     div.group-item-content {
-      display: table-row;
       
       div.group-item-metadata {
         min-width: 150px;
+        vertical-align: top;
         display: table-cell;
         padding: 7px;
+        margin: 10px;
+        
         p {
           font-size: 12px;
           line-height: 1em;
@@ -511,10 +517,21 @@ div.group-item {
         width: 100%;
       }
       div.group-item-actions {
-        display: table-cell;
-        min-width: 100px;
-        max-width: 100px;
+        vertical-align: top;
         text-align: right;
+        margin: 10px;
+        margin-top: 0px;
+      }
+      div.group-item-log {
+        margin: 10px;
+        font-size: 12px;
+        font-family: sans-serif;
+        label {
+          margin: 0px;
+        }
+        input[type=text] {
+          margin: 0px;
+        }
       }
     }
   }

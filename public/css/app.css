@@ -3947,7 +3947,10 @@ dialog[open] {
   display: block;
   width: auto;
   overflow: hidden;
-  padding-top: 0.25rem; }
+  margin: -0.25rem 0 1.125rem;
+  padding-top: 0.25rem;
+  margin-right: 0;
+  margin-left: -0.75rem; }
   .sub-nav dt {
     text-transform: uppercase; }
   .sub-nav dt,
@@ -5875,6 +5878,9 @@ h3.group-heading {
   height: 40px;
   padding: 8px; }
 
+dl.sub-nav {
+  margin: 0em; }
+
 div.lesson-production {
   width: 273px;
   float: right; }
@@ -6154,29 +6160,37 @@ div.group-item {
     text-align: center;
     font-family: serif; }
   div.group-item div.group-item-body input[type=text] {
-    font-size: 1.5em;
-    font-family: serif; }
-  div.group-item div.group-item-body div.group-item-content {
-    display: table-row; }
-    div.group-item div.group-item-body div.group-item-content div.group-item-metadata {
-      min-width: 150px;
-      display: table-cell;
-      padding: 7px; }
-      div.group-item div.group-item-body div.group-item-content div.group-item-metadata p {
-        font-size: 12px;
-        line-height: 1em;
-        margin-bottom: .75em; }
-    div.group-item div.group-item-body div.group-item-content div.group-item-text {
-      display: table-cell;
-      width: 100%; }
-      div.group-item div.group-item-body div.group-item-content div.group-item-text p {
-        background: white;
-        padding: 5px;
-        font-size: 12px;
-        border: dotted 1px #ddd;
-        word-break: break-word; }
-    div.group-item div.group-item-body div.group-item-content div.group-item-actions {
-      display: table-cell;
-      min-width: 100px;
-      max-width: 100px;
-      text-align: right; }
+    font-size: 1em;
+    font-family: sans-serif; }
+  div.group-item div.group-item-body div.group-item-content div.group-item-metadata {
+    min-width: 150px;
+    vertical-align: top;
+    display: table-cell;
+    padding: 7px;
+    margin: 10px; }
+    div.group-item div.group-item-body div.group-item-content div.group-item-metadata p {
+      font-size: 12px;
+      line-height: 1em;
+      margin-bottom: .75em; }
+  div.group-item div.group-item-body div.group-item-content div.group-item-text {
+    display: table-cell;
+    width: 100%; }
+    div.group-item div.group-item-body div.group-item-content div.group-item-text p {
+      background: white;
+      padding: 5px;
+      font-size: 12px;
+      border: dotted 1px #ddd;
+      word-break: break-word; }
+  div.group-item div.group-item-body div.group-item-content div.group-item-actions {
+    vertical-align: top;
+    text-align: right;
+    margin: 10px;
+    margin-top: 0px; }
+  div.group-item div.group-item-body div.group-item-content div.group-item-log {
+    margin: 10px;
+    font-size: 12px;
+    font-family: sans-serif; }
+    div.group-item div.group-item-body div.group-item-content div.group-item-log label {
+      margin: 0px; }
+    div.group-item div.group-item-body div.group-item-content div.group-item-log input[type=text] {
+      margin: 0px; }
