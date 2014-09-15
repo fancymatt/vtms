@@ -536,9 +536,8 @@ class Lesson extends DatabaseObject {
 	}
 	
 	public function display_full_lesson() {
-		echo "<img src='images/{$this->level_code}.png'> ";
 		echo "<a href='lesson.php?series=".$this->series_id."&langSeries=".$this->language_series_id."&lesson=".$this->id."'>";
-		echo $this->language_name . " - " . $this->series_name . " #" . $this->number;
+		echo $this->language_name . " - " . $this->series_name . "(" . $this->level_code . ") #" . $this->number;
 		echo "</a>";
 	}
 	

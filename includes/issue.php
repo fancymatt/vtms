@@ -62,7 +62,7 @@ class Issue extends DatabaseObject {
 			$sql .= "JOIN ".$k." ON ".$v." ";
 		}
 		$sql .= "WHERE task.fkTeamMember = ".$member_id." ";
-		$sql .= "AND taskComment.isCompleted=0 ";
+		$sql .= "AND NOT taskComment.isCompleted=1 ";
 		return static::find_by_sql($sql);
 	}
 	
