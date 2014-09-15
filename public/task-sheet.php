@@ -307,7 +307,7 @@ if($message) { ?>
 
     <div class="group-item-body">
       <div class="group-item-header">
-        <h3 class="group-item-title"><a href="#"><?php echo $task->display_full_task_lesson(). "</a> ".$task->task_name; ?></h3>
+        <h3 class="group-item-title"><a href="lesson.php?id=<?php echo $task->lesson_id; ?>"><?php echo $task->display_full_task_lesson(). "</a> ".$task->task_name; ?></h3>
       </div>
       <div class="group-item-content">
         <div class="group-item-metadata">
