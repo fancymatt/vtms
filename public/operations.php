@@ -65,10 +65,11 @@
 	<?php } ?>
 
 	<div id="page-header" class="row">
-		<div class="small-12 columns">
+		<div class="small-12 medium-8 medium-centered columns">
 			<h3>Operations</h3>
 		</div>
 	</div>
+	<div class="small-12 medium-8 medium-centered columns">
 	<div id="panels" class="row">	
 		<div id="export-queue" class="panel small-12 medium-6 columns">
 			<p>Ready to Render: <strong><?php echo $exportable_lessons; ?></strong></p>
@@ -82,7 +83,6 @@
 		</div>
 	</div>
 	<div class="row">
-    <div id="admin-qa" class="small-12 columns">
   		<h3 class="group-heading">Waiting for Language Check</h3>
       <?php
       if($qa_lessons) { ?>
@@ -94,34 +94,39 @@
                                       } else if (strpos(strtolower($lesson->qa_log), "approved") !== false) {
                                       echo " ready";
                                       } ?>">
-  		    <div class="lesson-info">
-    				<a class="lesson-title" href="lesson.php?id=<?php echo $lesson->id; ?>"><?php echo $lesson->display_full_lesson(); ?></a>
-    				<div class="qa-status">
-    				  <div class="small-2 columns">
-    				    <form action='operations.php' method='post'>
-      				  <label for="qa-log" class="inline">QA Log: </label>
-      				  <label for="qa-url" class="inline">QA URL: </label>
-    				  </div>
-    				  <div class="small-10 columns">
-      				  <input type="text" name="qa_log" size=40 value="<?php echo $lesson->qa_log; ?>">
-                <input type="text" name="qa_url" size=40 value="<?php echo $lesson->qa_url; ?>">
-    				  </div>
-    				</div>
-    				<p class="date"><?php echo "Due ".$lesson->publish_date; ?></p>
-    				<p class="date"><?php echo "Exported ".$lesson->exported_time; ?></p>
-  				</div>
-  				<div class="actions">
-  					<li class="action-item">
-							<input type='hidden' name='qa_lesson_id' value='<?php echo $lesson->id; ?>'>
-              <input type="submit" value="Update QA" class="no-format" name="changed_qa" data-tooltip class="has-tip" title="Update QA Log">
-  						</form>
-  					</li>
-  					<li class="action-item">
-  					  <form action='operations.php' method='post'>
+          <div class="group-item-body">
+            <div class="group-item-header">
+              <h3 class="group-item-title"><a href="lesson.php?id=<?php echo $lesson->id; ?>"><?php echo $lesson->display_full_lesson(). "</a> "; ?></h3>
+            </div>
+            <div class="group-item-content">
+              <div class="group-item-metadata">
+                <p><?php echo "Due ".$lesson->publish_date; ?></p>
+                <p><?php echo "Exported ".$lesson->exported_time; ?></p>
+              </div>
+              <div class="group-item-log">
+                <form action='operations.php' method='post'>
+                <div class="row">
+                  <div class="small-2 columns">
+                    <label for="qa-log" class="inline">QA Log: </label>
+                    <label for="qa-url" class="inline">QA URL: </label>
+                  </div>
+                  <div class="small-10 columns">
+                    <input type="text" name="qa_log" size=40 value="<?php echo $lesson->qa_log; ?>">
+                    <input type="text" name="qa_url" size=40 value="<?php echo $lesson->qa_url; ?>">
+                  </div>
+                </div>
+              </div>
+              <div class="group-item-actions">
                 <input type='hidden' name='qa_lesson_id' value='<?php echo $lesson->id; ?>'>
-                <input type='submit' class="no-format" name='marked_lesson_language_checked' value='Mark Language Checked' data-tooltip class="has-tip" title="Mark as Language Checked"></form>
-  					</li>
-    			</div>
+                <input type="submit" value="Update QA" class="action button" name="changed_qa" data-tooltip class="has-tip" title="Update QA Log">
+                </form>
+        			  <form action='operations.php' method='post'>
+                <input type='hidden' name='qa_lesson_id' value='<?php echo $lesson->id; ?>'>
+                <input type='submit' class="action button" name='marked_lesson_language_checked' value='Mark Language Checked' data-tooltip class="has-tip" title="Mark as Language Checked">
+                </form>		
+              </div>
+            </div>
+          </div>
         </div>
       <?php endforeach; ?>
       </ol>

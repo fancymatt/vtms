@@ -536,9 +536,7 @@ class Lesson extends DatabaseObject {
 	}
 	
 	public function display_full_lesson() {
-		echo "<a href='lesson.php?series=".$this->series_id."&langSeries=".$this->language_series_id."&lesson=".$this->id."'>";
-		echo $this->language_name . " - " . $this->series_name . "(" . $this->level_code . ") #" . $this->number;
-		echo "</a>";
+		echo $this->language_name . " - " . $this->series_name . " (" . $this->level_code . ") #" . $this->number;
 	}
 	
 	public function display_list_of_issues_with_link() {
