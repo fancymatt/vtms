@@ -574,5 +574,41 @@ class Lesson extends DatabaseObject {
 		}
 	}
 	
+	public function display_lesson_status_bar() {
+	  echo "<div class='lesson-production'>";
+	  echo "  <div class='lesson-issues'>";
+  	$issues = Issue::get_unfinished_issues_for_lesson($this->id);
+  	echo "    <a class='issues-bar' href='#'>Issues: ".count($issues)."</a>";
+  	echo "  </div>";
+	  echo "  <div class='lesson-status'>";
+    echo "	  <p class='lesson-status-item'>";
+  	echo "      <img src='";
+  	echo $this->is_shot ? 'img/lesson-status-yes-shot.png' : 'img/lesson-status-not-shot.png';
+  	echo "'>";
+  	echo "    </p>";
+  	echo "    <p class='lesson-status-item'>";
+  	echo "      <img src='";
+  	echo $this->is_checkable ? 'img/lesson-status-yes-checkable.png' : 'img/lesson-status-not-checkable.png';
+  	echo "'>";
+  	echo "    </p>";
+  	echo "	  <p class='lesson-status-item'>";
+  	echo "      <img src='";
+  	echo $this->checked_language ? 'img/lesson-status-yes-language.png' : 'img/lesson-status-not-language.png';
+  	echo "'>";
+  	echo "    </p>";
+  	echo "	  <p class='lesson-status-item'>";
+  	echo "      <img src='";
+  	echo $this->checked_video ? 'img/lesson-status-yes-video.png' : 'img/lesson-status-not-video.png';
+  	echo "'>";
+  	echo "    </p>";
+  	echo "	  <p class='lesson-status-item'>";
+  	echo "      <img src='";
+  	echo $this->files_moved ? 'img/lesson-status-yes-moved.png' : 'img/lesson-status-not-moved.png';
+  	echo "'>";
+  	echo "    </p>";
+	  echo "  </div>";
+	  echo "</div>";
+	}
+	
 }
 ?>
