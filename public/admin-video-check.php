@@ -9,7 +9,7 @@
 		$lesson = Lesson::find_by_id($qa_lesson_id);
 		$lesson->checked_video = 1;
 		$lesson->update();
-		$_SESSION['message'] = $lesson->display_full_lesson_text()." has been video approved.";
+		$_SESSION['message'] = "You've marked that video as approved.";
 		redirect_to('admin-video-check.php');
 		
 	}
