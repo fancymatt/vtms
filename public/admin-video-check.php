@@ -19,7 +19,7 @@
 		$lesson = Lesson::find_by_id($qa_lesson_id);
 		$lesson->files_moved = 1;
 		$lesson->update();
-		$_SESSION['message'] = $lesson->display_full_lesson_text()." has been moved.";
+		$_SESSION['message'] = "This lesson has been moved.";
 		redirect_to('admin-video-check.php');
 	}
 	
