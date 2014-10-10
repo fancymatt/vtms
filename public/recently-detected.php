@@ -10,7 +10,7 @@
 
 <div id="tasks-actionable" class="small-12 medium-8 medium-centered columns">
   <div class="group-header">
-    <h3 class="group-title">Recently Shot lessons</h3>
+    <h3 class="group-title">Recently Detected lessons</h3>
     <div class="group-item-sort-options">
     </div>
   </div>
@@ -19,7 +19,6 @@
       <?php
       foreach($lessons_recent as $lesson) : ?>
 				<div class="group-item">
-          <?php $lesson->display_lesson_status_bar(); ?>
           <div class="group-item-body">
   			    <div class="group-item-content">
   			       <div class="lesson-info">
