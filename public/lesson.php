@@ -18,7 +18,6 @@
 		$lesson->checked_language = $_POST['edited_lesson_checked_language'];
 		$lesson->checked_video = $_POST['edited_lesson_checked_video'];
 		$lesson->files_moved = $_POST['edited_lesson_files_moved'];
-		$lesson->is_detected = $_POST['edited_lesson_is_detected'];
 		$lesson->publish_date = $_POST['edited_lesson_publish_date'];
 		$lesson->qa_log = $_POST['edited_qa_log'];
 		$lesson->qa_url = $_POST['edited_qa_url'];
@@ -33,6 +32,21 @@
 		$lesson->qa_log = $qa_log;
 		$lesson->update();
 		$message = "You've updated the QA Log to: '" . $qa_log . "'";
+	}
+	
+	if($_POST['detect_lesson']) {
+	  $current_time = new DateTime(null, new DateTimeZone('UTC'));
+	  $lesson->detected_time = $current_time->format('Y-m-d H:i:s');
+	  $lesson->is_detected = 1;
+	  $lesson->update();
+	  $message = "Lesson detected.";
+	}
+	
+	if($_POST['undetect_lesson']) {
+	  unset($lesson->time_detected);
+	  $lesson->is_detected = 0;
+	  $lesson->update();
+	  $message = "Lesson undetected.";
 	}
 	
 	$trt = $lesson->trt;
@@ -296,12 +310,28 @@
 				<div class="small-6 columns">
 					<p><input type="checkbox" name="edited_lesson_checked_language" value="1" <?php echo $lesson->checked_language ? "checked" : ""; ?>><label>Language Checked</label></p>
 					<p><input type="checkbox" name="edited_lesson_checked_video" value="1" <?php echo $lesson->checked_video ? "checked" : ""; ?>><label>Video Checked</label></p>
-          <p><input type="checkbox" name="edited_lesson_files_moved" value="1" <?php echo $lesson->files_moved ? "checked" : ""; ?>><label>Files Moved</label></p>
-          <p><input type="checkbox" name="edited_lesson_is_detected" value="1" <?php echo $lesson->is_detected ? "checked" : "" ?>><label>Lesson Detected</label></p>
-        </div>  
+          <p><input type="checkbox" name="edited_lesson_files_moved" value="1" <?php echo $lesson->files_moved ? "checked" : ""; ?>><label>Files Moved</label></p>  
 				<input type="hidden" name="edited_lesson_id" value="<?php echo $current_record->id; ?>">
 				<p><input type="submit" class="action button" name="edited_lesson" id="edited_lesson" value="Edit"></p>
+				<?php if(!$lesson->is_detected) { ?>
+				<p>
+				  <form action='lesson.php?id=<?php echo $lesson->id; ?>' method='post'>
+				  <input type="submit" class="action button" value="Detect Lesson" name="detect_lesson">
+				  </form>
+				</p>
+				<?php } else { ?>
+				<p>This lesson has been detected 
+				  <?php if($lesson->detected_time) {
+  				  echo " on ";
+  				  echo date("M jS g:i a", strtotime($logged_in_user->local_time($lesson->detected_time)));
+				  } ?></p>
+				  <p>
+				  <form action='lesson.php?id=<?php echo $lesson->id; ?>' method='post'>
+				  <input type="submit" class="action button" value="Undetect Lesson" name="undetect_lesson">
+				  </form>
+				<?php } ?> 
 			</form>
+			</div>
 			</div>
   	</div>
   </div>

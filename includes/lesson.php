@@ -28,6 +28,7 @@ class Lesson extends DatabaseObject {
 										'lesson.isDetected' => 'is_detected',
 										'lesson.queuedTime' => 'queued_time',
 										'lesson.exportedTime' => 'exported_time',
+										'lesson.detectedTime' => 'detected_time',
 										'lesson.timeUploadedDropbox' => 'dropbox_time',
 										'(SELECT task.id FROM task WHERE task.fkLesson = lesson.id ORDER BY task.timeCompleted DESC LIMIT 1)' => 'last_task_id',
 										'(SELECT MAX(task.timeCompleted) FROM task WHERE task.fkLesson = lesson.id)' => 'last_task_time',
@@ -49,6 +50,7 @@ class Lesson extends DatabaseObject {
 											'lesson.isDetected' => 'is_detected',
 											'lesson.queuedTime' => 'queued_time',
 											'lesson.exportedTime' => 'exported_time',
+											'lesson.detectedTime' => 'detected_time',
 											'lesson.publishDateSite' => 'publish_date',
 											'lesson.timeUploadedDropbox' => 'dropbox_time'
 											);
@@ -95,6 +97,7 @@ class Lesson extends DatabaseObject {
 	public $last_task_time;
 	public $last_issue_time;
 	public $last_action;
+	public $detected_time;
 	
 	public static function find_all_lessons_for_language_series($language_series_id) {
 		$child_table_name = "lesson";
@@ -284,6 +287,25 @@ class Lesson extends DatabaseObject {
 		$sql .= "WHERE lesson.isQueued = 1 ";
 		$sql .= "AND NOT lesson.filesMoved =1 ";
 		$sql .= "ORDER BY lesson.queuedTime DESC ";
+		
+		return static::find_by_sql($sql);
+	}
+	
+	public static function get_recently_detected_lessons() {
+		// detect the latest task completion time and issue fixed time
+		$sql  = "SELECT ";		
+		foreach (self::$db_view_fields as $k => $v) {
+			$sql .= $k." AS ".$v;
+			$i++;
+			$i <= count(self::$db_view_fields) - 1 ? $sql .= ", " : $sql .= " ";
+		}
+		$sql .= "FROM ".self::$table_name." ";
+		foreach (self::$db_join_fields as $k => $v) {
+			$sql .= "JOIN ".$k." ON ".$v." ";
+			}
+		$sql .= "WHERE lesson.isDetected = 1 ";
+		$sql .= "ORDER BY lesson.detectedTime DESC ";
+		$sql .= "LIMIT 50 ";
 		
 		return static::find_by_sql($sql);
 	}

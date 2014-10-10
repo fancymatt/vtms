@@ -396,6 +396,25 @@ class Task extends DatabaseObject {
 		return static::find_by_sql($sql);
 	}
 	
+	public static function get_recently_shot_lessons($limit=FALSE) {
+		$sql  = "SELECT ";		
+		foreach (self::$db_view_fields as $k => $v) {
+			$sql .= $k." AS ".$v;
+			$i++;
+			$i <= count(self::$db_view_fields) - 1 ? $sql .= ", " : $sql .= " ";
+		}
+		$sql .= "FROM ".self::$table_name." ";
+		foreach (self::$db_join_fields as $k => $v) {
+			$sql .= "JOIN ".$k." ON ".$v." ";
+		}
+		$sql .= "WHERE taskGlobal.isAsset=1 ";
+		$sql .= "AND taskGlobal.name LIKE 'Shoot%' ";
+		$sql .= "GROUP BY task.id ";
+		$sql .= "ORDER BY task.timeCompleted DESC ";
+    $sql .= "LIMIT 50 ";
+		return static::find_by_sql($sql);
+	}
+	
 	public function display_full_task_lesson() {
 		echo $this->language_name ." ". $this->series_name . " (".strtoupper($this->level_code).") #" . $this->lesson_number;
 	}

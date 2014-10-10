@@ -34,7 +34,17 @@
 						<li><a href="operations.php">Operations</a></li>
 						<li><a href="publishing.php">Publishing</a></li>
 						<li><a href="publishing-on-date.php">Today</a></li>
-						<li><a href="shifts.php">Shifts</a></li>
+					</ul>
+				</li>
+			</ul>
+			
+			<ul class="left">
+				<li class="has-dropdown">
+					<a href="#">Reports</a>
+					<ul class="dropdown">
+					  <li><a href="shifts.php">Shifts</a></li>
+						<li><a href="recently-shot.php">Recently Shot</a></li>
+						<li><a href="recently-detected.php">Recently Detected</a></li>
 					</ul>
 				</li>
 			</ul>
