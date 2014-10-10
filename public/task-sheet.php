@@ -340,7 +340,7 @@ if($message) { ?>
     </div>
     <div class="group-item-content">
       <div class="group-item-metadata">
-        <p><?php echo "Began ".date("g:i a", strtotime($logged_in_user->local_time($activity->time_start))); ?></p>
+        <p><?php echo "Began ".date("g:i a", strtotime($logged_in_user->local_time($active_activity->time_start))); ?></p>
       </div>
       <div class="group-item-text">
       </div>
