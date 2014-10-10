@@ -7,29 +7,41 @@
 	$current_lesson = Lesson::find_by_id($current_task->lesson_id);
 	
 	if($_POST['submitted_issue'] || $_POST['submitted_issue_and_repeat'] ) { 
-		$issue_task_id = $_POST['submitted_issue_task_id'];
-		$issue_timecode = $_POST['timecode'];
-		$issue_creator = $_POST['creator'];
-		$issue_body = $_POST['body'];
-		
-		$issue = new Issue;
-		$issue->task_id = $issue_task_id;
-		$issue->issue_timecode = $issue_timecode;
-		$issue->issue_creator = $issue_creator;
-		$issue->issue_body = $issue_body;
-		$issue->create();
-		if($_POST['submitted_issue']) {
-			redirect_to("issues-for-lesson.php?id={$current_task->lesson_id}");
-		}
-				
-	} 
-
-	if (!$current_task->id) {
-		redirect_to("issues-for-lesson.php?id={$current_task->lesson_id}");
-	}	
+	  if((isset($_POST['body'])) && strlen($_POST['body']) > 5) {
+  	  $issue_task_id = $_POST['submitted_issue_task_id'];
+  		$issue_timecode = $_POST['timecode'];
+  		$issue_creator = $_POST['creator'];
+  		$issue_body = $_POST['body'];
+  		
+  		$issue = new Issue;
+  		$issue->task_id = $issue_task_id;
+  		$issue->issue_timecode = $issue_timecode;
+  		$issue->issue_creator = $issue_creator;
+  		$issue->issue_body = $issue_body;
+  		$issue->create();
+  		if($_POST['submitted_issue']) {
+  			redirect_to("issues-for-lesson.php?id={$current_task->lesson_id}");
+  		}
+      if (!$current_task->id) {
+  		  redirect_to("issues-for-lesson.php?id={$current_task->lesson_id}");
+      }
+	  } else {
+	    // No body filled out
+  	  $_SESSION['message'] = "Body cannot be empty.";
+  	  redirect_to("issues-for-task.php?id={$current_task->id}");
+    }
+  }
 ?>
 
 <?php include_layout_template('header.php'); ?>
+
+<?php 
+if($message) { ?>
+<div data-alert class="alert-box">
+  <?php echo $message; ?>
+  <a href="#" class="close">&times;</a>
+</div>
+<?php } ?>
 	
 	<div>
 		<p><a href="issues-for-lesson.php?id=<?php echo $current_task->lesson_id; ?>"><- Return to Lesson</a></p>
