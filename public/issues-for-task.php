@@ -43,7 +43,7 @@ if($message) { ?>
 </div>
 <?php } ?>
 	
-	<div>
+	<div id="new-issue" class="small-12 medium-8 medium-centered columns">
 		<p><a href="issues-for-lesson.php?id=<?php echo $current_task->lesson_id; ?>"><- Return to Lesson</a></p>
 		<h3>Add an issue for <?php $current_lesson->display_full_lesson(); ?></h3>
 		<div class="panel">
