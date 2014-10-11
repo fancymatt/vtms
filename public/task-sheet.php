@@ -285,12 +285,70 @@ if($message) { ?>
 } ?>
 
 <div class="small-12 medium-8 medium-centered columns">
-  <div class="group-header">
-    <h3 class="group-title">Current Activity</h3>
-    <div class="group-item-sort-options">
+	<h3 class="group-heading">Your Shift</h3>
+  <ol class="group">
+  <?php
+  $activities = Activity::find_all_activities_for_shift($active_shift->id); ?>
+    <div class="group-item">
+      <div class="member">
+        <div class="member-image">
+          <img src="img/headshot-<?php echo strtolower($team_member->first_name); ?>.png">
+        </div>
+        <p class="member-name">
+  				<?php echo $team_member->first_name; ?>
+        </p>
+			</div>
+			<div class="issue-info">
+				<p class="lesson-title"><?php 
+				echo date("M jS", strtotime($logged_in_user->local_time($active_shift->clock_in)))." ";
+				echo date("g:i a", strtotime($logged_in_user->local_time($active_shift->clock_in)))." - ";
+				if($shift->is_active) {
+  				echo "now";
+				} else {
+  				echo date("g:i a", strtotime($logged_in_user->local_time($active_shift->clock_out)));
+				} ?>
+				</p>
+			</div>
+			<div class="activity-list">
+		<?php if($activities) { ?>
+  	  <?php foreach($activities as $activity) : ?>
+  		  <div class="activity<?php if($activity->is_active) { echo " active"; } ?>">
+  		    <p class="start-time"><?php echo date("g:i a", strtotime($logged_in_user->local_time($activity->time_start)));?></p>
+  		    <p class="end-time">
+  		    <?php if(!$activity->is_active) { ?>
+    		    <?php echo date("g:i a", strtotime($logged_in_user->local_time($activity->time_end))); ?>
+  		    <?php } else { echo "now"; } ?>
+  		    </p>
+    		  <a class="activity-name" href="#">
+    		  <?php 
+    		  if($activity->task_id) {
+    		    $task = Task::find_by_id($activity->task_id);
+      		  echo $activity->activity.": ";
+      		  echo $task->display_full_task_lesson();
+      		  echo " ".$task->task_name;
+    		  } else if ($activity->activity == "Fixing issues") {
+      		  echo "Fixing ".$activity->issues_fixed." Issues";
+    		  } else {
+    		    echo ucfirst(stripslashes($activity->activity));
+    		  }
+    		  ?>
+    		  </a>      		  
+    		</div>
+      <?php endforeach; ?>	
+		<?php } else { ?>
+  		  <div class="activity">
+  		    <a class="activity-name">No activities for this shift</a>
+  		  </div>
+		<?php } ?>
+  		  <div class="group-item-actions">
+    		  <form method="post" action="task-sheet.php?member=<?php echo $team_member_id; ?>">
+            <input type="hidden" name="shift_id" value="<?php echo $active_shift->id; ?>">
+        		<input type="submit" class="action button" name="end_shift" value="End Shift">
+          </form>
+  		  </div>
+  		</div>
     </div>
-  </div>
-  <div class="group-item">
+    <div class="group-item">
     <div class="member">
       <div class="member-image">
         <img src="img/headshot-<?php echo strtolower($team_member->first_name); ?>.png">
@@ -373,13 +431,14 @@ if($message) { ?>
   
   <?php } //end if(is_object($active_activity)) ?>
   </div>
+</div>
 <br />
+<div class="small-12 medium-8 medium-centered columns">
 <div class="task-sheet-tabs">
 	<ul class="tabs" data-tab>
 		<li class="tab-title active"><a href="#panel-tasks">Tasks</a></li>
 		<li class="tab-title"><a href="#panel-assets">Assets</a></li>
 		<li class="tab-title"><a href="#panel-issues">Issues</a></li>
-		<li class="tab-title"><a href="#panel-shift">Your Shift</a></li>
 	</ul>
 </div>
 	
@@ -533,38 +592,6 @@ if($message) { ?>
         <?php endforeach; ?>
         <?php } ?>
   		</div>
-  		<div class="content" id="panel-shift">
-  		  <div class="group-header">
-          <h3 class="group-title">Your Shift</h3>
-          <div class="group-item-sort-options">
-          </div>
-        </div>
-        <div class="group-item">
-          <div class="member">
-            <div class="member-image">
-              <img src="img/headshot-<?php echo strtolower($team_member->first_name); ?>.png">
-            </div>
-            <p class="member-name"><?php echo $team_member->first_name; ?></p>
-      		</div>
-          <div class="group-item-body">
-            <div class="group-item-header">
-              <h3 class="group-item-title">Your shift began at <?php echo date("g:i a", strtotime($logged_in_user->local_time($active_shift->clock_in))); ?></h3>
-            </div>
-            <div class="group-item-content">
-              <div class="group-item-metadata">
-              </div>
-              <div class="group-item-text">
-              </div>
-              <div class="group-item-actions">
-                <form method="post" action="task-sheet.php?member=<?php echo $team_member_id; ?>">
-                  <input type="hidden" name="shift_id" value="<?php echo $active_shift->id; ?>">
-            			<input type="submit" class="action button" name="end_shift" value="End Shift">
-                </form>
-              </div>
-            </div>			
-		</div>
-        </div>
-      </div>
 <?php } else { // else not if($active_shift) ?>
 <?php if(isset($last_shift)) { ?>
 
