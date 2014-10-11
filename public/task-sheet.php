@@ -343,7 +343,7 @@ if($message) { ?>
   		  <div class="group-item-actions">
     		  <form method="post" action="task-sheet.php?member=<?php echo $team_member_id; ?>">
             <input type="hidden" name="shift_id" value="<?php echo $active_shift->id; ?>">
-        		<input type="submit" class="action button" name="end_shift" value="End Shift">
+        		<input type="submit" class="action button" name="end_shift" value="End Shift" onclick="return confirm('Are you all done for the day?')">
           </form>
   		  </div>
   		</div>
