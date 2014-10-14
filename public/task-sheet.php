@@ -300,13 +300,7 @@ if($message) { ?>
 			</div>
 			<div class="issue-info">
 				<p class="lesson-title"><?php 
-				echo date("M jS", strtotime($logged_in_user->local_time($active_shift->clock_in)))." ";
-				echo date("g:i a", strtotime($logged_in_user->local_time($active_shift->clock_in)))." - ";
-				if($shift->is_active) {
-  				echo "now";
-				} else {
-  				echo date("g:i a", strtotime($logged_in_user->local_time($active_shift->clock_out)));
-				} ?>
+				echo date("M jS g:i a", strtotime($logged_in_user->local_time($active_shift->clock_in))); ?> - now
 				</p>
 			</div>
 			<div class="activity-list">
