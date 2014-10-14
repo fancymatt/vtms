@@ -291,6 +291,25 @@ class Lesson extends DatabaseObject {
 		return static::find_by_sql($sql);
 	}
 	
+	public static function get_ready_to_publish_lessons() {
+  	// detect the latest task completion time and issue fixed time
+		$sql  = "SELECT ";		
+		foreach (self::$db_view_fields as $k => $v) {
+			$sql .= $k." AS ".$v;
+			$i++;
+			$i <= count(self::$db_view_fields) - 1 ? $sql .= ", " : $sql .= " ";
+		}
+		$sql .= "FROM ".self::$table_name." ";
+		foreach (self::$db_join_fields as $k => $v) {
+			$sql .= "JOIN ".$k." ON ".$v." ";
+			}
+		$sql .= "WHERE lesson.filesMoved = 1 "; 
+		$sql .= "AND NOT lesson.isDetected = 1 ";
+		$sql .= "AND NOT lesson.publishDateSite = '0000-00-00' ";
+		$sql .= "ORDER BY lesson.publishDateSite ASC, language.name ASC, series.title ASC, lesson.number ASC ";
+		return static::find_by_sql($sql);
+	} 
+	
 	public static function get_recently_detected_lessons() {
 		// detect the latest task completion time and issue fixed time
 		$sql  = "SELECT ";		
