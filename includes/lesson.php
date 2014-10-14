@@ -305,6 +305,7 @@ class Lesson extends DatabaseObject {
 			}
 		$sql .= "WHERE lesson.filesMoved = 1 "; 
 		$sql .= "AND NOT lesson.isDetected = 1 ";
+		$sql .= "AND NOT series.code = 'ww' ";
 		$sql .= "AND NOT lesson.publishDateSite = '0000-00-00' ";
 		$sql .= "ORDER BY lesson.publishDateSite ASC, language.name ASC, series.title ASC, lesson.number ASC ";
 		return static::find_by_sql($sql);
