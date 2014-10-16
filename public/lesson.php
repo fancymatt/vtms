@@ -15,14 +15,12 @@
 		$lesson = Lesson::find_by_id($lesson_id);
 		$lesson->title = $_POST['edited_lesson_title'];
 		$lesson->trt = ($_POST['edited_lesson_trt_minutes'] * 60) + $_POST['edited_lesson_trt_seconds'];
-		$lesson->checked_language = $_POST['edited_lesson_checked_language'];
-		$lesson->checked_video = $_POST['edited_lesson_checked_video'];
-		$lesson->files_moved = $_POST['edited_lesson_files_moved'];
 		$lesson->publish_date = $_POST['edited_lesson_publish_date'];
 		$lesson->qa_log = $_POST['edited_qa_log'];
 		$lesson->qa_url = $_POST['edited_qa_url'];
 		$lesson->update();
-		$message = "Lesson details updated";
+		$_SESSION['message'] = "Lesson details updated";
+		redirect_to("lesson.php?id={$lesson_id}");
 	}
 	
 	if($_POST['changed_qa_log']) {
@@ -31,7 +29,62 @@
 		$lesson = Lesson::find_by_id($qa_lesson_id);
 		$lesson->qa_log = $qa_log;
 		$lesson->update();
-		$message = "You've updated the QA Log to: '" . $qa_log . "'";
+		$_SESSION['message'] = "You've updated the QA Log to: '" . $qa_log . "'";
+		redirect_to("lesson.php?id={$lesson_id}");
+	}
+	
+	
+	// Checking and Archiving
+	
+	if($_POST['language_checked_lesson']) {
+	  $current_time = new DateTime(null, new DateTimeZone('UTC'));
+	  $lesson->checked_language_time = $current_time->format('Y-m-d H:i:s');
+	  $lesson->checked_language = 1;
+	  $lesson->update();
+	  $_SESSION['message'] = "Lesson language checked.";
+	  redirect_to("lesson.php?id={$lesson_id}");
+	}
+	
+	if($_POST['language_unchecked_lesson']) {
+	  unset($lesson->checked_language_time);
+	  $lesson->checked_language = 0;
+	  $lesson->update();
+	  $_SESSION['message'] = "Lesson language unchecked.";
+	  redirect_to("lesson.php?id={$lesson_id}");
+	}
+	
+	if($_POST['video_checked_lesson']) {
+	  $current_time = new DateTime(null, new DateTimeZone('UTC'));
+	  $lesson->checked_video_time = $current_time->format('Y-m-d H:i:s');
+	  $lesson->checked_video = 1;
+	  $lesson->update();
+	  $_SESSION['message'] = "Lesson video checked.";
+	  redirect_to("lesson.php?id={$lesson_id}");
+	}
+	
+	if($_POST['video_unchecked_lesson']) {
+	  unset($lesson->checked_video_time);
+	  $lesson->checked_video = 0;
+	  $lesson->update();
+	  $_SESSION['message'] = "Lesson video unchecked.";
+	  redirect_to("lesson.php?id={$lesson_id}");
+	}
+	
+	if($_POST['files_moved_lesson']) {
+	  $current_time = new DateTime(null, new DateTimeZone('UTC'));
+	  $lesson->files_moved_time = $current_time->format('Y-m-d H:i:s');
+	  $lesson->files_moved = 1;
+	  $lesson->update();
+	  $_SESSION['message'] = "Lesson files moved.";
+	  redirect_to("lesson.php?id={$lesson_id}");
+	}
+	
+	if($_POST['files_unmoved_lesson']) {
+	  unset($lesson->files_moved_time);
+	  $lesson->files_moved = 0;
+	  $lesson->update();
+	  $_SESSION['message'] = "Lesson files unmoved.";
+	  redirect_to("lesson.php?id={$lesson_id}");
 	}
 	
 	if($_POST['detect_lesson']) {
@@ -39,14 +92,16 @@
 	  $lesson->detected_time = $current_time->format('Y-m-d H:i:s');
 	  $lesson->is_detected = 1;
 	  $lesson->update();
-	  $message = "Lesson detected.";
+	  $_SESSION['message'] = "Lesson detected.";
+	  redirect_to("lesson.php?id={$lesson_id}");
 	}
 	
 	if($_POST['undetect_lesson']) {
 	  unset($lesson->time_detected);
 	  $lesson->is_detected = 0;
 	  $lesson->update();
-	  $message = "Lesson undetected.";
+	  $_SESSION['message'] = "Lesson undetected.";
+	  redirect_to("lesson.php?id={$lesson_id}");
 	}
 	
 	$trt = $lesson->trt;
@@ -275,28 +330,29 @@
 					</tbody>
 				</table>
   		</div>
+  		
   		<div class="content" id="panel-edit">
-					<form action='lesson.php?id=<?php echo $lesson->id; ?>' method='post'>
-						<label>QA Log<input type='text' size=60 name='edited_qa_log' value='<?php echo $lesson->qa_log; ?>'></label>
-						<label>QA URL<input type='text' size=60 name='edited_qa_url' value='<?php echo $lesson->qa_url; ?>'></label>
-						<label>Title <input type="text" size="50" name="edited_lesson_title" value="<?php echo $lesson->title; ?>"></label>
-						<label>Publish Date<input type="text" size="50" name="edited_lesson_publish_date" value="<?php echo $lesson->publish_date; ?>"></label>
-				<div class="small-6 columns">
-				  <div class="small-6 columns">
-					<label>TRT Minutes</label>
-					<select name="edited_lesson_trt_minutes" id="edited_lesson_trt_minutes">
-						<?php for($i=0; $i<20; $i++) {
-							echo "<option value='{$i}'";
-							if ($i == $trt_minutes) {
-								echo " selected";
-							}
-							echo ">{$i}</option>";
-						} ?>
-					</select>
+    		<div class="small-12 columns panel">
+				  <form action='lesson.php?id=<?php echo $lesson->id; ?>' method='post'>
+          <label>QA Log<input type='text' size=60 name='edited_qa_log' value='<?php echo $lesson->qa_log; ?>'></label>
+          <label>QA URL<input type='text' size=60 name='edited_qa_url' value='<?php echo $lesson->qa_url; ?>'></label>
+          <label>Title <input type="text" size="50" name="edited_lesson_title" value="<?php echo $lesson->title; ?>"></label>
+          <label>Publish Date<input type="text" size="50" name="edited_lesson_publish_date" value="<?php echo $lesson->publish_date; ?>"></label>
+  				<div class="small-6 columns">
+  					<label>TRT Minutes</label>
+  					<select name="edited_lesson_trt_minutes" id="edited_lesson_trt_minutes">
+  						<?php for($i=0; $i<20; $i++) {
+  							echo "<option value='{$i}'";
+  							if ($i == $trt_minutes) {
+  								echo " selected";
+  							}
+  							echo ">{$i}</option>";
+  						} ?>
+  				  </select>
 				  </div>
 				  <div class="small-6 columns">
-					<label>TRT Seconds</label>
-					<select name="edited_lesson_trt_seconds" id="edited_lesson_trt_seconds">
+					  <label>TRT Seconds</label>
+            <select name="edited_lesson_trt_seconds" id="edited_lesson_trt_seconds">
 						<?php for($i=0; $i<60; $i++) {
 							echo "<option value='{$i}'";
 							if ($i == $trt_seconds) {
@@ -304,36 +360,100 @@
 							}
 							echo ">{$i}</option>";
 						} ?>
-					</select></p>
-					</div>
-				</div>
-				<div class="small-6 columns">
-					<p><input type="checkbox" name="edited_lesson_checked_language" value="1" <?php echo $lesson->checked_language ? "checked" : ""; ?>><label>Language Checked</label></p>
-					<p><input type="checkbox" name="edited_lesson_checked_video" value="1" <?php echo $lesson->checked_video ? "checked" : ""; ?>><label>Video Checked</label></p>
-          <p><input type="checkbox" name="edited_lesson_files_moved" value="1" <?php echo $lesson->files_moved ? "checked" : ""; ?>><label>Files Moved</label></p>  
-				<input type="hidden" name="edited_lesson_id" value="<?php echo $current_record->id; ?>">
-				<p><input type="submit" class="action button" name="edited_lesson" id="edited_lesson" value="Edit"></p>
-				<?php if(!$lesson->is_detected) { ?>
-				<p>
-				  <form action='lesson.php?id=<?php echo $lesson->id; ?>' method='post'>
-				  <input type="submit" class="action button" value="Detect Lesson" name="detect_lesson">
-				  </form>
-				</p>
-				<?php } else { ?>
-				<p>This lesson has been detected 
-				  <?php if($lesson->detected_time) {
-  				  echo " on ";
-  				  echo date("M jS g:i a", strtotime($logged_in_user->local_time($lesson->detected_time)));
-				  } ?></p>
-				  <p>
-				  <form action='lesson.php?id=<?php echo $lesson->id; ?>' method='post'>
-				  <input type="submit" class="action button" value="Undetect Lesson" name="undetect_lesson">
-				  </form>
-				<?php } ?> 
-			</form>
+					  </select></p>
+  				</div>
+        
+          <div class="small-12 columns">
+            <input type="hidden" name="edited_lesson_id" value="<?php echo $current_record->id; ?>">
+            <p><input type="submit" class="action button" name="edited_lesson" id="edited_lesson" value="Edit"></p> 
+            </form>
+          </div>
+        </div>
+        
+        <div class="large-3 medium-6 small-12 columns text-center panel">
+          <p>
+            <?php if(!$lesson->checked_language) { ?>
+				    <form action='lesson.php?id=<?php echo $lesson->id; ?>' method='post'>
+            <input type="submit" class="action button" value="Language Checked" name="language_checked_lesson">
+				    </form>
+            <?php } else { ?>
+            <p>Language Checked</p>
+				      <?php if($lesson->checked_language_time) {
+              echo "<p>";
+              echo date("M jS g:i a", strtotime($logged_in_user->local_time($lesson->checked_language_time)));
+              echo "</p>";
+				      } ?>
+            <p><form action='lesson.php?id=<?php echo $lesson->id; ?>' method='post'>
+            <input type="submit" class="action button" value="Uncheck Language" name="language_unchecked_lesson">
+				    </form>
+            <?php } ?>
+				  </p>
+        </div>
+        
+        <div class="large-3 medium-6 small-12 columns text-center panel">
+          <p>
+            <?php if(!$lesson->checked_video) { ?>
+				    <form action='lesson.php?id=<?php echo $lesson->id; ?>' method='post'>
+            <input type="submit" class="action button" value="Video Checked" name="video_checked_lesson">
+				    </form>
+            <?php } else { ?>
+            <p>Video Checked</p>
+				      <?php if($lesson->checked_video_time) {
+              echo "<p>";
+              echo date("M jS g:i a", strtotime($logged_in_user->local_time($lesson->checked_video_time)));
+              echo "</p>";
+				      } ?>
+            <p><form action='lesson.php?id=<?php echo $lesson->id; ?>' method='post'>
+            <input type="submit" class="action button" value="Uncheck Video" name="video_unchecked_lesson">
+				    </form>
+            <?php } ?>
+				  </p>
+        </div>
+        
+        <div class="large-3 medium-6 small-12 columns text-center panel">
+          <p>
+            <?php if(!$lesson->files_moved) { ?>
+				    <form action='lesson.php?id=<?php echo $lesson->id; ?>' method='post'>
+            <input type="submit" class="action button" value="Move Files" name="files_moved_lesson">
+				    </form>
+            <?php } else { ?>
+            <p>Files Moved</p>
+				      <?php if($lesson->files_moved_time) {
+              echo "<p>";
+              echo date("M jS g:i a", strtotime($logged_in_user->local_time($lesson->files_moved_time)));
+              echo "</p>";
+				      } ?>
+            <p><form action='lesson.php?id=<?php echo $lesson->id; ?>' method='post'>
+            <input type="submit" class="action button" value="Unmove Files" name="files_unmoved_lesson">
+				    </form>
+            <?php } ?>
+				  </p>
+        </div>
+        
+        <div class="large-3 medium-6 small-12 columns text-center panel">
+          <p>
+            <?php if(!$lesson->is_detected) { ?>
+				    <form action='lesson.php?id=<?php echo $lesson->id; ?>' method='post'>
+            <input type="submit" class="action button" value="Detect Lesson" name="detect_lesson">
+				    </form>
+            <?php } else { ?>
+            <p>Detected</p>
+				      <?php if($lesson->detected_time) {
+              echo "<p>";
+              echo date("M jS g:i a", strtotime($logged_in_user->local_time($lesson->detected_time)));
+              echo "</p>";
+				      } ?>
+            <p><form action='lesson.php?id=<?php echo $lesson->id; ?>' method='post'>
+            <input type="submit" class="action button" value="Undetect Lesson" name="undetect_lesson">
+				    </form>
+            <?php } ?>
+				  </p>
+        </div>
+
+          
 			</div>
-			</div>
-  	</div>
+		</div>
   </div>
+</div>
 
 <?php include_layout_template('footer.php'); ?>

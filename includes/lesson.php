@@ -27,6 +27,9 @@ class Lesson extends DatabaseObject {
 										'lesson.isQueued' => 'is_queued',
 										'lesson.isDetected' => 'is_detected',
 										'lesson.queuedTime' => 'queued_time',
+										'lesson.checkedLanguageTime' => 'checked_language_time',
+										'lesson.checkedVideoTime' => 'checked_video_time',
+										'lesson.filesMovedTime' => 'files_moved_time',
 										'lesson.exportedTime' => 'exported_time',
 										'lesson.detectedTime' => 'detected_time',
 										'lesson.timeUploadedDropbox' => 'dropbox_time',
@@ -49,6 +52,9 @@ class Lesson extends DatabaseObject {
 											'lesson.isQueued' => 'is_queued',
 											'lesson.isDetected' => 'is_detected',
 											'lesson.queuedTime' => 'queued_time',
+											'lesson.checkedLanguageTime' => 'checked_language_time',
+                      'lesson.checkedVideoTime' => 'checked_video_time',
+                      'lesson.filesMovedTime' => 'files_moved_time',
 											'lesson.exportedTime' => 'exported_time',
 											'lesson.detectedTime' => 'detected_time',
 											'lesson.publishDateSite' => 'publish_date',
@@ -98,6 +104,9 @@ class Lesson extends DatabaseObject {
 	public $last_issue_time;
 	public $last_action;
 	public $detected_time;
+	public $checked_language_time;
+	public $checked_video_time;
+	public $files_moved_time;
 	
 	public static function find_all_lessons_for_language_series($language_series_id) {
 		$child_table_name = "lesson";
