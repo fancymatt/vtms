@@ -378,7 +378,7 @@
 				    </form>
             <?php } else { ?>
             <p>Language Checked</p>
-				      <?php if($lesson->checked_language_time) {
+				      <?php if($lesson->checked_language_time > 0) {
               echo "<p>";
               echo date("M jS g:i a", strtotime($logged_in_user->local_time($lesson->checked_language_time)));
               echo "</p>";
@@ -398,7 +398,7 @@
 				    </form>
             <?php } else { ?>
             <p>Video Checked</p>
-				      <?php if($lesson->checked_video_time) {
+				      <?php if($lesson->checked_video_time > 0) {
               echo "<p>";
               echo date("M jS g:i a", strtotime($logged_in_user->local_time($lesson->checked_video_time)));
               echo "</p>";
@@ -418,7 +418,7 @@
 				    </form>
             <?php } else { ?>
             <p>Files Moved</p>
-				      <?php if($lesson->files_moved_time) {
+				      <?php if($lesson->files_moved_time > 0) {
               echo "<p>";
               echo date("M jS g:i a", strtotime($logged_in_user->local_time($lesson->files_moved_time)));
               echo "</p>";
@@ -438,7 +438,7 @@
 				    </form>
             <?php } else { ?>
             <p>Detected</p>
-				      <?php if($lesson->detected_time) {
+				      <?php if($lesson->detected_time > 0) {
               echo "<p>";
               echo date("M jS g:i a", strtotime($logged_in_user->local_time($lesson->detected_time)));
               echo "</p>";
