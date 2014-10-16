@@ -6,17 +6,20 @@
 	}
 	if(isset($_POST['mark_lesson_as_checked'])) {
 		$qa_lesson_id = $db->escape_value($_POST['qa_lesson_id']);
+		$current_time = new DateTime(null, new DateTimeZone('UTC'));
 		$lesson = Lesson::find_by_id($qa_lesson_id);
+		$lesson->checked_video_time = $current_time->format('Y-m-d H:i:s');
 		$lesson->checked_video = 1;
 		$lesson->update();
 		$_SESSION['message'] = "You've marked that video as approved.";
 		redirect_to('admin-video-check.php');
-		
 	}
 	
 	if(isset($_POST['mark_lesson_as_moved'])) {
 		$qa_lesson_id = $db->escape_value($_POST['qa_lesson_id']);
+		$current_time = new DateTime(null, new DateTimeZone('UTC'));
 		$lesson = Lesson::find_by_id($qa_lesson_id);
+		$lesson->files_moved_time = $current_time->format('Y-m-d H:i:s');
 		$lesson->files_moved = 1;
 		$lesson->update();
 		$_SESSION['message'] = "This lesson has been moved.";

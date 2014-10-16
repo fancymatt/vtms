@@ -21,7 +21,9 @@
 	
 	if($_POST['marked_lesson_language_checked']) {
 		$qa_lesson_id = $db->escape_value($_POST['qa_lesson_id']);
+		$current_time = new DateTime(null, new DateTimeZone('UTC'));
 		$lesson = Lesson::find_by_id($qa_lesson_id);
+		$lesson->checked_language_time = $current_time->format('Y-m-d H:i:s');
 		$lesson->checked_language = 1;
 		$lesson->update();
 		$_SESSION['message'] = $lesson->language_name." ".$lesson->series_name." #".$lesson->number. " has been language checked.";
