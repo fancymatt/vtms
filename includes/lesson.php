@@ -324,8 +324,8 @@ class Lesson extends DatabaseObject {
 			$sql .= "JOIN ".$k." ON ".$v." ";
 			}
 		$sql .= "WHERE lesson.isDetected = 1 ";
+		$sql .= "AND lesson.detectedTime > 1 ";
 		$sql .= "ORDER BY lesson.detectedTime DESC ";
-		$sql .= "LIMIT 50 ";
 		
 		return static::find_by_sql($sql);
 	}

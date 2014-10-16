@@ -2,7 +2,7 @@
 <?php
 	confirm_logged_in();
 	$days_past = 1;
-	$lessons_recent = Lesson::get_recently_detected_lessons(25);
+	$lessons_recent = Lesson::get_recently_detected_lessons();
 	$logged_in_user = User::find_by_id($session->user_id);
 ?>
 
