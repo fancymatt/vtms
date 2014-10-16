@@ -42,22 +42,56 @@
   			      <div class="lesson-info">
         				<a class="lesson-title" href="lesson.php?id=<?php echo $lesson->id; ?>"><?php echo $lesson->display_full_lesson(); ?></a>
       				</div>
-              <div class="group-item-metadata">
-                <p>
+      				<div class="small-6 columns">
+                <div class="group-item-metadata">
+                  <p>
+                    <?php 
+                    echo "Publishing: ";
+                    echo "<strong>".$lesson->publish_date."</strong>";
+                    ?>
+                  </p>
                   <?php 
-                  echo "Due ";
-                  echo $lesson->publish_date;
+                  if ($lesson->checked_language_time > 0) {
+                    echo "<p>";
+                    echo "Language Checked: ";
+                    echo "<strong>";
+                    echo date("M jS g:i a", strtotime($logged_in_user->local_time($lesson->checked_language_time)));
+                    echo "</strong>";
+                    echo "</p>";
+                  }
                   ?>
-                </p>
+                  <?php 
+                  if ($lesson->checked_video_time > 0) {
+                    echo "<p>";
+                    echo "Video Checked: ";
+                    echo "<strong>";
+                    echo date("M jS g:i a", strtotime($logged_in_user->local_time($lesson->checked_video_time)));
+                    echo "</strong>";
+                    echo "</p>";
+                  }
+                  ?>
+                  <?php 
+                  if ($lesson->files_moved_time > 0) {
+                    echo "<p>";
+                    echo "Video Completed: ";
+                    echo "<strong>";
+                    echo date("M jS g:i a", strtotime($logged_in_user->local_time($lesson->files_moved_time)));
+                    echo "</strong>";
+                    echo "</p>";
+                  }
+                  ?>
+                </div>
+      				</div>
+              <div class="small-6 columns">
+                <ul class="actions">
+        					<li class="action-item">
+        						<form action='ready-to-publish.php' method='post'>
+        							<input type='hidden' name='lesson_id' value='<?php echo $lesson->id; ?>'>
+        							<button type="submit" class="no-format" name="mark_lesson_as_published" data-tooltip class="has-tip" title="Publish Lesson"><img src="img/icon-move-files.png"></button>
+        						</form>
+        					</li>
+        				</ul>
               </div>
-              <ul class="actions">
-      					<li class="action-item">
-      						<form action='ready-to-publish.php' method='post'>
-      							<input type='hidden' name='lesson_id' value='<?php echo $lesson->id; ?>'>
-      							<button type="submit" class="no-format" name="mark_lesson_as_published" data-tooltip class="has-tip" title="Publish Lesson"><img src="img/icon-move-files.png"></button>
-      						</form>
-      					</li>
-      				</ul>
   			    </div>
           </div>
     		</div>
