@@ -19,6 +19,7 @@
 		$lesson->publish_date_yt = $_POST['edited_lesson_youtube_date'];
 		$lesson->qa_log = $_POST['edited_qa_log'];
 		$lesson->qa_url = $_POST['edited_qa_url'];
+		$lesson->yt_code = $_POST['edited_lesson_yt_code'];
 		$lesson->update();
 		$_SESSION['message'] = "Lesson details updated";
 		redirect_to("lesson.php?id={$lesson_id}");
@@ -373,6 +374,7 @@
   				</div>
           
           <div class="small-12 columns">
+            <label>YouTube Code <input type="text" size="50" name="edited_lesson_yt_code" value="<?php echo $lesson->yt_code; ?>"></label>
             <input type="hidden" name="edited_lesson_id" value="<?php echo $current_record->id; ?>">
             <p><input type="submit" class="action button" name="edited_lesson" id="edited_lesson" value="Edit"></p> 
             </form>
