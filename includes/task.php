@@ -24,7 +24,17 @@ class Task extends DatabaseObject {
 										'timeActivate' => 'activated_time',
 										'timeActual' => 'actual_time',
 										'timeCompleted' => 'completed_time',
-										'DATE_SUB(DATE_SUB(lesson.publishDateSite, INTERVAL taskGlobal.dueDateOffset DAY), INTERVAL lesson.bufferLength DAY)' => 'task_due_date',
+										'DATE_SUB(
+									    LEAST(
+  										  COALESCE(
+  										    NULLIF(lesson.publishDateSite, 0), NULLIF(lesson.publishDateYouTube, 0)
+  										  ),
+  										  COALESCE(
+    										  NULLIF(lesson.publishDateYouTube, 0), NULLIF(lesson.publishDateSite, 0)
+    										)
+                      ), 
+										  INTERVAL taskGlobal.dueDateOffset DAY
+										)' => 'task_due_date',
 										'task.isDelivered' => 'is_delivered',
 										'taskGlobal.isAsset' => 'is_asset',
 										'task.timeRunning' => 'time_running'

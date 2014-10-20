@@ -20,12 +20,24 @@ class Lesson extends DatabaseObject {
 										'lesson.checkedVideo' => 'checked_video',
 										'lesson.filesMoved' => 'files_moved',
 										'level.code' => 'level_code',
-										'lesson.publishDateSite' => 'publish_date',
+										'lesson.ytCode' => 'yt_code',
+										'lesson.publishDateSite' => 'publish_date_site',
+										'lesson.publishDateYouTube' => 'publish_date_yt',
+										'LEAST(
+										  COALESCE(
+										    NULLIF(lesson.publishDateSite, 0), NULLIF(lesson.publishDateYouTube, 0)
+										  ),
+										  COALESCE(
+  										  NULLIF(lesson.publishDateYouTube, 0), NULLIF(lesson.publishDateSite, 0)
+  										)
+                    )' => 'publish_date',
 										'lesson.publishDateSite - INTERVAL (lesson.bufferLength) DAY' => 'buffered_publish_date',
 										'lesson.qa_log' => 'qa_log',
 										'lesson.qa_url' => 'qa_url',
 										'lesson.isQueued' => 'is_queued',
 										'lesson.isDetected' => 'is_detected',
+										'lesson.isUploadedYt' => 'is_uploaded_yt',
+										'lesson.uploadedYtTime' => 'yt_uploaded_time',
 										'lesson.queuedTime' => 'queued_time',
 										'lesson.checkedLanguageTime' => 'checked_language_time',
 										'lesson.checkedVideoTime' => 'checked_video_time',
@@ -50,6 +62,9 @@ class Lesson extends DatabaseObject {
 											'lesson.qa_log' => 'qa_log',
 											'lesson.qa_url' => 'qa_url',
 											'lesson.isQueued' => 'is_queued',
+											'lesson.isUploadedYt' => 'is_uploaded_yt',
+                      'lesson.uploadedYtTime' => 'yt_uploaded_time',
+                      'lesson.ytCode' => 'yt_code',
 											'lesson.isDetected' => 'is_detected',
 											'lesson.queuedTime' => 'queued_time',
 											'lesson.checkedLanguageTime' => 'checked_language_time',
@@ -57,7 +72,8 @@ class Lesson extends DatabaseObject {
                       'lesson.filesMovedTime' => 'files_moved_time',
 											'lesson.exportedTime' => 'exported_time',
 											'lesson.detectedTime' => 'detected_time',
-											'lesson.publishDateSite' => 'publish_date',
+											'lesson.publishDateSite' => 'publish_date_site',
+											'lesson.publishDateYouTube' => 'publish_date_yt',
 											'lesson.timeUploadedDropbox' => 'dropbox_time'
 											);
 										
@@ -89,13 +105,18 @@ class Lesson extends DatabaseObject {
 	public $files_moved;
 	public $date_due;
 	public $level_code;
+	public $yt_code;
 	public $issues_remaining;
 	public $qa_log;
 	public $qa_url;
 	public $is_queued;
+	public $is_uploaded_yt;
+	public $yt_uploaded_time;
 	public $queued_time;
 	public $exported_time;
 	public $publish_date;
+	public $publish_date_site;
+	public $publish_date_yt;
 	public $buffered_publish_date;
 	public $time_dropbox;
 	public $last_task_id;
@@ -314,9 +335,27 @@ class Lesson extends DatabaseObject {
 			}
 		$sql .= "WHERE lesson.filesMoved = 1 "; 
 		$sql .= "AND NOT lesson.isDetected = 1 ";
-		$sql .= "AND NOT series.code = 'ww' ";
 		$sql .= "AND NOT lesson.publishDateSite = '0000-00-00' ";
 		$sql .= "ORDER BY lesson.publishDateSite ASC, language.name ASC, series.title ASC, lesson.number ASC ";
+		return static::find_by_sql($sql);
+	}
+	
+	public static function get_ready_to_publish_youtube_lessons() {
+  	// detect the latest task completion time and issue fixed time
+		$sql  = "SELECT ";		
+		foreach (self::$db_view_fields as $k => $v) {
+			$sql .= $k." AS ".$v;
+			$i++;
+			$i <= count(self::$db_view_fields) - 1 ? $sql .= ", " : $sql .= " ";
+		}
+		$sql .= "FROM ".self::$table_name." ";
+		foreach (self::$db_join_fields as $k => $v) {
+			$sql .= "JOIN ".$k." ON ".$v." ";
+			}
+		$sql .= "WHERE lesson.filesMoved = 1 ";
+		$sql .= "AND NOT lesson.isUploadedYt = 1 ";
+		$sql .= "AND NOT lesson.publishDateYouTube = '0000-00-00' ";  
+		$sql .= "ORDER BY lesson.publishDateYouTube ASC, language.name ASC, series.title ASC, lesson.number ASC ";
 		return static::find_by_sql($sql);
 	} 
 	

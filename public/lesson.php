@@ -15,7 +15,8 @@
 		$lesson = Lesson::find_by_id($lesson_id);
 		$lesson->title = $_POST['edited_lesson_title'];
 		$lesson->trt = ($_POST['edited_lesson_trt_minutes'] * 60) + $_POST['edited_lesson_trt_seconds'];
-		$lesson->publish_date = $_POST['edited_lesson_publish_date'];
+		$lesson->publish_date_site = $_POST['edited_lesson_publish_date'];
+		$lesson->publish_date_yt = $_POST['edited_lesson_youtube_date'];
 		$lesson->qa_log = $_POST['edited_qa_log'];
 		$lesson->qa_url = $_POST['edited_qa_url'];
 		$lesson->update();
@@ -337,7 +338,15 @@
           <label>QA Log<input type='text' size=60 name='edited_qa_log' value='<?php echo $lesson->qa_log; ?>'></label>
           <label>QA URL<input type='text' size=60 name='edited_qa_url' value='<?php echo $lesson->qa_url; ?>'></label>
           <label>Title <input type="text" size="50" name="edited_lesson_title" value="<?php echo $lesson->title; ?>"></label>
-          <label>Publish Date<input type="text" size="50" name="edited_lesson_publish_date" value="<?php echo $lesson->publish_date; ?>"></label>
+          
+          <hr />
+          
+          <h5>Due Date: <strong><?php echo $lesson->publish_date; ?></strong></h5>
+          <label>Site Publish Date<input type="text" size="50" name="edited_lesson_publish_date" value="<?php echo $lesson->publish_date_site; ?>"></label>
+          <label>YouTube Publish Date<input type="text" size="50" name="edited_lesson_youtube_date" value="<?php echo $lesson->publish_date_yt; ?>"></label>
+				  
+          <hr />
+
   				<div class="small-6 columns">
   					<label>TRT Minutes</label>
   					<select name="edited_lesson_trt_minutes" id="edited_lesson_trt_minutes">
@@ -362,7 +371,7 @@
 						} ?>
 					  </select></p>
   				</div>
-        
+          
           <div class="small-12 columns">
             <input type="hidden" name="edited_lesson_id" value="<?php echo $current_record->id; ?>">
             <p><input type="submit" class="action button" name="edited_lesson" id="edited_lesson" value="Edit"></p> 
@@ -448,6 +457,20 @@
 				    </form>
             <?php } ?>
 				  </p>
+        </div>
+        
+        <div class="small-12 columns panel">
+          <h5>YouTube</h5>
+          <?php if($lesson->is_uploaded_yt) { ?>
+            <p>Uploaded <?php echo date("M jS g:i a", strtotime($logged_in_user->local_time($lesson->yt_uploaded_time))); ?></p>
+            <p>
+              <iframe width="560" height="315" src="//www.youtube.com/embed/<?php echo $lesson->yt_code; ?>" frameborder="0" allowfullscreen>
+              </iframe>
+            </p>
+            
+          <?php } else { ?>
+            <p>Not yet uploaded.</p>
+          <?php } ?>
         </div>
 
           
