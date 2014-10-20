@@ -177,10 +177,10 @@ class Task extends DatabaseObject {
 		$sql .= "AND task.isActive=0 ";
 		$sql .= "AND task.isCompleted=0 ";
 		$sql .= "AND NOT taskGlobal.isAsset=1 ";
-		$sql .= "AND lesson.publishDateSite > 0 ";
+		$sql .= "AND LEAST( COALESCE(NULLIF(lesson.publishDateSite, 0), NULLIF(lesson.publishDateYouTube, 0)), COALESCE(NULLIF(lesson.publishDateYouTube, 0), NULLIF(lesson.publishDateSite, 0))) > 0 ";
 		$sql .= "GROUP BY task.id ";
 		$sql .= "HAVING ( ( SELECT SUM( taskGlobal.completionValue ) FROM lesson sub_lesson JOIN task ON task.fkLesson=sub_lesson.id JOIN taskGlobal ON task.fkTaskGlobal=taskGlobal.id WHERE IF(taskGlobal.isAsset=1, task.isDelivered=1, task.isCompleted=1) AND lesson.id=sub_lesson.id ) >= taskGlobal.actionableAt ) OR taskGlobal.actionableAt = 0 ";
-		$sql .= "ORDER BY DATE_SUB(DATE_SUB(lesson.publishDateSite, INTERVAL taskGlobal.dueDateOffset DAY), INTERVAL lesson.bufferLength DAY) ASC, series.title ASC, language.name ASC, level.number ASC, lesson.number ASC ";
+		$sql .= "ORDER BY DATE_SUB(DATE_SUB(LEAST( COALESCE(NULLIF(lesson.publishDateSite, 0), NULLIF(lesson.publishDateYouTube, 0)), COALESCE(NULLIF(lesson.publishDateYouTube, 0), NULLIF(lesson.publishDateSite, 0))), INTERVAL taskGlobal.dueDateOffset DAY), INTERVAL lesson.bufferLength DAY) ASC, series.title ASC, language.name ASC, level.number ASC, lesson.number ASC ";
 		$sql .= "LIMIT 10 ";
 		
 		return static::find_by_sql($sql);
@@ -202,7 +202,7 @@ class Task extends DatabaseObject {
 		$sql .= "AND NOT task.isCompleted = 1 ";
 		$sql .= "GROUP BY task.id ";
 		$sql .= "HAVING ( ( SELECT SUM( taskGlobal.completionValue ) FROM lesson sub_lesson JOIN task ON task.fkLesson=sub_lesson.id JOIN taskGlobal ON task.fkTaskGlobal=taskGlobal.id WHERE IF(taskGlobal.isAsset=1, task.isDelivered=1, task.isCompleted=1) AND lesson.id=sub_lesson.id ) >= taskGlobal.actionableAt ) OR taskGlobal.actionableAt = 0 ";
-		$sql .= "ORDER BY DATE_SUB(DATE_SUB(lesson.publishDateSite, INTERVAL taskGlobal.dueDateOffset DAY), INTERVAL lesson.bufferLength DAY) ASC, series.title ASC, language.name ASC, level.number ASC, lesson.number ASC ";
+		$sql .= "ORDER BY DATE_SUB(DATE_SUB(LEAST( COALESCE(NULLIF(lesson.publishDateSite, 0), NULLIF(lesson.publishDateYouTube, 0)), COALESCE(NULLIF(lesson.publishDateYouTube, 0), NULLIF(lesson.publishDateSite, 0))), INTERVAL taskGlobal.dueDateOffset DAY), INTERVAL lesson.bufferLength DAY) ASC, series.title ASC, language.name ASC, level.number ASC, lesson.number ASC ";
 		
 		return static::find_by_sql($sql);
 	}
@@ -224,10 +224,10 @@ class Task extends DatabaseObject {
 		$sql .= "AND task.isCompleted=1 ";
 		$sql .= "AND NOT task.isDelivered=1 ";
 		$sql .= "AND taskGlobal.isAsset=1 ";
-		$sql .= "AND lesson.publishDateSite > 0 ";
+		$sql .= "AND LEAST( COALESCE(NULLIF(lesson.publishDateSite, 0), NULLIF(lesson.publishDateYouTube, 0)), COALESCE(NULLIF(lesson.publishDateYouTube, 0), NULLIF(lesson.publishDateSite, 0))) > 0 ";
 		$sql .= "GROUP BY task.id ";
 		$sql .= "HAVING ( ( SELECT SUM( taskGlobal.completionValue ) FROM lesson sub_lesson JOIN task ON task.fkLesson=sub_lesson.id JOIN taskGlobal ON task.fkTaskGlobal=taskGlobal.id WHERE IF(taskGlobal.isAsset=1, task.isDelivered=1, task.isCompleted=1) AND lesson.id=sub_lesson.id ) >= taskGlobal.actionableAt ) OR taskGlobal.actionableAt = 0 ";
-		$sql .= "ORDER BY DATE_SUB(DATE_SUB(lesson.publishDateSite, INTERVAL taskGlobal.dueDateOffset DAY), INTERVAL lesson.bufferLength DAY) ASC ";
+		$sql .= "ORDER BY DATE_SUB(DATE_SUB(LEAST( COALESCE(NULLIF(lesson.publishDateSite, 0), NULLIF(lesson.publishDateYouTube, 0)), COALESCE(NULLIF(lesson.publishDateYouTube, 0), NULLIF(lesson.publishDateSite, 0))), INTERVAL taskGlobal.dueDateOffset DAY), INTERVAL lesson.bufferLength DAY) ASC ";
 		//$sql .= "LIMIT 10 ";
 		
 		return static::find_by_sql($sql);
@@ -247,10 +247,10 @@ class Task extends DatabaseObject {
 		$sql .= "WHERE NOT task.isActive=1 ";
 		$sql .= "AND task.isCompleted=0 ";
 		$sql .= "AND NOT taskGlobal.isAsset=1 ";
-		$sql .= "AND lesson.publishDateSite > 0 ";
+		$sql .= "AND LEAST( COALESCE(NULLIF(lesson.publishDateSite, 0), NULLIF(lesson.publishDateYouTube, 0)), COALESCE(NULLIF(lesson.publishDateYouTube, 0), NULLIF(lesson.publishDateSite, 0))) > 0 ";
 		$sql .= "GROUP BY task.id ";
 		$sql .= "HAVING ( ( SELECT SUM( taskGlobal.completionValue ) FROM lesson sub_lesson JOIN task ON task.fkLesson=sub_lesson.id JOIN taskGlobal ON task.fkTaskGlobal=taskGlobal.id WHERE IF(taskGlobal.isAsset=1, task.isDelivered=1, task.isCompleted) AND lesson.id=sub_lesson.id ) >= taskGlobal.actionableAt )  OR taskGlobal.actionableAt = 0 ";
-		$sql .= "ORDER BY DATE_SUB(DATE_SUB(lesson.publishDateSite, INTERVAL taskGlobal.dueDateOffset DAY), INTERVAL lesson.bufferLength DAY) ASC ";
+		$sql .= "ORDER BY DATE_SUB(DATE_SUB(LEAST( COALESCE(NULLIF(lesson.publishDateSite, 0), NULLIF(lesson.publishDateYouTube, 0)), COALESCE(NULLIF(lesson.publishDateYouTube, 0), NULLIF(lesson.publishDateSite, 0))), INTERVAL taskGlobal.dueDateOffset DAY), INTERVAL lesson.bufferLength DAY) ASC ";
 		if(is_int($limit)) {
   		$sql .= "LIMIT {$limit}";
 		}
@@ -272,9 +272,9 @@ class Task extends DatabaseObject {
 		$sql .= "AND task.isActive=1 ";
 		$sql .= "AND task.isCompleted=0 ";
 		$sql .= "AND NOT taskGlobal.isAsset=1 ";
-		$sql .= "AND lesson.publishDateSite > 0 ";
+		$sql .= "AND LEAST( COALESCE(NULLIF(lesson.publishDateSite, 0), NULLIF(lesson.publishDateYouTube, 0)), COALESCE(NULLIF(lesson.publishDateYouTube, 0), NULLIF(lesson.publishDateSite, 0))) > 0 ";
 		$sql .= "GROUP BY task.id ";
-		$sql .= "ORDER BY DATE_SUB(DATE_SUB(lesson.publishDateSite, INTERVAL taskGlobal.dueDateOffset DAY), INTERVAL lesson.bufferLength DAY) ASC ";
+		$sql .= "ORDER BY DATE_SUB(DATE_SUB(LEAST( COALESCE(NULLIF(lesson.publishDateSite, 0), NULLIF(lesson.publishDateYouTube, 0)), COALESCE(NULLIF(lesson.publishDateYouTube, 0), NULLIF(lesson.publishDateSite, 0))), INTERVAL taskGlobal.dueDateOffset DAY), INTERVAL lesson.bufferLength DAY) ASC ";
 		$sql .= "LIMIT 10 ";
 		
 		return static::find_by_sql($sql);
@@ -294,10 +294,10 @@ class Task extends DatabaseObject {
 		$sql .= "WHERE task.isActive=0 ";
 		$sql .= "AND task.isCompleted=0 ";
 		$sql .= "AND taskGlobal.isAsset=1 ";
-		$sql .= "AND lesson.publishDateSite > 0 ";
+		$sql .= "AND LEAST( COALESCE(NULLIF(lesson.publishDateSite, 0), NULLIF(lesson.publishDateYouTube, 0)), COALESCE(NULLIF(lesson.publishDateYouTube, 0), NULLIF(lesson.publishDateSite, 0))) > 0 ";
 		$sql .= "GROUP BY task.id ";
 		$sql .= "HAVING ( ( SELECT SUM( taskGlobal.completionValue ) FROM lesson sub_lesson JOIN task ON task.fkLesson=sub_lesson.id JOIN taskGlobal ON task.fkTaskGlobal=taskGlobal.id WHERE task.isCompleted=1 AND lesson.id=sub_lesson.id ) >= taskGlobal.actionableAt ) OR taskGlobal.actionableAt = 0  ";
-		$sql .= "ORDER BY DATE_SUB(DATE_SUB(lesson.publishDateSite, INTERVAL taskGlobal.dueDateOffset DAY), INTERVAL lesson.bufferLength DAY) ASC ";
+		$sql .= "ORDER BY DATE_SUB(DATE_SUB(LEAST( COALESCE(NULLIF(lesson.publishDateSite, 0), NULLIF(lesson.publishDateYouTube, 0)), COALESCE(NULLIF(lesson.publishDateYouTube, 0), NULLIF(lesson.publishDateSite, 0))), INTERVAL taskGlobal.dueDateOffset DAY), INTERVAL lesson.bufferLength DAY) ASC ";
 		if(is_int($limit)) {
   		$sql .= "LIMIT {$limit} ";
 		}
@@ -318,7 +318,7 @@ class Task extends DatabaseObject {
 		$sql .= "WHERE taskGlobal.isAsset=1 ";
 		$sql .= "AND task.isCompleted=1 ";
 		$sql .= "AND NOT task.isDelivered=1 ";
-		$sql .= "AND lesson.publishDateSite > 0 ";
+		$sql .= "AND LEAST( COALESCE(NULLIF(lesson.publishDateSite, 0), NULLIF(lesson.publishDateYouTube, 0)), COALESCE(NULLIF(lesson.publishDateYouTube, 0), NULLIF(lesson.publishDateSite, 0))) > 0 ";
 		$sql .= "GROUP BY lesson_id ";
 		$sql .= "ORDER BY task_due_date ASC ";
 		//$sql .= "LIMIT 10 ";
