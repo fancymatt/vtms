@@ -46,6 +46,7 @@
 						<li><a href="recently-shot.php">Recently Shot</a></li>
 						<li><a href="recently-detected.php">Recently Detected</a></li>
 						<li><a href="ready-to-publish.php">Ready to Publish</a></li>
+						<li><a href="ready-to-publish-yt.php">Ready to Upload to YT</a></li>
 					</ul>
 				</li>
 			</ul>

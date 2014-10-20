@@ -5,13 +5,28 @@
 	$logged_in_user = User::find_by_id($session->user_id);
 	
 	if(isset($_POST['mark_lesson_as_uploaded'])) {
-		$lesson_id = $db->escape_value($_POST['lesson_id']);
-		$lesson = Lesson::find_by_id($lesson_id);
-		$current_time = new DateTime(null, new DateTimeZone('UTC'));
-	  $lesson->yt_uploaded_time = $current_time->format('Y-m-d H:i:s');
-	  $lesson->is_uploaded_yt = 1;
-		$lesson->update();
-		$_SESSION['message'] = "You've marked that video as uploaded to YouTube.";
+    if(isset($_POST['yt_code'])) {
+      $lesson_id = $db->escape_value($_POST['lesson_id']);
+  		$lesson = Lesson::find_by_id($lesson_id);
+  		$current_time = new DateTime(null, new DateTimeZone('UTC'));
+      $lesson->yt_code = $db->escape_value($_POST['yt_code']);
+  		
+  		if ($_POST['yt_date'] > 0) {
+    		// Should probably do regex checking
+    		$lesson->yt_uploaded_time = $_POST['yt_date'] . " 12:00:00";
+  		} else {
+    		$lesson->yt_uploaded_time = $current_time->format('Y-m-d H:i:s');
+  		}
+  	  
+  	  $lesson->is_uploaded_yt = 1;
+  		$lesson->update();
+  		$_SESSION['message'] = "You've marked that video as uploaded to YouTube."; 
+  		 
+    } else {
+      
+      $_SESSION['message'] = "Don't forget about the YouTube code!";
+      
+    }
 		redirect_to('ready-to-publish-yt.php');
 	}
 	
@@ -43,6 +58,11 @@
         				<a class="lesson-title" href="lesson.php?id=<?php echo $lesson->id; ?>"><?php echo $lesson->display_full_lesson(); ?></a>
       				</div>
       				<div class="small-6 columns">
+        				<div class="group-item-form">
+          				<form action='ready-to-publish-yt.php' method='post'>
+            				<label for="yt_code">YT Code: <input type="text" name="yt_code" value="<?php echo $lesson->yt_code; ?>"></label>
+            				<label for="yt_code">Publish Date: (Leave blank for now)<input type="text" name="yt_date"></label>
+        				</div>
                 <div class="group-item-metadata">
                   <p>
                     <?php 
@@ -85,9 +105,8 @@
               <div class="small-6 columns">
                 <ul class="actions">
         					<li class="action-item">
-        						<form action='ready-to-publish-yt.php' method='post'>
-        							<input type='hidden' name='lesson_id' value='<?php echo $lesson->id; ?>'>
-        							<button type="submit" class="no-format" name="mark_lesson_as_uploaded" data-tooltip class="has-tip" title="Upload to YT"><img src="img/icon-move-files.png"></button>
+      							<input type='hidden' name='lesson_id' value='<?php echo $lesson->id; ?>'>
+      							<button type="submit" class="no-format" name="mark_lesson_as_uploaded" data-tooltip class="has-tip" title="Upload to YT"><img src="img/icon-move-files.png"></button>
         						</form>
         					</li>
         				</ul>
