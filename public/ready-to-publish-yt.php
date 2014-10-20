@@ -5,7 +5,9 @@
 	$logged_in_user = User::find_by_id($session->user_id);
 	
 	if(isset($_POST['mark_lesson_as_uploaded'])) {
+  	
     if(isset($_POST['yt_code'])) {
+      
       $lesson_id = $db->escape_value($_POST['lesson_id']);
   		$lesson = Lesson::find_by_id($lesson_id);
   		$current_time = new DateTime(null, new DateTimeZone('UTC'));
@@ -55,7 +57,7 @@
           <div class="group-item-body">
   			    <div class="group-item-content">
   			      <div class="lesson-info">
-        				<a class="lesson-title" href="lesson.php?id=<?php echo $lesson->id; ?>"><?php echo $lesson->display_full_lesson(); ?></a>
+        				<a class="lesson-title" href="lesson.php?id=<?php echo $lesson->id; ?>"><?php echo $lesson->display_full_lesson() . " - " . $lesson->title; ?></a>
       				</div>
       				<div class="small-6 columns">
         				<div class="group-item-form">
