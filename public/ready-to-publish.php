@@ -47,7 +47,9 @@
                   <p>
                     <?php 
                     echo "Publishing: ";
-                    echo "<strong>".$lesson->publish_date."</strong>";
+                    echo "<strong>";
+                    echo date("M jS, Y", strtotime($logged_in_user->local_time($lesson->publish_date)));
+                    echo "</strong>";
                     ?>
                   </p>
                   <?php 

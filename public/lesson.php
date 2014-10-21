@@ -183,7 +183,18 @@
       				</div>
       				<div class="task-info">
         				<p class="task-title"><?php echo $task->task_name; ?></p>
-        				<p class="date"><?php echo "Due ".$task->task_due_date; ?></p>
+        				<p class="date">
+        				  <?php 
+        				  if($task->is_completed) {
+        				    echo "Completed";
+        				    if($task->completed_time > 0) {
+          				    echo " on ".date("M jS, Y", strtotime($logged_in_user->local_time($task->completed_time)));
+        				    } 
+        				  } else {
+          				  echo "Due ".date("M jS, Y", strtotime($logged_in_user->local_time($task->task_due_date)));
+        				  }
+        				  ?>
+        				 </p>
       				</div>
       				<?php if($session->is_admin()) { ?>
               <div class="actions">
@@ -217,11 +228,11 @@
         				  if($task->is_completed) {
         				    echo "Completed";
         				    if($task->completed_time > 0) {
-          				    echo " on ".$logged_in_user->local_time($task->completed_time);
+          				    echo " on ".date("M jS, Y", strtotime($logged_in_user->local_time($task->completed_time)));
         				    } 
         				    echo " in ".seconds_to_timecode($task->time_actual, 6);
         				  } else {
-          				  echo "Due ".$task->task_due_date;
+          				  echo "Due ".date("M jS, Y", strtotime($logged_in_user->local_time($task->task_due_date)));
         				  }
         				  ?>
         				 </p>
@@ -342,7 +353,7 @@
           
           <hr />
           
-          <h5>Due Date: <strong><?php echo $lesson->publish_date; ?></strong></h5>
+          <h5>Due Date: <strong><?php echo date("M jS, Y", strtotime($logged_in_user->local_time($lesson->publish_date))); ?></strong></h5>
           <label>Site Publish Date<input type="text" size="50" name="edited_lesson_publish_date" value="<?php echo $lesson->publish_date_site; ?>"></label>
           <label>YouTube Publish Date<input type="text" size="50" name="edited_lesson_youtube_date" value="<?php echo $lesson->publish_date_yt; ?>"></label>
 				  
@@ -464,7 +475,7 @@
         <div class="small-12 columns panel">
           <h5>YouTube</h5>
           <?php if($lesson->is_uploaded_yt) { ?>
-            <p>Uploaded <?php echo date("M jS g:i a", strtotime($logged_in_user->local_time($lesson->yt_uploaded_time))); ?></p>
+            <p>Uploaded <?php echo date("M jS, Y", strtotime($logged_in_user->local_time($lesson->yt_uploaded_time))); ?></p>
             <p>
               <iframe width="560" height="315" src="//www.youtube.com/embed/<?php echo $lesson->yt_code; ?>" frameborder="0" allowfullscreen>
               </iframe>
