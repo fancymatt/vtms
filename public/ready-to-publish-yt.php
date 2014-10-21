@@ -15,9 +15,9 @@
   		
   		if ($_POST['yt_date'] > 0) {
     		// Should probably do regex checking
-    		$lesson->yt_uploaded_time = $_POST['yt_date'] . " 12:00:00";
+    		$lesson->yt_uploaded_time = $_POST['yt_date'] . " 08:30:00";
   		} else {
-    		$lesson->yt_uploaded_time = $current_time->format('Y-m-d H:i:s');
+    		$lesson->yt_uploaded_time = $lesson->publish_date_yt . " 08:30:00";
   		}
   	  
   	  $lesson->is_uploaded_yt = 1;
@@ -26,7 +26,7 @@
   		 
     } else {
       
-      $_SESSION['message'] = "Don't forget about the YouTube code!";
+      $_SESSION['message'] = "You need to add the YouTube code!";
       
     }
 		redirect_to('ready-to-publish-yt.php');
@@ -45,7 +45,7 @@
 
 <div id="tasks-actionable" class="small-12 medium-8 medium-centered columns">
   <div class="group-header">
-    <h3 class="group-title">Ready to Publish lessons</h3>
+    <h3 class="group-title">Ready to upload to YouTube</h3>
     <div class="group-item-sort-options">
     </div>
   </div>
@@ -63,13 +63,15 @@
         				<div class="group-item-form">
           				<form action='ready-to-publish-yt.php' method='post'>
             				<label for="yt_code">YT Code: <input type="text" name="yt_code" value="<?php echo $lesson->yt_code; ?>"></label>
-            				<label for="yt_code">Publish Date: (Leave blank for now)<input type="text" name="yt_date"></label>
+            				<label for="yt_code">Publish Date: (Leave blank if publishing on below date)<input type="text" name="yt_date"></label>
         				</div>
                 <div class="group-item-metadata">
                   <p>
                     <?php 
                     echo "YouTube Publishing Date: ";
-                    echo "<strong>".$lesson->publish_date_yt."</strong>";
+                    echo "<strong>";
+                    echo date("M jS, Y", strtotime($logged_in_user->local_time($lesson->publish_date_yt)));
+                    echo "</strong>";
                     ?>
                   </p>
                   <?php 
