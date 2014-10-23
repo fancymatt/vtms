@@ -8,6 +8,8 @@
 	$logged_in_user = User::find_by_id($session->user_id);
 	$active_shift = Shift::get_active_shift_for_member($logged_in_user->id);
 	
+	$sort = $db->escape_value($_GET['sort']);
+	
 	if($_POST['shot_completed']) {
 		$shot_id = $_POST['shot_id'];
 		$shoot_notes = $_POST['shoot_notes'];
@@ -60,8 +62,8 @@
 		} 
 	}
 	
-	$shots = Shot::find_all_shots_for_asset($asset_id);
-	$incomplete_shots = Shot::find_all_incomplete_shots_for_asset($asset_id);
+	$shots = Shot::find_all_shots_for_asset($asset_id, $sort);
+	$incomplete_shots = Shot::find_all_incomplete_shots_for_asset($asset_id, $sort);
 ?>
 <?php include_layout_template('header.php'); ?>
 
@@ -84,6 +86,15 @@
 	</ul>
 </div>
 
+<div class="row">
+  <div class="small-12 columns panel">
+    Sort: 
+    <a href="record-asset.php?id=<?php echo $asset_id; ?>&sort=order" class="action button">Chronological</a>
+    <a href="record-asset.php?id=<?php echo $asset_id; ?>&sort=benri" class="action button">Benri</a>
+  </div>
+</div>
+
+
 	<?php if($message) {
 		echo "<p>{$message}</p>";
 	} ?>
@@ -95,7 +106,7 @@
 			echo "{$lesson->language_name} {$lesson->series_name} {$lesson->number} ($asset->task_name)";
 			echo "\n\n";
 			foreach($incomplete_shots as $shot) {
-				echo "[{$lesson->language_name} {$lesson->series_name} #{$lesson->number}-{$shot->shot}-{$shot->type}]";
+				echo "[{$shot->section} {$shot->shot} {$shot->type}]";
 				echo "\n";
 				echo $shot->script;
 				echo "\n\n";

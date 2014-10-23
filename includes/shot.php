@@ -63,7 +63,7 @@ class Shot extends DatabaseObject {
 		return static::find_by_sql($sql);
 	}
 	
-	public static function find_all_shots_for_asset($asset_id) {
+	public static function find_all_shots_for_asset($asset_id, $sort) {
 	global $db;
 		$sql  = "SELECT ";		
 		$i = 0;
@@ -78,7 +78,20 @@ class Shot extends DatabaseObject {
 		}
 		$sql .= "WHERE shot.fkAsset={$asset_id} ";
 		$sql .= "GROUP BY id ";
-		$sql .= "ORDER BY section, shot ";
+		switch ($sort) {
+  		case "benri":
+  		  $sql .= "ORDER BY (CASE
+  		                    WHEN shot.type = 'CU' THEN 1
+  		                    WHEN shot.type = 'WS' THEN 2
+  		                    WHEN shot.type = 'SWS' THEN 3
+  		                    WHEN shot.type = 'SCU' THEN 4
+  		                    ELSE 5
+  		                    END ) ASC, scriptEnglish ASC ";
+  		  break;
+  		default:
+  		  $sql .= "ORDER BY section, shot ";
+		}
+		
 		return static::find_by_sql($sql);
 	}
 	
@@ -102,7 +115,7 @@ class Shot extends DatabaseObject {
 		return static::find_by_sql($sql);
 	}
 	
-	public static function find_all_incomplete_shots_for_asset($asset_id) {
+	public static function find_all_incomplete_shots_for_asset($asset_id, $sort) {
 	global $db;
 		$sql  = "SELECT ";		
 		$i = 0;
@@ -118,7 +131,19 @@ class Shot extends DatabaseObject {
 		$sql .= "WHERE shot.fkAsset={$asset_id} ";
 		$sql .= "AND NOT shot.isCompleted=1 ";
 		$sql .= "GROUP BY id ";
-		$sql .= "ORDER BY section, shot ";
+		switch ($sort) {
+  		case "benri":
+  		  $sql .= "ORDER BY (CASE
+  		                    WHEN type = 'CU' THEN 1
+  		                    WHEN type = 'WS' THEN 2
+  		                    WHEN type = 'SWS' THEN 3
+  		                    WHEN type = 'SCU' THEN 4
+  		                    ELSE 5
+  		                    END ) ASC, scriptEnglish ASC ";
+  		  break;
+  		default:
+  		  $sql .= "ORDER BY section, shot ";
+		}
 		return static::find_by_sql($sql);
 	}
 }
