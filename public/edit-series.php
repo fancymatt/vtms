@@ -48,22 +48,29 @@
 ?>
 
 <?php include_layout_template('header.php'); ?>
-	<div>
-		
-		<?php $errors = $session->errors(); ?>
-		<?php echo $session->form_errors($errors); ?>
-		<h2>Edit Series: <?php echo $current_series->title; ?></h2>
+
+<div class="small-12 medium-8 medium-centered columns">
+	<?php if($message) { ?>
+  <div data-alert class="alert-box">
+    <?php echo $message; ?>
+    <a href="#" class="close">&times;</a>
+  </div>
+  <?php } ?>
+
+	<div class="panel">
+		<h4>Edit Series: <?php echo $current_series->title; ?></h4>
 		<form action="edit-series.php?id=<?php echo $current_series_id; ?>" method="POST">
 			<p><label for="series_name">Name:</label> <input type="text" size="50" name="edited_series_title" value="<?php echo $current_series->title; ?>"></p>
 			<p><label for="series_code">Code:</label> <input type="text" name="edited_series_code" value="<?php echo $current_series->code; ?>"></p>
 			<p><label for="shot_at">Shot at:</label> <input type="number" name="shot_at" value="<?php echo $current_series->shot_at; ?>"></p>
 			<p><label for="checkable_at">Checkable at:</label> <input type="number" name="checkable_at" value="<?php echo $current_series->checkable_at; ?>"></p>
 			<input type="hidden" name="edited_series_id" value="<?php echo $current_series->id; ?>">
-			<p><input type="submit" name="edited_series" id="edited_series"></p>
+			<p><input type="submit" name="edited_series" id="edited_series" class="action button"></p>
 		</form>
 	</div>
-	<div id="global_assets">
-		<h2>Global Assets</h2>
+	
+	<div class="panel">
+		<h4>Global Assets</h4>
 		<table><tr><th>Task</th><th>Default Member</th><th>Actionable At</th><th>Completion Value</th><th>Due Date Offset</th><th>Actions</th></tr>
 		<?php
 			if (!$global_assets) {
@@ -89,8 +96,9 @@
 		?>
 		</table>
 	</div>
-	<div id="globalTasks">
-		<h2>Global Tasks</h2>
+	
+	<div class="panel">
+		<h4>Global Tasks</h4>
 		<table><tr><th>Task</th><th>Default Member</th><th>Actionable At</th><th>Completion Value</th><th>Due Date Offset</th><th>Actions</th></tr>
 		<?php
 			if (!$global_tasks) {
@@ -117,7 +125,9 @@
 		</table>
 		<form action="edit-series.php?id=<?php echo $current_series_id; ?>" method="POST">
 			<input type="hidden" name="deleted_series_id" id="deleted_series_id" value="<?php echo $current_series->id; ?>">
-			<input type="submit" name="deleted_series" id="deleted_series" value="Delete Series" onclick="return confirm('Are you sure you want to delete this item?')">
+			<input type="submit" name="deleted_series" id="deleted_series" class="button alert" value="Delete Series" onclick="return confirm('Are you sure you want to delete this item?')">
 		</form>
 	</div>
+</div>
+
 <?php include_layout_template('footer.php'); ?>

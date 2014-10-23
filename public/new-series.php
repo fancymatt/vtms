@@ -23,8 +23,8 @@
   		$new_series->code = $database->escape_value($_POST['series_code']);
       $new_series->create();
   		$new_series_id = mysql_insert_id();
-  		$_SESSION["message"] = "{$database->escape_value($_POST['series_name'])} has been created.";
-      redirect_to("series.php?id={$new_series_id}");
+  		$_SESSION["message"] = "{$database->escape_value($_POST['series_name'])} has been created. Please add Global Tasks or else you won't be able to add languages.";
+      redirect_to("edit-series.php?id={$new_series_id}");
 		}
   }
 ?>
