@@ -44,6 +44,11 @@
   		  <a href="new-language-series.php?inSeries=<?php echo $series->id; ?>">Add new Language in this Series</a>
   		</div>
 	  </ol>
+	  <?php if ($session->is_admin()) { ?>
+	  <div class="row">
+  	   <a href="edit-series.php?id=<?php echo $series->id; ?>" class="action button">Edit</a>
+	  </div>
+    <?php } ?>
 	</div>
 	
 <?php include_layout_template('footer.php'); ?>

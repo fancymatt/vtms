@@ -354,7 +354,7 @@ class Task extends DatabaseObject {
 		$sql .= "WHERE task.fkTaskGlobal = {$global_task_id} ";
 		$sql .= "AND task.isCompleted=1 ";
 		$sql .= "GROUP BY task.id ";
-		$sql .= "ORDER BY task.fkTeamMember ";
+		$sql .= "ORDER BY task.timeActual ASC  ";
 		return static::find_by_sql($sql);
 	}
 	

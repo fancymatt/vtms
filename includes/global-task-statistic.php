@@ -13,7 +13,7 @@ class GlobalTaskStatistic extends DatabaseObject {
 										);
 										
 	protected static $db_join_fields = array('task' => 'task.fkTaskGlobal=taskGlobal.id',
-											'teamMember' => 'task.fkTeamMember=teamMember.id'
+											'teamMember' => 'taskGlobal.defaultTeamMember=teamMember.id'
 											);
 	
 	public $team_member_id;
@@ -34,6 +34,7 @@ class GlobalTaskStatistic extends DatabaseObject {
 		}
 		$sql .= "WHERE ".static::$table_name.".id = ".$id." ";
 		$sql .= "GROUP BY task.fkTeamMember ";
+		$sql .= "ORDER BY task.timeActual ASC ";
 		$result_array = static::find_by_sql($sql);
 		return !empty($result_array) ? array_shift($result_array) : false;
 	}

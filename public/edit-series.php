@@ -49,14 +49,26 @@
 
 <?php include_layout_template('header.php'); ?>
 
+<?php if($message) { ?>
+<div data-alert class="alert-box">
+  <?php echo $message; ?>
+  <a href="#" class="close">&times;</a>
+</div>
+<?php } ?>
+  
 <div class="small-12 medium-8 medium-centered columns">
-	<?php if($message) { ?>
-  <div data-alert class="alert-box">
-    <?php echo $message; ?>
-    <a href="#" class="close">&times;</a>
+  <div id="breadcrumbs" class="row">
+  	<ul class="breadcrumbs">
+  		<li><a href="lesson-db.php">Lesson DB</a></li>
+  		<li><a href="series.php?id=<?php echo $current_series->id; ?>"><?php echo $current_series->title; ?></a></li>
+  		<li class="current">
+  			<a href="#">
+  				Edit
+  			</a>
+  		</li> 
+  	</ul>
   </div>
-  <?php } ?>
-
+  
 	<div class="panel">
 		<h4>Edit Series: <?php echo $current_series->title; ?></h4>
 		<form action="edit-series.php?id=<?php echo $current_series_id; ?>" method="POST">
@@ -95,6 +107,7 @@
 			}
 		?>
 		</table>
+		<a href="new-task-global.php?inSeries=<?php echo $current_series_id; ?>&isAsset=1" class="action button">New Asset</a>
 	</div>
 	
 	<div class="panel">
@@ -123,6 +136,9 @@
 			}
 		?>
 		</table>
+		<a href="new-task-global.php?inSeries=<?php echo $current_series_id; ?>" class="action button">New Task</a>
+	</div>
+	<div class="panel">
 		<form action="edit-series.php?id=<?php echo $current_series_id; ?>" method="POST">
 			<input type="hidden" name="deleted_series_id" id="deleted_series_id" value="<?php echo $current_series->id; ?>">
 			<input type="submit" name="deleted_series" id="deleted_series" class="button alert" value="Delete Series" onclick="return confirm('Are you sure you want to delete this item?')">
