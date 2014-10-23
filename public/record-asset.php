@@ -94,7 +94,6 @@
   </div>
 </div>
 
-
 	<?php if($message) {
 		echo "<p>{$message}</p>";
 	} ?>
@@ -132,14 +131,14 @@
 						<?php echo nl2br($shot->script_english); ?>
 					</td>
 					<td>
-						<form method="post" action="record-asset.php?id=<?php echo $asset_id; ?>">
+						<form method="post" action="record-asset.php?id=<?php echo $asset_id; ?>&sort=<?php echo $sort; ?>">
 						<input type="hidden" name="shot_id" value="<?php echo $shot->id; ?>">
 						<textarea name="shoot_notes" rows=5 cols=20><?php echo $shot->script_video; ?></textarea>
 						<input type="submit" name="shot_completed" value="<?php echo ($shot->is_completed ? "Update Log" :  "Mark as Complete") ?>"></form>
 					</td>
 					<td>
 						<?php if($shot->is_completed) { ?>
-						<form method="post" action="record-asset.php?id=<?php echo $asset_id; ?>">
+						<form method="post" action="record-asset.php?id=<?php echo $asset_id; ?>&sort=<?php echo $sort; ?>">
 						<input type="hidden" name="shot_id" value="<?php echo $shot->id; ?>">
 						<input type="submit" name="shot_uncompleted" value="Mark as Incomplete"></form>	
 						<?php } ?>
