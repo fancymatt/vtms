@@ -521,7 +521,7 @@ if($message) { ?>
             </div>
             <div class="group-item-content">
               <div class="group-item-metadata">
-                <p>Due <?php echo date("M jS", strtotime($logged_in_user->local_time($task->task_due_date))); ?></p>
+                <p>Due <?php echo date("M jS, Y", strtotime($logged_in_user->local_time($task->task_due_date))); ?></p>
               </div>
               <div class="group-item-text">
               </div>
