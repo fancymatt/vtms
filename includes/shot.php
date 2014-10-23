@@ -63,7 +63,7 @@ class Shot extends DatabaseObject {
 		return static::find_by_sql($sql);
 	}
 	
-	public static function find_all_shots_for_asset($asset_id, $sort) {
+	public static function find_all_shots_for_asset($asset_id, $sort = "normal") {
 	global $db;
 		$sql  = "SELECT ";		
 		$i = 0;
@@ -115,7 +115,7 @@ class Shot extends DatabaseObject {
 		return static::find_by_sql($sql);
 	}
 	
-	public static function find_all_incomplete_shots_for_asset($asset_id, $sort) {
+	public static function find_all_incomplete_shots_for_asset($asset_id, $sort = "normal") {
 	global $db;
 		$sql  = "SELECT ";		
 		$i = 0;
