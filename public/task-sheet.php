@@ -456,7 +456,12 @@ if($message) { ?>
             </div>
             <div class="group-item-content">
               <div class="group-item-metadata">
-                <p>Due <?php echo date("M jS", strtotime($logged_in_user->local_time($task->task_due_date))); ?></p>
+                <?php if(strtotime($task->task_due_date) < time()) { ?>
+                  <p>Video behind schedule</p>
+                  <p>Please complete as soon as possible</p>
+                <?php } else { ?>
+                  <p>Due <?php echo date("M jS", strtotime($logged_in_user->local_time($task->task_due_date))); ?></p>
+                <?php } ?>
               </div>
               <div class="group-item-text">
               </div>
@@ -490,7 +495,12 @@ if($message) { ?>
             </div>
             <div class="group-item-content">
               <div class="group-item-metadata">
-                <p>Due <?php echo date("M jS", strtotime($logged_in_user->local_time($task->task_due_date))); ?></p>
+                <?php if(strtotime($task->task_due_date) < time()) { ?>
+                  <p>Video behind schedule</p>
+                  <p>Please deliver as soon as possible</p>
+                <?php } else { ?>
+                  <p>Due <?php echo date("M jS", strtotime($logged_in_user->local_time($task->task_due_date))); ?></p>
+                <?php } ?>
               </div>
               <div class="group-item-text">
               </div>
@@ -521,7 +531,12 @@ if($message) { ?>
             </div>
             <div class="group-item-content">
               <div class="group-item-metadata">
-                <p>Due <?php echo date("M jS, Y", strtotime($logged_in_user->local_time($task->task_due_date))); ?></p>
+                <?php if(strtotime($task->task_due_date) < time()) { ?>
+                  <p>Video behind schedule</p>
+                  <p>Please complete as soon as possible</p>
+                <?php } else { ?>
+                  <p>Due <?php echo date("M jS", strtotime($logged_in_user->local_time($task->task_due_date))); ?></p>
+                <?php } ?>
               </div>
               <div class="group-item-text">
               </div>
