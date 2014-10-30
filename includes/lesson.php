@@ -179,20 +179,8 @@ class Lesson extends DatabaseObject {
 			$sql .= "LEFT JOIN ".$k." ON ".$v." ";
 			}
 		$sql .= "WHERE NOT lesson.filesMoved = 1 ";
-		$sql .= "AND DATE(LEAST(
-										  COALESCE(
-										    NULLIF(lesson.publishDateSite, 0), NULLIF(lesson.publishDateYouTube, 0)
-										  ),
-										  COALESCE(
-  										  NULLIF(lesson.publishDateYouTube, 0), NULLIF(lesson.publishDateSite, 0)
-  										)) < CURDATE() + INTERVAL {$days_from_now} DAY ";
-		$sql .= "AND DATE(LEAST(
-										  COALESCE(
-										    NULLIF(lesson.publishDateSite, 0), NULLIF(lesson.publishDateYouTube, 0)
-										  ),
-										  COALESCE(
-  										  NULLIF(lesson.publishDateYouTube, 0), NULLIF(lesson.publishDateSite, 0)
-  										)) > 0 ";
+		$sql .= "AND DATE(LEAST( COALESCE(NULLIF(lesson.publishDateSite, 0), NULLIF(lesson.publishDateYouTube, 0)), COALESCE(NULLIF(lesson.publishDateYouTube, 0), NULLIF(lesson.publishDateSite, 0)))) < CURDATE() + INTERVAL {$days_from_now} DAY ";
+		$sql .= "AND DATE(LEAST( COALESCE(NULLIF(lesson.publishDateSite, 0), NULLIF(lesson.publishDateYouTube, 0)), COALESCE(NULLIF(lesson.publishDateYouTube, 0), NULLIF(lesson.publishDateSite, 0)))) > 0 ";
 		$sql .= "GROUP BY lesson.id ";
 		$sql .= "ORDER BY publish_date ASC, series.title ASC, language.name ASC ";
 		return static::find_by_sql($sql);
