@@ -203,6 +203,26 @@ class Lesson extends DatabaseObject {
 		return static::find_by_sql($sql);
 	}
 	
+	public static function find_all_lessons_from_last_week($current_time) {
+  	$last_week = date ('Y-m-d H:i:s', strtotime('-7 day' . $current_time->format('Y-m-d H:i:s')));
+		$sql  = "SELECT ";		
+		foreach (self::$db_view_fields as $k => $v) {
+			$sql .= $k." AS ".$v;
+			$i++;
+			$i <= count(self::$db_view_fields) - 1 ? $sql .= ", " : $sql .= " ";
+		}
+		$sql .= "FROM ".self::$table_name." ";
+		foreach (self::$db_join_fields as $k => $v) {
+			$sql .= "JOIN ".$k." ON ".$v." ";
+			}
+		$sql .= "WHERE lesson.filesMovedTime < '{$current_time->format('Y-m-d H:i:s')}' ";
+		$sql .= "AND lesson.filesMovedTime > '{$last_week}' ";
+		$sql .= "GROUP BY lesson.id ";
+		$sql .= "ORDER BY language.name ASC, series.title ASC ";
+				
+		return static::find_by_sql($sql);
+  }
+	
 	public static function find_all_qa_lessons() {
 		$sql  = "SELECT ";		
 		foreach (self::$db_view_fields as $k => $v) {
