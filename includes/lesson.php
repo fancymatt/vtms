@@ -45,6 +45,7 @@ class Lesson extends DatabaseObject {
 										'lesson.exportedTime' => 'exported_time',
 										'lesson.detectedTime' => 'detected_time',
 										'lesson.timeUploadedDropbox' => 'dropbox_time',
+										'lesson.ytIneligible' => 'yt_ineligible',
 										'(SELECT task.id FROM task WHERE task.fkLesson = lesson.id ORDER BY task.timeCompleted DESC LIMIT 1)' => 'last_task_id',
 										'(SELECT MAX(task.timeCompleted) FROM task WHERE task.fkLesson = lesson.id)' => 'last_task_time',
 										'(SELECT MAX(taskComment.timeCompleted) FROM taskComment JOIN task ON taskComment.fkTask=task.id WHERE task.fkLesson = lesson.id)' => 'last_issue_time',
@@ -65,6 +66,7 @@ class Lesson extends DatabaseObject {
 											'lesson.isUploadedYt' => 'is_uploaded_yt',
                       'lesson.uploadedYtTime' => 'yt_uploaded_time',
                       'lesson.ytCode' => 'yt_code',
+                      'lesson.ytIneligible' => 'yt_ineligible',
 											'lesson.isDetected' => 'is_detected',
 											'lesson.queuedTime' => 'queued_time',
 											'lesson.checkedLanguageTime' => 'checked_language_time',
@@ -112,6 +114,7 @@ class Lesson extends DatabaseObject {
 	public $is_queued;
 	public $is_uploaded_yt;
 	public $yt_uploaded_time;
+	public $yt_ineligible;
 	public $queued_time;
 	public $exported_time;
 	public $publish_date;
@@ -200,8 +203,8 @@ class Lesson extends DatabaseObject {
 		foreach (self::$db_join_fields as $k => $v) {
 			$sql .= "JOIN ".$k." ON ".$v." ";
 			}
-		$sql .= "WHERE NOT lesson.isUploadedYt ";
-		//$sql .= "AND NOT YT INELIGIBLE";
+		$sql .= "WHERE NOT lesson.isUploadedYt = 1 ";
+		$sql .= "AND NOT lesson.ytIneligible = 1 ";
 		$sql .= "";
 		if(isset($channel_id)) {
   		$sql .= "AND languageSeries.fkChannel = $channel_id ";

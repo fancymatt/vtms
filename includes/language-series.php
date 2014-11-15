@@ -7,7 +7,8 @@ class LanguageSeries extends DatabaseObject {
 	protected static $db_edit_fields = array('seriesTitle' => 'language_series_title',
 										'fkSeries' => 'series_id',
 										'fkLanguage' => 'language_id',
-										'fkLevel' => 'level_id', 
+										'fkLevel' => 'level_id',
+										'fkChannel' => 'channel_id'
 										);
 	
 	protected static $db_view_fields = array('languageSeries.id' => 'id', 
@@ -18,6 +19,7 @@ class LanguageSeries extends DatabaseObject {
 										'level.name' => 'level_name', 
 										'level.code' => 'level_code',
 										'series.id' => 'series_id', 
+										'languageSeries.fkChannel' => 'channel_id',
 										'series.title' => 'series_name',
 										'SEC_TO_TIME((SELECT SUM(lesson.trt) FROM lesson WHERE lesson.fkLanguageSeries=languageSeries.id))' => 'total_trt'
 										);
@@ -30,6 +32,7 @@ class LanguageSeries extends DatabaseObject {
 	public $language_series_title;
 	public $language_name;
 	public $level_id;
+	public $channel_id;
 	public $level_name;
 	public $level_code;
 	public $series_id;

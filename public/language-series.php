@@ -73,5 +73,10 @@
   			</div>
   		</div>
   	</div>
+  	<?php if ($session->is_admin()) { ?>
+	  <div class="row">
+  	   <a href="edit-language-series.php?id=<?php echo $language_series_id; ?>" class="action button">Edit</a>
+	  </div>
+    <?php } ?>
 	</div>
 <?php include_layout_template('footer.php'); ?>

@@ -3,9 +3,15 @@
 	confirm_logged_in();
 	$lesson_id = $db->escape_value($_GET['id']);
 	$lesson = Lesson::find_by_id($lesson_id);
+	$user = User::find_by_id($session->user_id);
+	$team_member = Member::find_by_id($user->team_member_id);
+	$active_shift = Shift::get_active_shift_for_member($team_member->id);
+  $current_time = new DateTime(null, new DateTimeZone('UTC'));
+   
 	if (!$lesson->title) {
 		redirect_to("qa.php");
 	}
+  
 	$language_series = LanguageSeries::find_by_id($lesson->language_series_id);
 	$language = Language::find_by_id($language_series->language_id);
 	$series = Series::find_by_id($language_series->series_id);
@@ -20,7 +26,17 @@
 		$lesson->qa_log = $_POST['edited_qa_log'];
 		$lesson->qa_url = $_POST['edited_qa_url'];
 		$lesson->yt_code = $_POST['edited_lesson_yt_code'];
+		$lesson->yt_ineligible = $_POST['edited_lesson_yt_ineligible'];
 		$lesson->update();
+		
+		$activity = new Activity();
+		$activity->shift_id = $active_shift->id;
+		$activity->lesson_id = $lesson_id;
+		$activity->time_end = $current_time->format('Y-m-d H:i:s');
+		$activity->is_completed = 1;
+		$activity->activity = "Edited details";
+		$activity->create();
+		
 		$_SESSION['message'] = "Lesson details updated";
 		redirect_to("lesson.php?id={$lesson_id}");
 	}
@@ -121,7 +137,7 @@
 <?php $page_title = ucwords($language->code)." ".ucwords($series->code)." ".$lesson->number; ?>
 
 <?php include_layout_template('header.php'); ?>
-	
+
 	<div class="small-12 medium-8 medium-centered columns">
   	<div id="breadcrumbs" class="row">
   		<ul class="breadcrumbs">
@@ -386,6 +402,7 @@
           
           <div class="small-12 columns">
             <label>YouTube Code <input type="text" size="50" name="edited_lesson_yt_code" value="<?php echo $lesson->yt_code; ?>"></label>
+            <label>YouTube Ineligible <input type="checkbox" name="edited_lesson_yt_ineligible" value="1"<?php if($lesson->yt_ineligible) { echo " checked"; } ?>></label>
             <input type="hidden" name="edited_lesson_id" value="<?php echo $current_record->id; ?>">
             <p><input type="submit" class="action button" name="edited_lesson" id="edited_lesson" value="Edit"></p> 
             </form>
