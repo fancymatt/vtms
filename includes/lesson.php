@@ -152,7 +152,7 @@ class Lesson extends DatabaseObject {
 	}
 	
 	public static function find_lesson_for_youtube_publish_date($date, $channel_id = NULL) {
-  	$sql  = "SELECT ";		
+  	$sql  = "SELECT ";
 		foreach (self::$db_view_fields as $k => $v) {
 			$sql .= $k." AS ".$v;
 			$i++;
@@ -168,6 +168,47 @@ class Lesson extends DatabaseObject {
 		}
 		return static::find_by_sql($sql);
 	}
+	
+	public static function find_all_youtube_videos_scheduled_in_period($days_from_now, $channel_id = NULL) {
+  	$sql  = "SELECT ";
+		foreach (self::$db_view_fields as $k => $v) {
+			$sql .= $k." AS ".$v;
+			$i++;
+			$i <= count(self::$db_view_fields) - 1 ? $sql .= ", " : $sql .= " ";
+		}
+		$sql .= "FROM ".self::$table_name." ";
+		foreach (self::$db_join_fields as $k => $v) {
+			$sql .= "JOIN ".$k." ON ".$v." ";
+			}
+		$sql .= "WHERE lesson.publishDateYouTube < CURDATE() + INTERVAL {$days_from_now} DAY ";
+		$sql .= "AND lesson.publishDateYouTube > CURDATE() ";
+		$sql .= "AND NOT lesson.isUploadedYt ";
+		if(isset($channel_id)) {
+  		$sql .= "AND languageSeries.fkChannel = $channel_id ";
+		}
+		return static::find_by_sql($sql);
+	}
+	
+	public static function find_all_eligible_youtube_lessons($channel_id = NULL) {
+  	$sql  = "SELECT ";
+		foreach (self::$db_view_fields as $k => $v) {
+			$sql .= $k." AS ".$v;
+			$i++;
+			$i <= count(self::$db_view_fields) - 1 ? $sql .= ", " : $sql .= " ";
+		}
+		$sql .= "FROM ".self::$table_name." ";
+		foreach (self::$db_join_fields as $k => $v) {
+			$sql .= "JOIN ".$k." ON ".$v." ";
+			}
+		$sql .= "WHERE NOT lesson.isUploadedYt ";
+		//$sql .= "AND NOT YT INELIGIBLE";
+		$sql .= "";
+		if(isset($channel_id)) {
+  		$sql .= "AND languageSeries.fkChannel = $channel_id ";
+		}
+		return static::find_by_sql($sql);
+	}
+	
 	
 	public static function find_all_completed_lessons_for_language_series($language_series_id) {
 		$sql  = "SELECT ";		
