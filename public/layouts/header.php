@@ -19,6 +19,7 @@
 		<section class="top-bar-section">
 			<ul>
 				<li><a href="lesson-db.php">Lesson DB</a></li>
+				<li><a href="channels.php">Channels</a></li>
 				<li><a href="tasks.php">Tasks</a></li>
 				<li><a href="recent-assets.php">Assets</a></li>
 				<li><a href="recent-issues.php">Issues</a></li>
@@ -47,6 +48,7 @@
 						<li><a href="recently-detected.php">Recently Detected</a></li>
 						<li><a href="ready-to-publish.php">Ready to Publish</a></li>
 						<li><a href="ready-to-publish-yt.php">Ready to Upload to YT</a></li>
+						<li><a href="weekly-report.php">Weekly Report</a></li>
 					</ul>
 				</li>
 			</ul>
