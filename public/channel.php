@@ -139,7 +139,7 @@
             } ?>
           </div>
           <div class="panel">
-            <h3>Eligible Lessons Not on YouTube</h3>
+            <h3>Eligible and Unscheduled Lessons Not on YouTube</h3>
             <?php foreach($eligble_lessons as $eligible_lesson) {
               $lesson_date = new DateTime(strftime($eligible_lesson->publish_date_yt)); 
               ?>

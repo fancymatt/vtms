@@ -205,7 +205,7 @@ class Lesson extends DatabaseObject {
 			}
 		$sql .= "WHERE NOT lesson.isUploadedYt = 1 ";
 		$sql .= "AND NOT lesson.ytIneligible = 1 ";
-		$sql .= "AND NOT lesson.publishDateYouTube = '0000-00-00' ";
+		$sql .= "AND lesson.publishDateYouTube = '0000-00-00' ";
 		$sql .= "AND lesson.filesMoved = 1 ";
 		$sql .= "";
 		if(isset($channel_id)) {
