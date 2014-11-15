@@ -151,6 +151,24 @@ class Lesson extends DatabaseObject {
 		return static::find_by_sql($sql);
 	}
 	
+	public static function find_lesson_for_youtube_publish_date($date, $channel_id = NULL) {
+  	$sql  = "SELECT ";		
+		foreach (self::$db_view_fields as $k => $v) {
+			$sql .= $k." AS ".$v;
+			$i++;
+			$i <= count(self::$db_view_fields) - 1 ? $sql .= ", " : $sql .= " ";
+		}
+		$sql .= "FROM ".self::$table_name." ";
+		foreach (self::$db_join_fields as $k => $v) {
+			$sql .= "JOIN ".$k." ON ".$v." ";
+			}
+		$sql .= "WHERE lesson.publishDateYouTube = '$date' ";
+		if(isset($channel_id)) {
+  		$sql .= "AND languageSeries.fkChannel = $channel_id ";
+		}
+		return static::find_by_sql($sql);
+	}
+	
 	public static function find_all_completed_lessons_for_language_series($language_series_id) {
 		$sql  = "SELECT ";		
 		foreach (self::$db_view_fields as $k => $v) {

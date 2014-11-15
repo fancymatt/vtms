@@ -5,11 +5,16 @@
 ?>
 
 <?php include_layout_template('header.php'); ?>
+
+  <div class="small-12 medium-8 medium-centered columns">
+  	<div id="breadcrumbs" class="row">
+  		<ul class="breadcrumbs">
+  			<li class="current"><a href="#">YouTube Channels</a></li> 
+  		</ul>
+  	</div>
 		
 		<div class="row">
-  		<div class="small-12 columns">
   		  <h3>YouTube Channels</h3>
-  		</div>
 		</div>
 		<?php if($channels) { ?>
 		
