@@ -63,7 +63,6 @@ class Lesson extends DatabaseObject {
 											'lesson.checkedLanguage' => 'checked_language',
 											'lesson.checkedVideo' => 'checked_video',
 											'lesson.filesMoved' => 'files_moved',
-											'languageSeries.fkTalent' => 'talent_id',
 											'lesson.qa_log' => 'qa_log',
 											'lesson.qa_url' => 'qa_url',
 											'lesson.isQueued' => 'is_queued',
