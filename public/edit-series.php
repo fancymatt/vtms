@@ -10,6 +10,8 @@
 		$edited_series_code = $database->escape_value($_POST['edited_series_code']);
 		$edited_series_shot_at = $database->escape_value($_POST['shot_at']);
 		$edited_series_checkable_at = $database->escape_value($_POST['checkable_at']);
+		$edited_series_yt_title = $database->escape_value($_POST['yt_title_template']);
+		$edited_series_yt_description = $_POST['yt_description_template'];
 		$edited_series_id = $database->escape_value($_POST['edited_series_id']);
 		
 		$required_fields = array("edited_series_title", "edited_series_code", "shot_at", "checkable_at");
@@ -21,6 +23,8 @@
 		$edited_series->code = $edited_series_code;
 		$edited_series->shot_at = $edited_series_shot_at;
 		$edited_series->checkable_at = $edited_series_checkable_at;
+		$edited_series->yt_title_template = $edited_series_yt_title;
+		$edited_series->yt_description_template = $edited_series_yt_description;
 		$edited_series->update();
 		redirect_to("series.php?id={$edited_series_id}");	
 		
@@ -77,7 +81,19 @@
 			<p><label for="shot_at">Shot at:</label> <input type="number" name="shot_at" value="<?php echo $current_series->shot_at; ?>"></p>
 			<p><label for="checkable_at">Checkable at:</label> <input type="number" name="checkable_at" value="<?php echo $current_series->checkable_at; ?>"></p>
 			<input type="hidden" name="edited_series_id" value="<?php echo $current_series->id; ?>">
-			<p><input type="submit" name="edited_series" id="edited_series" class="action button"></p>
+	</div>
+	
+	<div class="panel">
+  	<h4>YouTube</h4>
+  	<p><label for="yt_title_template">YouTube Title Template:</label> <input type="text" size="60" name="yt_title_template" value="<?php echo $current_series->yt_title_template; ?>"></p>
+  	<p><label for="yt_descripion_template">YouTube Description Template:</label>
+    	<textarea name="yt_description_template"><?php echo $current_series->yt_description_template; ?></textarea>
+  	</p>
+  	<p>You can use the following tags: <pre>{language}, {series}, {country}, {host}, {level}, {title}, {number}, {she}, {her}, {custom}, {he}, {him}, {his}, {cap-he}, {cap-his}</pre></p>
+	</div>
+	
+  <div class="panel">
+    <p><input type="submit" name="edited_series" id="edited_series" class="action button"></p>
 		</form>
 	</div>
 	

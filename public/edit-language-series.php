@@ -16,6 +16,7 @@
 	$languages = Language::find_all();
 	$levels = Level::find_all();
 	$channels = Channel::find_all();
+	$talents = Talent::find_all();
 	
   if($_POST['edited_language_series']) {
 		$edited_language_series_id = $db->escape_value($_POST['edited_language_series_id']);
@@ -23,6 +24,7 @@
 		$edited_language_series_language_id = $db->escape_value($_POST['edited_language_series_language_id']);
 		$edited_language_series_level_id = $db->escape_value($_POST['edited_language_series_level_id']);
 		$edited_language_series_channel_id = $db->escape_value($_POST['edited_language_series_channel_id']);
+		$edited_language_series_talent_id = $db->escape_value($_POST['edited_language_series_talent_id']);
 		
 		$required_fields = array(edited_language_series_name);
 		validate_presences($required_fields);
@@ -33,6 +35,7 @@
 		$edited_language_series->language_series_title = $edited_language_series_name;
 		$edited_language_series->level_id = $edited_language_series_level_id;
 		$edited_language_series->channel_id = $edited_language_series_channel_id;
+		$edited_language_series->talent_id = $edited_language_series_talent_id;
 		$edited_language_series->update();
 		redirect_to("edit-language-series.php?id={$edited_language_series->id}");	
 		
@@ -129,6 +132,22 @@
       			echo " selected";
     			}
     			echo ">{$channel->name}</option>";
+  			}
+  			?>
+			</select>
+			
+			<label for="edited_language_series_talent_id">Talent: </label>
+			<select name="edited_language_series_talent_id">
+  			<option value="0">None</option>
+  			<?php 
+    			foreach($talents as $talent) {
+    			echo "<option value='{$talent->id}'";
+    			if ($talent->id == $current_language_series->talent_id) {
+      			echo " selected";
+    			}
+    			echo ">";
+    			echo $talent->name_first . " " . $talent->name_last;
+    			echo "</option>";
   			}
   			?>
 			</select>

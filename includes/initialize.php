@@ -39,4 +39,5 @@ require_once(LIB_PATH.DS.'privilege-type.php');
 require_once(LIB_PATH.DS.'activity.php');
 require_once(LIB_PATH.DS.'shift.php');
 require_once(LIB_PATH.DS.'channel.php');
+require_once(LIB_PATH.DS.'talent.php');
 ?>

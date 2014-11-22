@@ -8,7 +8,8 @@ class LanguageSeries extends DatabaseObject {
 										'fkSeries' => 'series_id',
 										'fkLanguage' => 'language_id',
 										'fkLevel' => 'level_id',
-										'fkChannel' => 'channel_id'
+										'fkChannel' => 'channel_id',
+										'fkTalent' => 'talent_id',
 										);
 	
 	protected static $db_view_fields = array('languageSeries.id' => 'id', 
@@ -18,6 +19,7 @@ class LanguageSeries extends DatabaseObject {
 										'level.id' => 'level_id', 
 										'level.name' => 'level_name', 
 										'level.code' => 'level_code',
+										'languageSeries.fkTalent' => 'talent_id',
 										'series.id' => 'series_id', 
 										'languageSeries.fkChannel' => 'channel_id',
 										'series.title' => 'series_name',
@@ -31,6 +33,7 @@ class LanguageSeries extends DatabaseObject {
 	public $language_id;
 	public $language_series_title;
 	public $language_name;
+	public $talent_id;
 	public $level_id;
 	public $channel_id;
 	public $level_name;

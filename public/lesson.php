@@ -26,6 +26,7 @@
 		$lesson->qa_log = $_POST['edited_qa_log'];
 		$lesson->qa_url = $_POST['edited_qa_url'];
 		$lesson->yt_code = $_POST['edited_lesson_yt_code'];
+		$lesson->custom_yt_field = $_POST['edited_lesson_yt_custom_field'];
 		$lesson->yt_ineligible = $_POST['edited_lesson_yt_ineligible'];
 		$lesson->update();
 		
@@ -402,6 +403,8 @@
           
           <div class="small-12 columns">
             <label>YouTube Code <input type="text" size="50" name="edited_lesson_yt_code" value="<?php echo $lesson->yt_code; ?>"></label>
+            <label>Custom YouTube Field <input type="text" size=50 name="edited_lesson_yt_custom_field" value="<?php echo $lesson->custom_yt_field; ?>">
+            </label>
             <label>YouTube Ineligible <input type="checkbox" name="edited_lesson_yt_ineligible" value="1"<?php if($lesson->yt_ineligible) { echo " checked"; } ?>></label>
             <input type="hidden" name="edited_lesson_id" value="<?php echo $current_record->id; ?>">
             <p><input type="submit" class="action button" name="edited_lesson" id="edited_lesson" value="Edit"></p> 

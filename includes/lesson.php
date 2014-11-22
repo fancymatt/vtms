@@ -9,6 +9,7 @@ class Lesson extends DatabaseObject {
 										'lesson.fkLanguageSeries' => 'language_series_id',
 										'languageSeries.seriesTitle' => 'language_series_title',
 										'language.id' => 'language_id',
+										'languageSeries.fkTalent' => 'talent_id',
 										'language.name' => 'language_name',
 										'lesson.number' => 'number',
 										'IF ((SELECT SUM(taskGlobal.completionValue) FROM task JOIN taskGlobal ON task.fkTaskGlobal=taskGlobal.id WHERE task.fkLesson=lesson.id AND task.isCompleted=1) >= (SELECT series.shotAt FROM series WHERE lesson.fkLanguageSeries=languageSeries.id AND languageSeries.fkSeries=series.id), 1, 0)' => 'is_shot',
@@ -20,6 +21,8 @@ class Lesson extends DatabaseObject {
 										'lesson.checkedVideo' => 'checked_video',
 										'lesson.filesMoved' => 'files_moved',
 										'level.code' => 'level_code',
+										'level.name' => 'level_name',
+										'lesson.customYTfield' => 'custom_yt_field',
 										'lesson.ytCode' => 'yt_code',
 										'lesson.publishDateSite' => 'publish_date_site',
 										'lesson.publishDateYouTube' => 'publish_date_yt',
@@ -60,12 +63,14 @@ class Lesson extends DatabaseObject {
 											'lesson.checkedLanguage' => 'checked_language',
 											'lesson.checkedVideo' => 'checked_video',
 											'lesson.filesMoved' => 'files_moved',
+											'languageSeries.fkTalent' => 'talent_id',
 											'lesson.qa_log' => 'qa_log',
 											'lesson.qa_url' => 'qa_url',
 											'lesson.isQueued' => 'is_queued',
 											'lesson.isUploadedYt' => 'is_uploaded_yt',
                       'lesson.uploadedYtTime' => 'yt_uploaded_time',
                       'lesson.ytCode' => 'yt_code',
+                      'lesson.customYTfield' => 'custom_yt_field',
                       'lesson.ytIneligible' => 'yt_ineligible',
 											'lesson.isDetected' => 'is_detected',
 											'lesson.queuedTime' => 'queued_time',
@@ -99,6 +104,7 @@ class Lesson extends DatabaseObject {
 	public $number;
 	public $title;
 	public $trt;
+	public $talent_id;
 	public $is_shot;
 	public $is_checkable;
 	public $checked_video;
@@ -107,6 +113,7 @@ class Lesson extends DatabaseObject {
 	public $files_moved;
 	public $date_due;
 	public $level_code;
+	public $level_name;
 	public $yt_code;
 	public $issues_remaining;
 	public $qa_log;
@@ -120,6 +127,7 @@ class Lesson extends DatabaseObject {
 	public $publish_date;
 	public $publish_date_site;
 	public $publish_date_yt;
+	public $custom_yt_field;
 	public $buffered_publish_date;
 	public $time_dropbox;
 	public $last_task_id;

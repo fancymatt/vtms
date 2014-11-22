@@ -52,7 +52,38 @@
 <?php if($lessons_ready) { ?>
       <ol class="group">
       <?php
-      foreach($lessons_ready as $lesson) : ?>
+      foreach($lessons_ready as $lesson) : 
+        // Generate YouTube Title and Description
+        $yt_series = Series::find_by_id($lesson->series_id);
+        $yt_language = Language::find_by_id($lesson->language_id);
+        $yt_talent = Talent::find_by_id($lesson->talent_id);
+        $yt_title = $yt_series->yt_title_template;
+        
+        $yt_description = $yt_series->yt_description_template;
+        
+        $replacements = array("{language}"=>$lesson->language_name,
+                              "{series}"=>$yt_series->title,
+                              "{country}"=>$yt_language->country_name,
+                              "{host}"=>$yt_talent->name_first,
+                              "{level}"=>$lesson->level_name,
+                              "{title}"=>$lesson->title,
+                              "{number}"=>$lesson->number,
+                              "{url}"=>"URL",
+                              "{custom}"=>$lesson->custom_yt_field,
+                              "{he}"=>($yt_talent->is_male ? "he" : "she"),
+                              "{him}"=>($yt_talent->is_male ? "him" : "her"),
+                              "{his}"=>($yt_talent->is_male ? "his" : "her"),
+                              "{cap-he}"=>($yt_talent->is_male ? "He" : "She"),
+                              "{cap-his}"=>($yt_talent->is_male ? "His" : "Her"),
+                             );
+        
+        foreach($replacements as $key=>$value) {
+          $yt_title = str_replace($key, $value, $yt_title);
+          $yt_description = str_replace($key, $value, $yt_description);
+          
+        }
+      
+      ?>
 				<div class="group-item">
           <div class="group-item-body">
   			    <div class="group-item-content">
@@ -64,6 +95,8 @@
           				<form action='ready-to-publish-yt.php' method='post'>
             				<label for="yt_code">YT Code: <input type="text" name="yt_code" value="<?php echo $lesson->yt_code; ?>"></label>
             				<label for="yt_code">Publish Date: (Leave blank if publishing on below date)<input type="text" name="yt_date"></label>
+            				<input type="text" value="<?php echo $yt_title; ?>">
+            				<textarea><?php echo $yt_description; ?></textarea>
         				</div>
                 <div class="group-item-metadata">
                   <p>
