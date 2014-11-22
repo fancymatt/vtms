@@ -8,13 +8,17 @@ class Series extends DatabaseObject {
 										'series.title' => 'title',
 										'SEC_TO_TIME((SELECT SUM( lesson.trt ) FROM series s JOIN languageSeries ON s.id = languageSeries.fkSeries JOIN lesson ON lesson.fkLanguageSeries = languageSeries.id WHERE s.id = series.id))' => 'series_trt',
 										'series.shotAt' => 'shot_at',
-										'series.checkableAt' => 'checkable_at'
+										'series.checkableAt' => 'checkable_at',
+										'series.ytTitleTemplate' => 'yt_title_template',
+										'series.ytDescriptionTemplate' => 'yt_description_template'
 										);
 										
 	protected static $db_edit_fields = array('series.code' => 'code',
 										'series.title' => 'title',
 										'series.shotAt' => 'shot_at',
-										'series.checkableAt' => 'checkable_at'
+										'series.checkableAt' => 'checkable_at',
+										'series.ytTitleTemplate' => 'yt_title_template',
+										'series.ytDescriptionTemplate' => 'yt_description_template'
 										);
 										
 	protected static $db_join_fields = array();
@@ -25,6 +29,8 @@ class Series extends DatabaseObject {
 	public $shot_at;
 	public $checkable_at;
 	public $series_trt;
+	public $yt_title_template;
+	public $yt_description_template;
 
 	public static function get_series_title_from_id($series_id) {
 		$series = Series::find_by_id($series_id);

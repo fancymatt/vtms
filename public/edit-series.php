@@ -86,7 +86,7 @@
 	<div class="panel">
   	<h4>YouTube</h4>
   	<p><label for="yt_title_template">YouTube Title Template:</label> <input type="text" size="60" name="yt_title_template" value="<?php echo $current_series->yt_title_template; ?>"></p>
-  	<p><label for="yt_descripion_template">YouTube Description Template:</label>
+  	<p><label for="yt_description_template">YouTube Description Template:</label>
     	<textarea name="yt_description_template"><?php echo $current_series->yt_description_template; ?></textarea>
   	</p>
   	<p>You can use the following tags: <pre>{language}, {series}, {country}, {host}, {level}, {title}, {number}, {she}, {her}, {custom}, {he}, {him}, {his}, {cap-he}, {cap-his}</pre></p>
