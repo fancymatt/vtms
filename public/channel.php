@@ -140,14 +140,12 @@
           </div>
           <div class="panel">
             <h3>Eligible and Unscheduled Lessons Not on YouTube</h3>
-            <?php foreach($eligble_lessons as $eligible_lesson) {
-              $lesson_date = new DateTime(strftime($eligible_lesson->publish_date_yt)); 
+            <?php foreach($eligble_lessons as $eligible_lesson) { 
               ?>
               <li>
               <a href="lesson.php?id=<?php echo $eligible_lesson->id; ?>">
               <?php echo $eligible_lesson->display_full_lesson(); ?>
-              </a>
-              - <?php echo $lesson_date->format("l, M jS"); ?>  
+              </a> - <?php echo $eligible_lesson->title; ?> 
               </li>
               <? } ?>
           </div>

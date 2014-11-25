@@ -123,6 +123,13 @@
                       <strong>
                       <a href="lesson.php?id=<?php echo $lesson_for_day->id; ?>"><?php $lesson_for_day->display_full_lesson(); ?></a>
                       </strong>
+                      <?php 
+                      if($lesson_for_day->checked_language == 1) { echo "lan"; } else { echo "---"; }
+                      echo " | ";
+                      if($lesson_for_day->checked_video == 1) { echo "vid"; } else { echo "---"; }
+                      echo " | ";
+                      if($lesson_for_day->files_moved == 1) { echo "arc"; } else { echo "---"; }
+                      ?>
                       <?php                  
                     }
                   } else {
