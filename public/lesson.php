@@ -30,6 +30,7 @@
 		$lesson->yt_ineligible = $_POST['edited_lesson_yt_ineligible'];
 		$lesson->update();
 		
+		/*
 		$activity = new Activity();
 		$activity->shift_id = $active_shift->id;
 		$activity->lesson_id = $lesson_id;
@@ -37,6 +38,7 @@
 		$activity->is_completed = 1;
 		$activity->activity = "Edited details";
 		$activity->create();
+		*/
 		
 		$_SESSION['message'] = "Lesson details updated";
 		redirect_to("lesson.php?id={$lesson_id}");
