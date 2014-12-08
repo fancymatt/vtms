@@ -246,6 +246,25 @@ class Lesson extends DatabaseObject {
 		return static::find_by_sql($sql);
 	}
 	
+	public static function find_all_upcoming_due_lessons($days_from_now=7) {
+		$sql  = "SELECT ";		
+		foreach (self::$db_view_fields as $k => $v) {
+			$sql .= $k." AS ".$v;
+			$i++;
+			$i <= count(self::$db_view_fields) - 1 ? $sql .= ", " : $sql .= " ";
+		}
+		$sql .= "FROM ".self::$table_name." ";
+		foreach (self::$db_join_fields as $k => $v) {
+			$sql .= "LEFT JOIN ".$k." ON ".$v." ";
+			}
+		$sql .= "WHERE NOT lesson.filesMoved = 1 ";
+		$sql .= "AND DATE(lesson.publishDateSite) < CURDATE() + INTERVAL {$days_from_now} DAY ";
+		$sql .= "AND DATE(lesson.publishDateSite) > 0 ";
+		$sql .= "GROUP BY lesson.id ";
+		$sql .= "ORDER BY publish_date ASC, series.title ASC, language.name ASC ";
+		return static::find_by_sql($sql);
+	}
+	
 	public static function find_all_lessons_that_need_upload_to_ill_tv() {
 		$sql  = "SELECT ";
 		foreach (self::$db_view_fields as $k => $v) {
