@@ -86,7 +86,7 @@ class LanguageSeries extends DatabaseObject {
 	public function generate_ill_tv_code() {
   	
   	$language = Language::find_by_id($this->language_id);
-  	$language_name = $language->name;
+  	$language_name = strtolower($language->name);
   	$url = $language->site_url_short;
   		
   	$output  = "";
