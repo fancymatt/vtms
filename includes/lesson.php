@@ -53,7 +53,10 @@ class Lesson extends DatabaseObject {
 										'(SELECT MAX(task.timeCompleted) FROM task WHERE task.fkLesson = lesson.id)' => 'last_task_time',
 										'(SELECT MAX(taskComment.timeCompleted) FROM taskComment JOIN task ON taskComment.fkTask=task.id WHERE task.fkLesson = lesson.id)' => 'last_issue_time',
 										'(SELECT taskComment.id FROM taskComment JOIN task ON task.id = taskComment.fkTask WHERE task.fkLesson = lesson.id ORDER BY taskComment.timeCompleted DESC LIMIT 1)' => 'last_issue_id',
-										'IF(IFNULL((SELECT MAX(task.timeCompleted) FROM task WHERE task.fkLesson = lesson.id),0) > IFNULL((SELECT MAX(taskComment.timeCompleted) FROM taskComment JOIN task ON taskComment.fkTask=task.id WHERE task.fkLesson = lesson.id),0), "task", "issue")' => 'last_action'
+										'IF(IFNULL((SELECT MAX(task.timeCompleted) FROM task WHERE task.fkLesson = lesson.id),0) > IFNULL((SELECT MAX(taskComment.timeCompleted) FROM taskComment JOIN task ON taskComment.fkTask=task.id WHERE task.fkLesson = lesson.id),0), "task", "issue")' => 'last_action',
+										'lesson.isUploadedForIllTv' => 'is_uploaded_ill_tv',
+										'lesson.illtvTestDate' => 'ill_tv_test_date',
+										'lesson.illtvIsTested' => 'ill_tv_is_tested'
 										);
 										
 	protected static $db_edit_fields = array('lesson.fkLanguageSeries' => 'language_series_id',
@@ -80,7 +83,10 @@ class Lesson extends DatabaseObject {
 											'lesson.detectedTime' => 'detected_time',
 											'lesson.publishDateSite' => 'publish_date_site',
 											'lesson.publishDateYouTube' => 'publish_date_yt',
-											'lesson.timeUploadedDropbox' => 'dropbox_time'
+											'lesson.timeUploadedDropbox' => 'dropbox_time',
+											'lesson.isUploadedForIllTv' => 'is_uploaded_ill_tv',
+										'lesson.illtvTestDate' => 'ill_tv_test_date',
+										'lesson.illtvIsTested' => 'ill_tv_is_tested'
 											);
 										
 	protected static $db_join_fields = array('languageSeries' => 'languageSeries.id=lesson.fkLanguageSeries',
@@ -138,6 +144,9 @@ class Lesson extends DatabaseObject {
 	public $checked_language_time;
 	public $checked_video_time;
 	public $files_moved_time;
+	public $is_uploaded_ill_tv;
+	public $ill_tv_test_date;
+  public $ill_tv_is_tested;
 	
 	public static function find_all_lessons_for_language_series($language_series_id) {
 		$child_table_name = "lesson";
@@ -221,7 +230,6 @@ class Lesson extends DatabaseObject {
 		return static::find_by_sql($sql);
 	}
 	
-	
 	public static function find_all_completed_lessons_for_language_series($language_series_id) {
 		$sql  = "SELECT ";		
 		foreach (self::$db_view_fields as $k => $v) {
@@ -238,7 +246,44 @@ class Lesson extends DatabaseObject {
 		return static::find_by_sql($sql);
 	}
 	
-	public static function find_all_upcoming_due_lessons($days_from_now=7) {
+	public static function find_all_lessons_that_need_upload_to_ill_tv() {
+		$sql  = "SELECT ";
+		foreach (self::$db_view_fields as $k => $v) {
+			$sql .= $k." AS ".$v;
+			$i++;
+			$i <= count(self::$db_view_fields) - 1 ? $sql .= ", " : $sql .= " ";
+		}
+		$sql .= "FROM ".self::$table_name." ";
+		foreach (self::$db_join_fields as $k => $v) {
+			$sql .= "LEFT JOIN ".$k." ON ".$v." ";
+		}
+		$sql .= "WHERE lesson.filesMoved = 1 ";
+		$sql .= "AND NOT lesson.isUploadedForIllTv = 1 ";
+		$sql .= "AND languageSeries.onIllTv = 1 ";
+		$sql .= "GROUP BY lesson.id ";
+		$sql .= "ORDER BY series_name, language_name, level.code, lesson.number ASC ";
+		return static::find_by_sql($sql);
+	}
+	
+	public static function find_all_lessons_that_need_testing_on_ill_tv() {
+		$sql  = "SELECT ";
+		foreach (self::$db_view_fields as $k => $v) {
+			$sql .= $k." AS ".$v;
+			$i++;
+			$i <= count(self::$db_view_fields) - 1 ? $sql .= ", " : $sql .= " ";
+		}
+		$sql .= "FROM ".self::$table_name." ";
+		foreach (self::$db_join_fields as $k => $v) {
+			$sql .= "LEFT JOIN ".$k." ON ".$v." ";
+		}
+		$sql .= "WHERE lesson.isUploadedForIllTv = 1 ";
+		$sql .= "AND NOT lesson.illtvIsTested = 1 ";
+		$sql .= "GROUP BY lesson.id ";
+		$sql .= "ORDER BY series_name, language_name, level.code, lesson.number ASC ";
+		return static::find_by_sql($sql);
+	}
+	
+	public static function find_all_ready_for_ill_tv_lessons_for_langauge_series($language_series_id) {
 		$sql  = "SELECT ";		
 		foreach (self::$db_view_fields as $k => $v) {
 			$sql .= $k." AS ".$v;
@@ -249,11 +294,11 @@ class Lesson extends DatabaseObject {
 		foreach (self::$db_join_fields as $k => $v) {
 			$sql .= "LEFT JOIN ".$k." ON ".$v." ";
 			}
-		$sql .= "WHERE NOT lesson.filesMoved = 1 ";
-		$sql .= "AND DATE(LEAST( COALESCE(NULLIF(lesson.publishDateSite, 0), NULLIF(lesson.publishDateYouTube, 0)), COALESCE(NULLIF(lesson.publishDateYouTube, 0), NULLIF(lesson.publishDateSite, 0)))) < CURDATE() + INTERVAL {$days_from_now} DAY ";
-		$sql .= "AND DATE(LEAST( COALESCE(NULLIF(lesson.publishDateSite, 0), NULLIF(lesson.publishDateYouTube, 0)), COALESCE(NULLIF(lesson.publishDateYouTube, 0), NULLIF(lesson.publishDateSite, 0)))) > 0 ";
+		$sql .= "WHERE lesson.filesMoved = 1 ";
+		$sql .= "AND lesson.isUploadedForIllTv = 1 ";		
+		$sql .= "AND lesson.fkLanguageSeries = {$language_series_id} ";
 		$sql .= "GROUP BY lesson.id ";
-		$sql .= "ORDER BY publish_date ASC, series.title ASC, language.name ASC ";
+		$sql .= "ORDER BY lesson.number ASC ";
 		return static::find_by_sql($sql);
 	}
 	
@@ -736,6 +781,25 @@ class Lesson extends DatabaseObject {
 		echo "</a>";
 		echo " > ";
 		echo "#{$this->number} {$this->title}";
+	}
+	
+	public function lesson_code() {
+  	
+  	$series = Series::find_by_id($this->series_id);
+  	
+  	$output  = "";
+  	$output .= strtolower(substr($this->language_name,0,3));
+  	$output .= "_";
+  	$output .= $series->code;
+  	if($series->level_significant) {
+    	$output .= "-";
+    	$output .= $this->level_code;
+  	}
+  	$output .= "_";
+  	if($this->number < 10) { $output .= "0"; }
+  	$output .= $this->number;
+  	
+  	return $output;
 	}
 	
 	public function display_lesson_topbar($active_page="main") {

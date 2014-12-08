@@ -10,7 +10,8 @@ class Series extends DatabaseObject {
 										'series.shotAt' => 'shot_at',
 										'series.checkableAt' => 'checkable_at',
 										'series.ytTitleTemplate' => 'yt_title_template',
-										'series.ytDescriptionTemplate' => 'yt_description_template'
+										'series.ytDescriptionTemplate' => 'yt_description_template',
+										'series.levelSignificant' => 'level_significant'
 										);
 										
 	protected static $db_edit_fields = array('series.code' => 'code',
@@ -18,7 +19,8 @@ class Series extends DatabaseObject {
 										'series.shotAt' => 'shot_at',
 										'series.checkableAt' => 'checkable_at',
 										'series.ytTitleTemplate' => 'yt_title_template',
-										'series.ytDescriptionTemplate' => 'yt_description_template'
+										'series.ytDescriptionTemplate' => 'yt_description_template',
+										'series.levelSignificant' => 'level_significant'
 										);
 										
 	protected static $db_join_fields = array();
@@ -31,6 +33,7 @@ class Series extends DatabaseObject {
 	public $series_trt;
 	public $yt_title_template;
 	public $yt_description_template;
+	public $level_significant;
 
 	public static function get_series_title_from_id($series_id) {
 		$series = Series::find_by_id($series_id);

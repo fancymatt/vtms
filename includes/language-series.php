@@ -10,6 +10,7 @@ class LanguageSeries extends DatabaseObject {
 										'fkLevel' => 'level_id',
 										'fkChannel' => 'channel_id',
 										'fkTalent' => 'talent_id',
+										'onIllTv' => 'on_ill_tv'
 										);
 	
 	protected static $db_view_fields = array('languageSeries.id' => 'id', 
@@ -23,7 +24,8 @@ class LanguageSeries extends DatabaseObject {
 										'series.id' => 'series_id', 
 										'languageSeries.fkChannel' => 'channel_id',
 										'series.title' => 'series_name',
-										'SEC_TO_TIME((SELECT SUM(lesson.trt) FROM lesson WHERE lesson.fkLanguageSeries=languageSeries.id))' => 'total_trt'
+										'SEC_TO_TIME((SELECT SUM(lesson.trt) FROM lesson WHERE lesson.fkLanguageSeries=languageSeries.id))' => 'total_trt',
+										'onIllTv' => 'on_ill_tv'
 										);
 	protected static $db_join_fields=array("language" => "language.id=languageSeries.fkLanguage", 
 											"series" => "series.id=languageSeries.fkSeries", 
@@ -41,6 +43,7 @@ class LanguageSeries extends DatabaseObject {
 	public $series_id;
 	public $series_name;
 	public $total_trt;
+	public $on_ill_tv;
 	
 	public static function find_all_language_series_for_series($series_id) {
 		$child_table_name = "languageSeries";
@@ -80,5 +83,47 @@ class LanguageSeries extends DatabaseObject {
 		echo "</a>";
 	}
 	
+	public function generate_ill_tv_code() {
+  	
+  	$language = Language::find_by_id($this->language_id);
+  	$language_name = $language->name;
+  	$url = $language->site_url_short;
+  		
+  	$output  = "";
+  	$output .= "<rss xmlns:media=\"http://search.yahoo.com/mrss/\" xmlns:creativeCommons=\"http://backend.userland.com/creativeCommonsRssModule\" version=\"2.0\">\n";
+  	$output .= "<channel>\n";
+  	$output .= "<title>{$this->language_series_title}</title>\n";
+  	$output .= "<link/>\n";
+  	$output .= "<description></description>\n";
+  	
+  	$lessons = Lesson::find_all_ready_for_ill_tv_lessons_for_langauge_series($this->id);
+  	foreach($lessons as $lesson) {
+    	
+    	$code = $lesson->lesson_code();
+    	
+    	$output .= "<item>\n";
+    	$output .= "<title>{$lesson->title}</title>\n";
+    	$output .= "<guid isPermaLink=\"false\">";
+    	$output .= $code;
+    	$output .= "</guid>\n";
+    	$output .= "<description></description>\n";
+    	$output .= "<media:group>\n";
+    	$output .= "<media:content url=\"http://media.libsyn.com/media/{$url}/{$code}-h.mp4\" bitrate=\"1200\" ";
+    	$output .= "duration=\"{$lesson->trt}\" medium=\"video\" type=\"video/quicktime\"/>\n";
+    	$output .= "<media:content url=\"http://media.libsyn.com/media/{$url}/{$code}-m.mp4\" bitrate=\"800\" ";
+    	$output .= "duration=\"{$lesson->trt}\" medium=\"video\" type=\"video/quicktime\"/>\n";
+    	$output .= "<media:content url=\"http://media.libsyn.com/media/{$url}/{$code}-l.mp4\" bitrate=\"500\" ";
+    	$output .= "duration=\"{$lesson->trt}\" medium=\"video\" type=\"video/quicktime\"/>\n";
+    	$output .= "</media:group>";
+    	$output .= "<media:thumbnail url=\"http://assets.languagepod101.com/roku/images/thumbs/{$language_name}/{$code}-thumb.png\"/>\n";
+    	$output .= "</item>\n";
+  	}
+  	
+    $output .= "</channel>\n";
+    $output .= "</rss>";
+  	
+  	return $output;
+
+	}
 }
 ?>

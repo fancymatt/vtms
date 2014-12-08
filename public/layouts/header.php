@@ -48,6 +48,8 @@
 						<li><a href="recently-detected.php">Recently Detected</a></li>
 						<li><a href="ready-to-publish.php">Ready to Publish</a></li>
 						<li><a href="ready-to-publish-yt.php">Ready to Upload to YT</a></li>
+						<li><a href="ready-to-upload-ill-tv.php">Ready to Upload to ILL TV</a></li>
+						<li><a href="ready-to-test-ill-tv.php">Ready to Test on ILL TV</a></li>
 						<li><a href="weekly-report.php">Weekly Report</a></li>
 					</ul>
 				</li>

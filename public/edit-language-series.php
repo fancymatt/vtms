@@ -25,6 +25,7 @@
 		$edited_language_series_level_id = $db->escape_value($_POST['edited_language_series_level_id']);
 		$edited_language_series_channel_id = $db->escape_value($_POST['edited_language_series_channel_id']);
 		$edited_language_series_talent_id = $db->escape_value($_POST['edited_language_series_talent_id']);
+		$edited_language_series_on_ill_tv = $db->escape_value($_POST['edited_language_series_on_ill_tv']);
 		
 		$required_fields = array(edited_language_series_name);
 		validate_presences($required_fields);
@@ -36,6 +37,7 @@
 		$edited_language_series->level_id = $edited_language_series_level_id;
 		$edited_language_series->channel_id = $edited_language_series_channel_id;
 		$edited_language_series->talent_id = $edited_language_series_talent_id;
+		$edited_language_series->on_ill_tv = $edited_language_series_on_ill_tv;
 		$edited_language_series->update();
 		redirect_to("edit-language-series.php?id={$edited_language_series->id}");	
 		
@@ -151,6 +153,9 @@
   			}
   			?>
 			</select>
+			
+			<label for="edited_language_series_on_ill_tv">On ILL TV</label>
+			<input type="checkbox" name="edited_language_series_on_ill_tv" value="1" <?php if($current_language_series->on_ill_tv == 1) { echo "checked"; } ?>>
 			
 			<input type="hidden" name="edited_language_series_id" value="<?php echo $current_language_series->id; ?>">
 			<p><input type="submit" name="edited_language_series" id="edited_language_series" class="action button"></p>
