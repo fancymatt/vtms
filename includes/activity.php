@@ -4,18 +4,20 @@ require_once(LIB_PATH.DS.'database.php');
 class Activity extends DatabaseObject {
 	protected static $table_name="activity";
 	protected static $db_view_fields = array('activity.id' => 'id',
-										'activity.fkShift' => 'shift_id',
-										'activity.fkTask' => 'task_id',
-										'activity.isActive' => 'is_active',
-										'activity.isCompleted' => 'is_completed',
-										'activity.timeStart' => 'time_start',
-										'activity.timeEnd' => 'time_end',
-										'activity.activity' => 'activity',
-										'(SELECT COUNT(taskComment.id) 
-										 FROM taskComment 
-										 WHERE taskComment.fkActivity=activity.id
-                     )' => 'issues_fixed'
-										);
+                        										'activity.fkShift' => 'shift_id',
+                        										'activity.fkTask' => 'task_id',
+                        										'shift.fkTeamMember' => 'member_id',
+                        										'teamMember.nameFirst' => 'member_name',
+                        										'activity.isActive' => 'is_active',
+                        										'activity.isCompleted' => 'is_completed',
+                        										'activity.timeStart' => 'time_start',
+                        										'activity.timeEnd' => 'time_end',
+                        										'activity.activity' => 'activity',
+                        										'task.fkLesson' => 'lesson_id',
+                        										'(SELECT COUNT(taskComment.id) 
+                        										 FROM taskComment 
+                        										 WHERE taskComment.fkActivity=activity.id
+                                             )' => 'issues_fixed');
 										
 	protected static $db_edit_fields = array('activity.fkShift' => 'shift_id',
 										'activity.fkTask' => 'task_id',
@@ -26,11 +28,16 @@ class Activity extends DatabaseObject {
 										'activity.activity' => 'activity'
 										);
 										
-	protected static $db_join_fields = array('shift' => 'shift.id=activity.fkShift');
+	protected static $db_join_fields = array('shift' => 'shift.id=activity.fkShift',
+	                                         'teamMember' => 'shift.fkTeamMember=teamMember.id',
+	                                         'task' => 'activity.fkTask=task.id');
 											
 	public $id;
 	public $shift_id;
 	public $task_id;
+	public $lesson_id;
+	public $member_id;
+	public $member_name;
 	public $is_active;
 	public $is_completed;
 	public $time_start;
@@ -89,6 +96,23 @@ class Activity extends DatabaseObject {
 			$sql .= "LEFT JOIN ".$k." ON ".$v." ";
 		}
 		$sql .= "WHERE activity.fkShift={$shift_id} ";
+		$sql .= "ORDER BY activity.timeStart ASC ";
+		return static::find_by_sql($sql);
+	}
+	
+	public static function find_all_activities_for_lesson($lesson_id) {
+		$sql  = "SELECT ";
+		$i = 0;
+		foreach (self::$db_view_fields as $k => $v) {
+			$sql .= $k." AS ".$v;
+			$i++;
+			$i <= count(self::$db_view_fields) - 1 ? $sql .= ", " : $sql .= " ";
+		}
+		$sql .= "FROM ".self::$table_name." ";
+		foreach (self::$db_join_fields as $k => $v) {
+			$sql .= "LEFT JOIN ".$k." ON ".$v." ";
+		}
+		$sql .= "WHERE task.fkLesson={$lesson_id} ";
 		$sql .= "ORDER BY activity.timeStart ASC ";
 		return static::find_by_sql($sql);
 	}

@@ -135,6 +135,7 @@
 	$shots = Shot::find_all_shots_for_lesson($lesson_id);
 	$unfinished_issues = Issue::get_unfinished_issues_for_lesson($lesson_id);
 	$all_issues = Issue::get_all_issues_for_lesson($lesson->id);
+	$lesson_activities = Activity::find_all_activities_for_lesson($lesson->id);
 
 ?>
 <?php $page_title = ucwords($language->code)." ".ucwords($series->code)." ".$lesson->number; ?>
@@ -177,6 +178,7 @@
   		<ul class="tabs" data-tab>
   			<li class="tab-title active"><a href="#panel-tasks">Tasks</a></li>
   			<li class="tab-title"><a href="#panel-script">Script</a></li>
+  			<li class="tab-title"><a href="#panel-timeline">Timeline</a></li>
   			<li class="tab-title"><a href="#panel-issues">Issues</a></li>
   			<li class="tab-title"><a href="#panel-edit">Edit</a></li>
   		</ul>
@@ -362,6 +364,96 @@
 					</tbody>
 				</table>
   		</div>
+  		<div class="content" id="panel-timeline">
+        <h3 class="group-heading">Timeline</h3>
+				<table>
+					<thead>
+						<tr>
+							<th width=30%>Time</th>
+							<th width=15%>Person</th>
+							<th width=55%>Activity</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach($lesson_activities as $activity) : ?>
+						<tr>
+  						<td><?php echo date("M jS, Y g:i a", strtotime($logged_in_user->local_time($activity->time_start))); ?></td>
+  						<td><?php echo $activity->member_name; ?></td>
+  						<td>
+    						<?php 
+            		  if($activity->task_id) {
+            		    $task = Task::find_by_id($activity->task_id);
+              		  echo $activity->activity.": ";
+              		  echo $task->task_name;
+            		  } else if ($activity->activity == "Fixing issues") {
+              		  echo "Fixing ".$activity->issues_fixed." Issues";
+            		  } else {
+            		    echo ucfirst(stripslashes($activity->activity));
+            		  }
+          		  ?>
+  						</td>
+						</tr>
+						<?php endforeach; ?>
+						
+						<?php if($lesson->checked_language) { ?>
+            <tr>
+  						<td>
+    						<?php if($lesson->checked_language_time > 0) {
+      						echo date("M jS, Y g:i a", strtotime($logged_in_user->local_time($lesson->checked_language_time)));
+    						} else {
+      						echo "--";
+    						} ?>
+              </td>
+  						<td>--</td>
+  						<td>Language Checked</td>
+						</tr>
+						<?php } ?>
+						
+						<?php if($lesson->checked_video) { ?>
+            <tr>
+  						<td>
+    						<?php if($lesson->checked_video_time > 0) {
+      						echo date("M jS, Y g:i a", strtotime($logged_in_user->local_time($lesson->checked_video_time)));
+    						} else {
+      						echo "--";
+    						} ?>
+              </td>
+  						<td>--</td>
+  						<td>Video Checked</td>
+						</tr>
+						<?php } ?>
+						
+						<?php if($lesson->files_moved) { ?>
+            <tr>
+  						<td>
+    						<?php if($lesson->files_moved_time > 0) {
+      						echo date("M jS, Y g:i a", strtotime($logged_in_user->local_time($lesson->files_moved_time)));
+    						} else {
+      						echo "--";
+    						} ?>
+              </td>
+  						<td>--</td>
+  						<td>Files Archived</td>
+						</tr>
+						<?php } ?>
+						
+						<?php if($lesson->is_detected) { ?>
+            <tr>
+  						<td>
+    						<?php if($lesson->detected_time > 0) {
+      						echo date("M jS, Y g:i a", strtotime($logged_in_user->local_time($lesson->detected_time)));
+    						} else {
+      						echo "--";
+    						} ?>
+              </td>
+  						<td>--</td>
+  						<td>Published to Site</td>
+						</tr>
+						<?php } ?>
+						
+					</tbody>
+				</table>
+  		</div>
   		
   		<div class="content" id="panel-edit">
     		<div class="small-12 columns panel">
@@ -408,7 +500,7 @@
             <label>Custom YouTube Field <input type="text" size=50 name="edited_lesson_yt_custom_field" value="<?php echo $lesson->custom_yt_field; ?>">
             </label>
             <label>YouTube Ineligible <input type="checkbox" name="edited_lesson_yt_ineligible" value="1"<?php if($lesson->yt_ineligible) { echo " checked"; } ?>></label>
-            <input type="hidden" name="edited_lesson_id" value="<?php echo $current_record->id; ?>">
+            <input type="hidden" name="edited_lesson_id" value="<?php echo $lesson->id; ?>">
             <p><input type="submit" class="action button" name="edited_lesson" id="edited_lesson" value="Edit"></p> 
             </form>
           </div>
