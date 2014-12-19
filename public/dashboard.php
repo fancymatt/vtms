@@ -72,7 +72,7 @@
   			<p><a href="ready-to-upload-ill-tv.php">Detail</a></p>
   		</div>
       <div id="test-illtv" class="panel small-12 medium-6 columns">
-  			<p>Ready to Test on ILL TV: <strong><?php echo $$test_illtv_lessons; ?></strong></p>
+  			<p>Ready to Test on ILL TV: <strong><?php echo $test_illtv_lessons; ?></strong></p>
   			<p><a href="ready-to-test-ill-tv.php">Detail</a></p>
   		</div>
     </div>
