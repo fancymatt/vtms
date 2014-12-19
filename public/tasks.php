@@ -4,7 +4,7 @@
 	$days_past = 1;
 	$tasks_recent = Task::get_recently_completed_tasks(10);
 	$tasks_active = Task::get_all_active_tasks();
-	$tasks_actionable = Task::get_all_actionable_tasks(10);
+	$tasks_actionable = Task::get_all_actionable_tasks(100);
 	$logged_in_user = User::find_by_id($session->user_id);
 ?>
 
