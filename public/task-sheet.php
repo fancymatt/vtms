@@ -227,7 +227,7 @@
 		$tasks_actionable = Task::get_actionable_tasks_for_member($team_member_id);
 		$tasks_active = Task::get_active_tasks_for_member($team_member_id);
 		$issues_actionable = Issue::get_unfinished_issues_for_member($team_member_id);
-		$assets_actionable = Task::get_actionable_assets_for_member($team_member_id);
+		$assets_actionable = Task::get_actionable_assets_for_member($team_member_id, 50);
 		$assets_deliverable = Task::get_deliverable_assets_for_member($team_member_id);
 		
 		if($tasks_active) {

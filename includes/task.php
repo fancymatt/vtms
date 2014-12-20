@@ -137,7 +137,7 @@ class Task extends DatabaseObject {
 		return static::find_by_sql($sql);
 	}
 
-	public static function get_actionable_assets_for_member($member_id) {
+	public static function get_actionable_assets_for_member($member_id, $limit = 20) {
 		// Assets for a lesson actionable at 0 only appear when at least one of the assets has been completed (but not necessarily delivered)
 		$sql  = "SELECT ";		
 		foreach (self::$db_view_fields as $k => $v) {
@@ -157,7 +157,7 @@ class Task extends DatabaseObject {
 		$sql .= "GROUP BY task.id ";
 		$sql .= "HAVING ( ( SELECT SUM( taskGlobal.completionValue ) FROM lesson sub_lesson JOIN task ON task.fkLesson=sub_lesson.id JOIN taskGlobal ON task.fkTaskGlobal=taskGlobal.id WHERE IF(taskGlobal.isAsset=1, task.isDelivered=1, task.isCompleted=1) AND lesson.id=sub_lesson.id ) >= taskGlobal.actionableAt ) OR taskGlobal.actionableAt < 1 ";
 		$sql .= "ORDER BY task_due_date ASC ";
-		$sql .= "LIMIT 20 ";
+		$sql .= "LIMIT {$limit} ";
 		
 		return static::find_by_sql($sql);
 	}
