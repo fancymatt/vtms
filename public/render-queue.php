@@ -166,7 +166,9 @@
 						echo "<td>";
 						echo $lesson->display_full_lesson_with_link();
 						echo "</td>";
+						echo "<td>";
 						echo date("M jS g:i a", strtotime($logged_in_user->local_time($lesson->queued_time)));
+            echo "</td>";
 						echo "<td><form action='render-queue.php' method='post'>";
 						if($lesson->checked_language) {
 							echo "<input type='hidden' name='qa_lesson_id' value='{$lesson->id}'><input type='submit' name='mark_lesson_as_exported' value='Exported'></form>";
