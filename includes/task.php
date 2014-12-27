@@ -98,6 +98,7 @@ class Task extends DatabaseObject {
 		$sql .= "JOIN taskGlobal ON task.fkTaskGlobal=taskGlobal.id ";
 		$sql .= "WHERE task.isCompleted = 1 ";
 		$sql .= "AND task.fkLesson = {$lesson_id} ";
+		$aql .= "AND NOT task.isAsset = 1 ";
 		$sql .= "ORDER BY task.timeCompleted DESC ";
 		$sql .= "LIMIT 1 ";
 		$result = static::find_by_sql($sql);
