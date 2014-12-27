@@ -104,7 +104,11 @@
                 echo date("M jS g:i a", strtotime($logged_in_user->local_time($last_task->completed_time))); 
                 echo "</td>";
     						echo "<td>";
-    						echo date("M jS g:i a", strtotime($logged_in_user->local_time($lesson->exported_time)));
+    						if($lesson->exported_time > 0) {
+      						echo date("M jS g:i a", strtotime($logged_in_user->local_time($lesson->exported_time)));
+    						} else {
+      						echo "Never";
+    						}
     						echo "</td>";
     						echo "<td>";
     						echo date("M jS Y", strtotime($logged_in_user->local_time($lesson->publish_date)));
@@ -131,7 +135,11 @@
                 echo date("M jS g:i a", strtotime($logged_in_user->local_time($last_issue->completed_time))); 
                 echo "</td>";
     						echo "<td>";
-    						echo date("M jS g:i a", strtotime($logged_in_user->local_time($lesson->exported_time)));
+    						if($lesson->exported_time > 0) {
+      						echo date("M jS g:i a", strtotime($logged_in_user->local_time($lesson->exported_time)));
+    						} else {
+      						echo "Never";
+    						}
     						echo "</td>";
     						echo "<td>";
     						echo date("M jS Y", strtotime($logged_in_user->local_time($lesson->publish_date)));
