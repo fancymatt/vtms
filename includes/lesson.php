@@ -12,7 +12,6 @@ class Lesson extends DatabaseObject {
 										'languageSeries.fkTalent' => 'talent_id',
 										'language.name' => 'language_name',
 										'lesson.number' => 'number',
-										'IF ((SELECT SUM(taskGlobal.completionValue) FROM task JOIN taskGlobal ON task.fkTaskGlobal=taskGlobal.id WHERE task.fkLesson=lesson.id AND task.isCompleted=1) >= (SELECT series.shotAt FROM series WHERE lesson.fkLanguageSeries=languageSeries.id AND languageSeries.fkSeries=series.id), 1, 0)' => 'is_shot',
 										'IF ((SELECT SUM(taskGlobal.completionValue) FROM task JOIN taskGlobal ON task.fkTaskGlobal=taskGlobal.id WHERE task.fkLesson=lesson.id AND task.isCompleted=1) >= (SELECT series.checkableAt FROM series WHERE lesson.fkLanguageSeries=languageSeries.id AND languageSeries.fkSeries=series.id), 1, 0)' => 'is_checkable',
 										'(SELECT SUM(taskGlobal.completionValue) FROM task JOIN taskGlobal ON task.fkTaskGlobal=taskGlobal.id WHERE task.fkLesson=lesson.id AND IF(taskGlobal.isAsset=1, task.isDelivered=1, task.isCompleted=1))' => 'comp_value',
 										'lesson.title' => 'title',
@@ -264,6 +263,7 @@ class Lesson extends DatabaseObject {
 			$i++;
 			$i <= count(self::$db_view_fields) - 1 ? $sql .= ", " : $sql .= " ";
 		}
+		$sql .= ', IF ((SELECT SUM(taskGlobal.completionValue) FROM task JOIN taskGlobal ON task.fkTaskGlobal=taskGlobal.id WHERE task.fkLesson=lesson.id AND task.isCompleted=1) >= (SELECT series.shotAt FROM series WHERE lesson.fkLanguageSeries=languageSeries.id AND languageSeries.fkSeries=series.id), 1, 0) AS is_shot ';
 		$sql .= "FROM ".self::$table_name." ";
 		foreach (self::$db_join_fields as $k => $v) {
 			$sql .= "LEFT JOIN ".$k." ON ".$v." ";
