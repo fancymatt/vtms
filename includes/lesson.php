@@ -343,8 +343,8 @@ class Lesson extends DatabaseObject {
 		foreach (self::$db_join_fields as $k => $v) {
 			$sql .= "JOIN ".$k." ON ".$v." ";
 			}
-		$sql .= "JOIN task ON task.fkLesson=lesson.id ";
-		$sql .= "JOIN taskComment ON taskComment.fkTask=task.id ";
+		$sql .= "LEFT JOIN task ON task.fkLesson=lesson.id ";
+		$sql .= "LEFT JOIN taskComment ON taskComment.fkTask=task.id ";
 		$sql .= "WHERE NOT lesson.filesMoved=1 ";
 		$sql .= "AND NOT lesson.isQueued=1 ";
 		$sql .= "GROUP BY lesson.id ";

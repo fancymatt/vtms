@@ -5,7 +5,9 @@
 		redirect_to('login.php');
 	}
 	$current_time = new DateTime(null, new DateTimeZone('UTC'));
+	$all_queries = [];
 	$logged_in_user = User::find_by_id($session->user_id);
+	$all_queries[] = $db->last_query;
 	
 	if(isset($_POST['add_lesson_to_queue'])) {
 		$qa_lesson_id = $db->escape_value($_POST['qa_lesson_id']);
@@ -45,7 +47,9 @@
 	}
 		
 	$exportable_lessons = Lesson::find_all_exportable_lessons();
+	$all_queries[] = $db->last_query;
 	$queued_lessons = Lesson::find_all_queued_lessons();
+	$all_queries[] = $db->last_query;
 ?>
 
 <?php include_layout_template('header.php'); ?>
@@ -57,6 +61,10 @@
 		</ul>
 	</div>
 
+  <pre>
+    <?php echo $all_queries; ?>
+  </pre>
+  
   <?php if($message) { ?>
 	<div data-alert class="alert-box">
 	  <?php echo $message; ?>
@@ -88,10 +96,11 @@
 								echo $last_task->team_member_name." - ".$last_task->task_name;
 							}
 						} else {
-							$last_issue = Issue::find_by_id($qa_lesson->last_issue_id);
-							if(is_object($last_issue)) {
-								echo $last_issue->team_member_name. " - Issue Fixed";
-							}
+							//$last_issue = Issue::find_by_id($qa_lesson->last_issue_id);
+							//if(is_object($last_issue)) {
+								//echo $last_issue->team_member_name. " - Issue Fixed";
+							//}
+							echo "Issue Fixed";
 						}
 						echo "</td>";
 						echo "<td>";
