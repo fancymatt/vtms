@@ -47,12 +47,7 @@ class Lesson extends DatabaseObject {
 										'lesson.exportedTime' => 'exported_time',
 										'lesson.detectedTime' => 'detected_time',
 										'lesson.timeUploadedDropbox' => 'dropbox_time',
-										'lesson.ytIneligible' => 'yt_ineligible',
-										'(SELECT task.id FROM task WHERE task.fkLesson = lesson.id ORDER BY task.timeCompleted DESC LIMIT 1)' => 'last_task_id',
-										'(SELECT MAX(task.timeCompleted) FROM task WHERE task.fkLesson = lesson.id)' => 'last_task_time',
-										'(SELECT MAX(taskComment.timeCompleted) FROM taskComment JOIN task ON taskComment.fkTask=task.id WHERE task.fkLesson = lesson.id)' => 'last_issue_time',
-										'(SELECT taskComment.id FROM taskComment JOIN task ON task.id = taskComment.fkTask WHERE task.fkLesson = lesson.id ORDER BY taskComment.timeCompleted DESC LIMIT 1)' => 'last_issue_id',
-										'IF(IFNULL((SELECT MAX(task.timeCompleted) FROM task WHERE task.fkLesson = lesson.id),0) > IFNULL((SELECT MAX(taskComment.timeCompleted) FROM taskComment JOIN task ON taskComment.fkTask=task.id WHERE task.fkLesson = lesson.id),0), "task", "issue")' => 'last_action'
+										'lesson.ytIneligible' => 'yt_ineligible'
 										);
 										
 	protected static $db_edit_fields = array('lesson.fkLanguageSeries' => 'language_series_id',
@@ -338,6 +333,12 @@ class Lesson extends DatabaseObject {
 			$i++;
 			$i <= count(self::$db_view_fields) - 1 ? $sql .= ", " : $sql .= " ";
 		}
+		$sql .= ', (SELECT task.id FROM task WHERE task.fkLesson = lesson.id ORDER BY task.timeCompleted DESC LIMIT 1) AS last_task_id';
+    $sql .= ', (SELECT MAX(task.timeCompleted) FROM task WHERE task.fkLesson = lesson.id) AS last_task_time ';
+    $sql .= ', (SELECT MAX(taskComment.timeCompleted) FROM taskComment JOIN task ON taskComment.fkTask=task.id WHERE task.fkLesson = lesson.id) AS last_issue_time ';
+    $sql .= ', (SELECT taskComment.id FROM taskComment JOIN task ON task.id = taskComment.fkTask WHERE task.fkLesson = lesson.id ORDER BY taskComment.timeCompleted DESC LIMIT 1) AS last_issue_id ';
+    $sql .= ', IF(IFNULL((SELECT MAX(task.timeCompleted) FROM task WHERE task.fkLesson = lesson.id),0) > IFNULL((SELECT MAX(taskComment.timeCompleted) FROM taskComment JOIN task ON taskComment.fkTask=task.id WHERE task.fkLesson = lesson.id),0), "task", "issue") AS last_action ';
+		
 		$sql .= "FROM ".self::$table_name." ";
 		foreach (self::$db_join_fields as $k => $v) {
 			$sql .= "JOIN ".$k." ON ".$v." ";

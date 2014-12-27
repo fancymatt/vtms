@@ -11,7 +11,7 @@ class Task extends DatabaseObject {
 										'task.isCompleted' => 'is_completed',
 										'task.isActive' => 'is_active',
 										'task.timeActual' => 'time_actual',
-										'IF(taskGlobal.isAsset=1, IF(task.isDelivered=1, taskGlobal.completionValue, 0), IF(task.isCompleted=1, taskGlobal.completionValue, 0))' => 'comp_value',
+										//'IF(taskGlobal.isAsset=1, IF(task.isDelivered=1, taskGlobal.completionValue, 0), IF(task.isCompleted=1, taskGlobal.completionValue, 0))' => 'comp_value',
 										'taskGlobal.actionableAt' => 'actionable_at',
 										'series.id' => 'series_id',
 										'series.title' => 'series_name',
