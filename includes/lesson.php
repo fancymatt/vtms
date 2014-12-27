@@ -159,6 +159,16 @@ class Lesson extends DatabaseObject {
   	}
 	}
 	
+	public function past_shot_threshold() {
+  	$series = Series::find_by_id($this->series_id);
+  	
+  	if($this->comp_value >= $series->shot_at) {
+    	return true;
+  	} else {
+    	return false;
+  	}
+	}
+	
 	public static function find_all_lessons_for_series($series_id) {
 		$sql  = "SELECT ";		
 		foreach (self::$db_view_fields as $k => $v) {
@@ -732,20 +742,21 @@ class Lesson extends DatabaseObject {
 	}
 	
 	public function display_lesson_status_bar() {
+  	$issues = $this->pending_issues();
+  	
 	  echo "<div class='lesson-production'>";
 	  echo "  <div class='lesson-issues'>";
-  	$issues = Issue::get_unfinished_issues_for_lesson($this->id);
   	echo "    <a class='issues-bar' href='#'>Issues: ".count($issues)."</a>";
   	echo "  </div>";
 	  echo "  <div class='lesson-status'>";
     echo "	  <p class='lesson-status-item'>";
   	echo "      <img src='";
-  	echo $this->is_shot ? 'img/lesson-status-yes-shot.png' : 'img/lesson-status-not-shot.png';
+  	echo $this->past_shot_threshold() ? 'img/lesson-status-yes-shot.png' : 'img/lesson-status-not-shot.png';
   	echo "'>";
   	echo "    </p>";
   	echo "    <p class='lesson-status-item'>";
   	echo "      <img src='";
-  	echo $this->is_checkable ? 'img/lesson-status-yes-checkable.png' : 'img/lesson-status-not-checkable.png';
+  	echo $this->past_exportable_threshold() ? 'img/lesson-status-yes-checkable.png' : 'img/lesson-status-not-checkable.png';
   	echo "'>";
   	echo "    </p>";
   	echo "	  <p class='lesson-status-item'>";
