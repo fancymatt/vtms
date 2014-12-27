@@ -164,7 +164,7 @@
 					foreach($queued_lessons as $lesson) {
 						echo "<tr>";
 						echo "<td>";
-						echo $lesson->display_full_lesson();
+						echo $lesson->display_full_lesson_with_link();
 						echo "</td>";
 						echo "<td>".$logged_in_user->local_time($lesson->queued_time)."</td>";
 						echo "<td><form action='render-queue.php' method='post'>";
