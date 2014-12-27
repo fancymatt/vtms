@@ -35,6 +35,7 @@ class MySQLDatabase {
 
 	public function query($sql) {
 		mysql_query("set names 'utf8'");
+		error_log($sql);
 		$this->last_query = $sql;
 		$result = mysql_query($sql, $this->connection);
 		$this->confirm_query($result);

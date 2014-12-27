@@ -61,9 +61,13 @@ class Issue extends DatabaseObject {
 		$sql .= "ORDER BY taskComment.timeCompleted DESC ";
 		$sql .= "LIMIT 1 ";
 		$result = static::find_by_sql($sql);
-		return $result[0];
+		if(isset($result[0])) {
+  		return $result[0];
+		} else {
+  		return false;
+		}
 	}
-	
+		
 	public static function get_unfinished_issues_for_member($member_id) {
 		
 		$sql  = "SELECT ";		

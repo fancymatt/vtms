@@ -43,10 +43,10 @@
 		$lesson->exported_time = '';
 		$lesson->update();
 	}
-		
+  
+  $render_thresholds = Series::generate_render_threshold_array();
+  
 	$exportable_lessons = Lesson::find_all_exportable_lessons();
-	
-	
 	$queued_lessons = Lesson::find_all_queued_lessons();
 ?>
 
@@ -79,7 +79,7 @@
 					foreach($exportable_lessons as $lesson) {
   					$last_issue = Issue::find_last_fixed_issue_for_lesson($lesson->id);
   					
-  					if($lesson->past_exportable_threshold() && $lesson->pending_issues() < 1 ) {
+  					if($lesson->comp_value >= $render_thresholds[$lesson->series_id] && $lesson->pending_issues() < 1 ) {
     					
     					$last_task = Task::find_last_task_for_lesson($lesson->id);
               $last_issue = Issue::find_last_fixed_issue_for_lesson($lesson->id);
