@@ -140,6 +140,25 @@ class Lesson extends DatabaseObject {
 		return self::find_all_child_for_parent($language_series_id, $child_table_name, $parent_table_name, $group_by_sql);
 	}
 	
+	public function pending_issues() {
+  	$sql  = "SELECT taskComment.id FROM taskComment ";
+  	$sql .= "JOIN task ON taskComment.fkTask=task.id ";
+  	$sql .= "WHERE task.fkLesson = {$this->id} ";
+  	$sql .= "AND taskComment.isCompleted = 0 ";
+  	$result = static::find_by_sql($sql);
+  	return count($result);
+	}
+	
+	public function past_exportable_threshold() {
+  	$series = Series::find_by_id($this->series_id);
+  	
+  	if($this->comp_value >= $series->checkable_at) {
+    	return true;
+  	} else {
+    	return false;
+  	}
+	}
+	
 	public static function find_all_lessons_for_series($series_id) {
 		$sql  = "SELECT ";		
 		foreach (self::$db_view_fields as $k => $v) {
@@ -333,63 +352,12 @@ class Lesson extends DatabaseObject {
 			$i++;
 			$i <= count(self::$db_view_fields) - 1 ? $sql .= ", " : $sql .= " ";
 		}
-		$sql .= ', (SELECT task.id FROM task WHERE task.fkLesson = lesson.id ORDER BY task.timeCompleted DESC LIMIT 1) AS last_task_id';
-    $sql .= ', (SELECT MAX(task.timeCompleted) FROM task WHERE task.fkLesson = lesson.id) AS last_task_time ';
-    $sql .= ', (SELECT MAX(taskComment.timeCompleted) FROM taskComment JOIN task ON taskComment.fkTask=task.id WHERE task.fkLesson = lesson.id) AS last_issue_time ';
-    $sql .= ', (SELECT taskComment.id FROM taskComment JOIN task ON task.id = taskComment.fkTask WHERE task.fkLesson = lesson.id ORDER BY taskComment.timeCompleted DESC LIMIT 1) AS last_issue_id ';
-    $sql .= ', IF(IFNULL((SELECT MAX(task.timeCompleted) FROM task WHERE task.fkLesson = lesson.id),0) > IFNULL((SELECT MAX(taskComment.timeCompleted) FROM taskComment JOIN task ON taskComment.fkTask=task.id WHERE task.fkLesson = lesson.id),0), "task", "issue") AS last_action ';
-		
 		$sql .= "FROM ".self::$table_name." ";
 		foreach (self::$db_join_fields as $k => $v) {
 			$sql .= "JOIN ".$k." ON ".$v." ";
-			}
-		$sql .= "JOIN task ON task.fkLesson=lesson.id ";
-		$sql .= "JOIN taskComment ON taskComment.fkTask=task.id ";
+		}
 		$sql .= "WHERE NOT lesson.filesMoved=1 ";
 		$sql .= "AND NOT lesson.isQueued=1 ";
-		$sql .= "GROUP BY lesson.id ";
-		
-		// All issues for this lesson have been fixed, or there were never any issues
-		$sql .= "HAVING ((Count(taskComment.id) - Sum(taskComment.isCompleted) = 0) ";
-		$sql .= "        OR Count(taskComment.id) < 1) ";
-		
-		// Current lesson completion value is greater than or equal to series' "checkable at" value 
-		$sql .= "     AND ((SELECT Sum(taskGlobal.completionValue) ";
-		$sql .= "          FROM   lesson sub_lesson ";
-		$sql .= "                 JOIN task ";
-		$sql .= "                   ON task.fkLesson = sub_lesson.id ";
-		$sql .= "                 JOIN taskGlobal ";
-		$sql .= "                   ON task.fkTaskGlobal = taskGlobal.id ";
-		$sql .= "          WHERE  task.isCompleted = 1 ";
-		$sql .= "                 AND sub_lesson.id = lesson.id) >= ";
-		$sql .= "         (SELECT series.checkableAt ";
-		$sql .= "           FROM  lesson sub_lesson ";
-		$sql .= "                 JOIN languageSeries ";
-		$sql .= "                   ON sub_lesson.fkLanguageSeries = languageSeries.id ";
-		$sql .= "             	  JOIN series ";
-		$sql .= "                   ON languageSeries.fkSeries = series.id ";
-		$sql .= "			WHERE  lesson.id = sub_lesson.id)) ";
-		
-		// Last issue fixed time OR last task finished time is greater than last exported time
-		$sql .= "	AND (( ";
-		$sql .= "		lesson.exportedTime < ";
-		$sql .= "			(SELECT MAX(task.timeCompleted) ";
-		$sql .= "				FROM lesson sub_lesson ";
-		$sql .= "					JOIN task ";
-		$sql .= "					  ON sub_lesson.id=task.fkLesson ";
-		$sql .= "				WHERE sub_lesson.id=lesson.id) ";
-		$sql .= "  		) OR ( ";
-		$sql .= "		lesson.exportedTime < ";
-		$sql .= "			(SELECT MAX(taskComment.timeCompleted) ";
-		$sql .= "				FROM lesson sub_lesson ";
-		$sql .= "					JOIN task ";
-		$sql .= "					  ON sub_lesson.id=task.fkLesson ";
-		$sql .= "					JOIN taskComment ";
-		$sql .= "					  ON task.id=taskComment.fkTask ";
-		$sql .= "				WHERE sub_lesson.id=lesson.id) ";
-		$sql .= "  		) OR ( ";
-		$sql .= "		lesson.exportedTime < 1 )) ";
-		//$sql .= "ORDER BY lesson.publishDateSite DASC ";
 		
 		return static::find_by_sql($sql);
 	}
@@ -719,6 +687,15 @@ class Lesson extends DatabaseObject {
 	
 	public function display_full_lesson() {
 		echo $this->language_name . " - " . $this->series_name . " (" . $this->level_code . ") #" . $this->number;
+	}
+	
+	public function display_full_lesson_with_link() {
+  	$output  = "<a href='lesson.php?id=";
+  	$output .= $this->id;
+  	$output .= "'>";
+  	$output .= $this->language_name . " - " . $this->series_name . " (" . $this->level_code . ") #" . $this->number;
+  	$output .= "</a>";
+  	return $output;
 	}
 	
 	public function display_list_of_issues_with_link() {

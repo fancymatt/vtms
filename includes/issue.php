@@ -49,6 +49,21 @@ class Issue extends DatabaseObject {
 	public $lesson_id;
 	public $activity_id;
 	
+	public static function find_last_fixed_issue_for_lesson($lesson_id) {
+  	$sql  = "SELECT ";
+  	$sql .= "taskComment.id AS id, ";
+  	$sql .= "taskComment.timeCompleted AS time_completed, ";
+  	$sql .= "task.fkTeamMember AS team_member_id ";
+		$sql .= "FROM ".self::$table_name." ";
+		$sql .= "JOIN task ON taskComment.fkTask=task.id ";
+		$sql .= "WHERE taskComment.isCompleted = 1 ";
+		$sql .= "AND task.fkLesson = {$lesson_id} ";
+		$sql .= "ORDER BY taskComment.timeCompleted DESC ";
+		$sql .= "LIMIT 1 ";
+		$result = static::find_by_sql($sql);
+		return $result[0];
+	}
+	
 	public static function get_unfinished_issues_for_member($member_id) {
 		
 		$sql  = "SELECT ";		

@@ -87,6 +87,23 @@ class Task extends DatabaseObject {
 	public $is_asset;
 	public $time_running;
 	
+	
+	public static function find_last_task_for_lesson($lesson_id) {
+  	$sql  = "SELECT ";
+  	$sql .= "task.id AS last_task_id, ";
+  	$sql .= "task.timeCompleted AS completed_time, ";
+  	$sql .= "taskGlobal.name AS task_name, ";
+  	$sql .= "task.fkTeamMember AS team_member_id ";
+		$sql .= "FROM ".self::$table_name." ";
+		$sql .= "JOIN taskGlobal ON task.fkTaskGlobal=taskGlobal.id ";
+		$sql .= "WHERE task.isCompleted = 1 ";
+		$sql .= "AND task.fkLesson = {$lesson_id} ";
+		$sql .= "ORDER BY task.timeCompleted DESC ";
+		$sql .= "LIMIT 1 ";
+		$result = static::find_by_sql($sql);
+		return $result[0];
+	}
+		
 	public static function find_all_assets_and_tasks_for_lesson($lesson_id) {
 		$sql  = "SELECT ";		
 		foreach (self::$db_view_fields as $k => $v) {
