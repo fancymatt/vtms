@@ -241,7 +241,7 @@ class Lesson extends DatabaseObject {
 		}
 		$sql .= "FROM ".self::$table_name." ";
 		foreach (self::$db_join_fields as $k => $v) {
-			$sql .= "LEFT JOIN ".$k." ON ".$v." ";
+			$sql .= "JOIN ".$k." ON ".$v." ";
 			}
 		$sql .= "WHERE NOT lesson.filesMoved = 1 ";
 		$sql .= "AND DATE(LEAST( COALESCE(NULLIF(lesson.publishDateSite, 0), NULLIF(lesson.publishDateYouTube, 0)), COALESCE(NULLIF(lesson.publishDateYouTube, 0), NULLIF(lesson.publishDateSite, 0)))) < CURDATE() + INTERVAL {$days_from_now} DAY ";
@@ -261,7 +261,7 @@ class Lesson extends DatabaseObject {
 		$sql .= ', IF ((SELECT SUM(taskGlobal.completionValue) FROM task JOIN taskGlobal ON task.fkTaskGlobal=taskGlobal.id WHERE task.fkLesson=lesson.id AND task.isCompleted=1) >= (SELECT series.shotAt FROM series WHERE lesson.fkLanguageSeries=languageSeries.id AND languageSeries.fkSeries=series.id), 1, 0) AS is_shot ';
 		$sql .= "FROM ".self::$table_name." ";
 		foreach (self::$db_join_fields as $k => $v) {
-			$sql .= "LEFT JOIN ".$k." ON ".$v." ";
+			$sql .= "JOIN ".$k." ON ".$v." ";
 			}
 		$sql .= "WHERE DATE(lesson.publishDateSite) = '{$date}' ";
 		$sql .= "GROUP BY lesson.id ";
@@ -344,7 +344,7 @@ class Lesson extends DatabaseObject {
 			$sql .= "JOIN ".$k." ON ".$v." ";
 			}
 		$sql .= "JOIN task ON task.fkLesson=lesson.id ";
-		$sql .= "LEFT JOIN taskComment ON taskComment.fkTask=task.id ";
+		$sql .= "JOIN taskComment ON taskComment.fkTask=task.id ";
 		$sql .= "WHERE NOT lesson.filesMoved=1 ";
 		$sql .= "AND NOT lesson.isQueued=1 ";
 		$sql .= "GROUP BY lesson.id ";
@@ -484,7 +484,7 @@ class Lesson extends DatabaseObject {
 			$sql .= "JOIN ".$k." ON ".$v." ";
 			}
 		$sql .= "JOIN task ON task.fkLesson=lesson.id ";
-		$sql .= "LEFT JOIN taskComment ON taskComment.fkTask=task.id ";
+		$sql .= "JOIN taskComment ON taskComment.fkTask=task.id ";
 		$sql .= "WHERE NOT lesson.checkedVideo = 1 ";
 		$sql .= "AND lesson.checkedLanguage = 1 ";
 		$sql .= "AND NOT lesson.filesMoved = 1 ";
@@ -550,10 +550,10 @@ class Lesson extends DatabaseObject {
 		}
 		$sql .= "FROM ".self::$table_name." ";
 		foreach (self::$db_join_fields as $k => $v) {
-			$sql .= "LEFT JOIN ".$k." ON ".$v." ";
+			$sql .= "JOIN ".$k." ON ".$v." ";
 			}
-		$sql .= "LEFT JOIN task ON task.fkLesson=lesson.id ";
-		$sql .= "LEFT JOIN taskComment ON taskComment.fkTask=task.id ";
+		$sql .= "JOIN task ON task.fkLesson=lesson.id ";
+		$sql .= "JOIN taskComment ON taskComment.fkTask=task.id ";
 		$sql .= "WHERE NOT lesson.checkedLanguage = 1 ";
 		$sql .= "AND NOT lesson.filesMoved=1 ";
 		//$sql .= "AND NOT lesson.qa_url='' ";
@@ -575,7 +575,7 @@ class Lesson extends DatabaseObject {
 		$sql .= "				FROM lesson sub_lesson ";
 		$sql .= "					JOIN task ";
 		$sql .= "					  ON sub_lesson.id=task.fkLesson ";
-		$sql .= "					LEFT JOIN taskComment ";
+		$sql .= "					JOIN taskComment ";
 		$sql .= "					  ON task.id=taskComment.fkTask ";
 		$sql .= "				WHERE sub_lesson.id=lesson.id)) ";
 		
@@ -621,10 +621,10 @@ class Lesson extends DatabaseObject {
 		}
 		$sql .= "FROM ".self::$table_name." ";
 		foreach (self::$db_join_fields as $k => $v) {
-			$sql .= "LEFT JOIN ".$k." ON ".$v." ";
+			$sql .= "JOIN ".$k." ON ".$v." ";
 			}
-		$sql .= "LEFT JOIN task ON task.fkLesson=lesson.id ";
-		$sql .= "LEFT JOIN taskComment ON taskComment.fkTask=task.id ";
+		$sql .= "JOIN task ON task.fkLesson=lesson.id ";
+		$sql .= "JOIN taskComment ON taskComment.fkTask=task.id ";
 		$sql .= "WHERE NOT lesson.checkedLanguage = 1 ";
 		$sql .= "AND NOT lesson.filesMoved=1 ";
 		$sql .= "AND NOT lesson.qa_url='' ";
