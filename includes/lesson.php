@@ -746,7 +746,7 @@ class Lesson extends DatabaseObject {
   	
 	  echo "<div class='lesson-production'>";
 	  echo "  <div class='lesson-issues'>";
-  	echo "    <a class='issues-bar' href='#'>Issues: ".count($issues)."</a>";
+  	echo "    <a class='issues-bar' href='#'>Issues: ".$issues."</a>";
   	echo "  </div>";
 	  echo "  <div class='lesson-status'>";
     echo "	  <p class='lesson-status-item'>";
