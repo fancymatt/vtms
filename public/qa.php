@@ -12,7 +12,7 @@
 	}
 	
 	$sort_by = $db->escape_value($_GET['sort']);
-	$qa_lessons = Lesson::find_qa_lessons($sort_by);
+	$qa_lessons = Lesson::find_all_checkable_lessons($sort_by);
 ?>
 
 <?php include_layout_template('header.php'); ?>

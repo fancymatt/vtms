@@ -317,7 +317,7 @@ class Lesson extends DatabaseObject {
 				
 		return static::find_by_sql($sql);
   }
-	
+	/*
 	public static function find_all_qa_lessons() {
 		$sql  = "SELECT ";		
 		foreach (self::$db_view_fields as $k => $v) {
@@ -332,12 +332,12 @@ class Lesson extends DatabaseObject {
 		$sql .= "WHERE NOT lesson.checkedLanguage = 1 ";
 		// is_checkable
 		$sql .= "AND IF ((SELECT SUM(taskGlobal.completionValue) FROM task JOIN taskGlobal ON task.fkTaskGlobal=taskGlobal.id WHERE task.fkLesson=lesson.id AND task.isCompleted=1) >= (SELECT series.checkableAt FROM series WHERE lesson.fkLanguageSeries=languageSeries.id AND languageSeries.fkSeries=series.id), 1, 0) = 1 ";
-		$sql .= "AND LENGTH(lesson.qa_url) > 0 ";
+		//$sql .= "AND LENGTH(lesson.qa_url) > 0 ";
 		$sql .= "GROUP BY lesson.id ";
 		$sql .= "ORDER BY language.name ASC, series.title ASC ";
 		return static::find_by_sql($sql);
 	}
-	
+	*/
 	public function add_to_dropbox() {
 		global $database;
 		$current_time = new DateTime(null, new DateTimeZone('UTC'));
@@ -540,12 +540,7 @@ class Lesson extends DatabaseObject {
 		$sql .= "GROUP BY lesson.id ";
 		$sql .= "HAVING (Count(taskComment.id) - Sum(taskComment.isCompleted) = 0 ";
 		$sql .= "        OR Count(taskComment.id) < 1) ";
-		$sql .= "		AND lesson.exportedTime > ";
-		$sql .= "			(SELECT MAX(task.timeCompleted) ";
-		$sql .= "				FROM lesson sub_lesson ";
-		$sql .= "					JOIN task ";
-		$sql .= "					  ON sub_lesson.id=task.fkLesson ";
-		$sql .= "				WHERE sub_lesson.id=lesson.id) ";
+
 		
 		// Exported after last issue
 		$sql .= "		AND (lesson.exportedTime > ";
