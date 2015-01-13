@@ -531,7 +531,7 @@ class Lesson extends DatabaseObject {
 			$sql .= "JOIN ".$k." ON ".$v." ";
 			}
 		$sql .= "JOIN task ON task.fkLesson=lesson.id ";
-		$sql .= "JOIN taskComment ON taskComment.fkTask=task.id ";
+		$sql .= "LEFT JOIN taskComment ON taskComment.fkTask=task.id ";
 		$sql .= "WHERE NOT lesson.checkedLanguage = 1 ";
 		$sql .= "AND NOT lesson.filesMoved=1 ";
 		//$sql .= "AND NOT lesson.qa_url='' ";
@@ -597,7 +597,7 @@ class Lesson extends DatabaseObject {
 			$sql .= "JOIN ".$k." ON ".$v." ";
 			}
 		$sql .= "JOIN task ON task.fkLesson=lesson.id ";
-		$sql .= "JOIN taskComment ON taskComment.fkTask=task.id ";
+		$sql .= "LEFT JOIN taskComment ON taskComment.fkTask=task.id ";
 		$sql .= "WHERE NOT lesson.checkedLanguage = 1 ";
 		$sql .= "AND NOT lesson.filesMoved=1 ";
 		$sql .= "AND NOT lesson.qa_url='' ";
