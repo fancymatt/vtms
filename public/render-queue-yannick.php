@@ -77,6 +77,12 @@
 
 <?php include_layout_template('header.php'); ?>
 
+  <div>
+    <pre>
+      <?php print_r($render_queue_lessons); ?>
+    </pre>
+  </div>
+  
 	<div id="breadcrumbs" class="row">
 		<ul class="breadcrumbs">
 		  <li><a href="operations.php">Operations</a></li>
