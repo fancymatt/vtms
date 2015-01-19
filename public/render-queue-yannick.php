@@ -55,7 +55,7 @@
   // No unfixed issues
   // Last action time > last export time
   foreach($render_queue_lessons as $lesson) {
-    if(!$lesson->is_queued && $lesson->comp_value >= $lesson->checkable_at &&) {
+    if(!$lesson->is_queued && $lesson->comp_value >= $lesson->checkable_at) {
       $queuable_lessons[] = $lesson;
     }
   }
