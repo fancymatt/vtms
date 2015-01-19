@@ -47,7 +47,8 @@ class Lesson extends DatabaseObject {
 										'lesson.exportedTime' => 'exported_time',
 										'lesson.detectedTime' => 'detected_time',
 										'lesson.timeUploadedDropbox' => 'dropbox_time',
-										'lesson.ytIneligible' => 'yt_ineligible'
+										'lesson.ytIneligible' => 'yt_ineligible',
+										'series.checkableAt' => 'checkable_at'
 										);
 										
 	protected static $db_edit_fields = array('lesson.fkLanguageSeries' => 'language_series_id',
@@ -132,6 +133,45 @@ class Lesson extends DatabaseObject {
 	public $checked_language_time;
 	public $checked_video_time;
 	public $files_moved_time;
+	public $checkable_at;
+	
+	// Yannick Inspired Functions
+	// Functions meant to query for a basic subset of entries
+	// which can be further divided down with PHP, not SQL
+	public static function get_lessons_for_render_queue() {
+  	
+  	$sql  = "SELECT l.id AS id ";
+  	$sql .= ", (SELECT SUM(taskGlobal.completionValue) ";
+  	$sql .= "FROM task ";
+  	$sql .= "JOIN taskGlobal ON task.fkTaskGlobal=taskGlobal.id ";
+  	$sql .= "WHERE task.fkLesson=l.id ";
+  	$sql .= "AND task.isCompleted=1 ";
+  	$sql .= ") as comp_value ";
+  	$sql .= ", s.checkableAt as checkable_at ";
+  	$sql .= ", lang.name as language_name ";
+  	$sql .= ", s.title as series_name ";
+  	$sql .= ", l.number as number ";
+  	$sql .= ", l.publishDateSite as publish_date_site ";
+  	$sql .= ", l.publishDateYouTube as publish_date_yt ";
+  	$sql .= ", l.exportedTime as exported_time ";
+  	$sql .= ", l.queuedTime as queued_time ";
+  	$sql .= ", l.isQueued as is_queued ";
+  	$sql .= ", l.qa_log as qa_log ";
+  	$sql .= ", l.qa_url as qa_url ";
+  	$sql .= ", level.code as level_code ";
+  	$sql .= "FROM lesson l ";
+  	$sql .= "JOIN languageSeries ls on l.fkLanguageSeries=ls.id ";
+  	$sql .= "JOIN series s on ls.fkSeries=s.id ";
+  	$sql .= "JOIN language lang on ls.fkLanguage = lang.id ";
+  	$sql .= "JOIN level on ls.fkLevel=level.id ";
+  	$sql .= "WHERE NOT l.checkedLanguage = 1 ";
+  	$sql .= "AND NOT l.filesMoved = 1 ";
+  	
+  	$result = static::find_by_sql($sql);
+  	return $result;
+	}
+	
+	
 	
 	public static function find_all_lessons_for_language_series($language_series_id) {
 		$child_table_name = "lesson";
