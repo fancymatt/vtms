@@ -76,12 +76,6 @@
 ?>
 
 <?php include_layout_template('header.php'); ?>
-
-  <div>
-    <pre>
-      <?php print_r($render_queue_lessons); ?>
-    </pre>
-  </div>
   
 	<div id="breadcrumbs" class="row">
 		<ul class="breadcrumbs">
@@ -142,7 +136,7 @@
     						}
     						echo "</td>";
     						echo "<td>";
-    						echo date("M jS Y", strtotime($logged_in_user->local_time($lesson->publish_date)));
+    						echo date("M jS Y", strtotime($logged_in_user->local_time(min($lesson->publish_site, $lesson->publish_date_yt))));
     						echo "</td>";
     						echo "</tr>";	
     					}
