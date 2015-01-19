@@ -164,7 +164,7 @@ class Lesson extends DatabaseObject {
   	$sql .= "JOIN series s on ls.fkSeries=s.id ";
   	$sql .= "JOIN language lang on ls.fkLanguage = lang.id ";
   	$sql .= "JOIN level on ls.fkLevel=level.id ";
-  	$sql .= "WHERE NOT l.checkedLanguage = 1 ";
+  	//$sql .= "WHERE NOT l.checkedLanguage = 1 ";
   	$sql .= "AND NOT l.filesMoved = 1 ";
   	
   	$result = static::find_by_sql($sql);
