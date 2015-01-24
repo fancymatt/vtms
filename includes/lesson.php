@@ -47,7 +47,8 @@ class Lesson extends DatabaseObject {
 										'lesson.exportedTime' => 'exported_time',
 										'lesson.detectedTime' => 'detected_time',
 										'lesson.timeUploadedDropbox' => 'dropbox_time',
-										'lesson.ytIneligible' => 'yt_ineligible'
+										'lesson.ytIneligible' => 'yt_ineligible',
+										'series.checkableAt' => 'checkable_at'
 										);
 										
 	protected static $db_edit_fields = array('lesson.fkLanguageSeries' => 'language_series_id',
@@ -132,12 +133,146 @@ class Lesson extends DatabaseObject {
 	public $checked_language_time;
 	public $checked_video_time;
 	public $files_moved_time;
+	public $checkable_at;
+	
+	// Yannick Inspired Functions
+	// Functions meant to query for a basic subset of entries
+	// which can be further divided down with PHP, not SQL
+	public static function get_lessons_for_render_queue() {
+  	
+  	$sql  = "SELECT l.id AS id ";
+  	$sql .= ", (SELECT SUM(taskGlobal.completionValue) ";
+  	$sql .= "FROM task ";
+  	$sql .= "JOIN taskGlobal ON task.fkTaskGlobal=taskGlobal.id ";
+  	$sql .= "WHERE task.fkLesson=l.id ";
+  	$sql .= "AND task.isCompleted=1 ";
+  	$sql .= ") as comp_value ";
+  	$sql .= ", s.checkableAt as checkable_at ";
+  	$sql .= ", lang.name as language_name ";
+  	$sql .= ", s.title as series_name ";
+  	$sql .= ", l.number as number ";
+  	$sql .= ", l.publishDateSite as publish_date_site ";
+  	$sql .= ", l.publishDateYouTube as publish_date_yt ";
+  	$sql .= ", l.exportedTime as exported_time ";
+  	$sql .= ", l.queuedTime as queued_time ";
+  	$sql .= ", l.isQueued as is_queued ";
+  	$sql .= ", l.qa_log as qa_log ";
+  	$sql .= ", l.qa_url as qa_url ";
+  	$sql .= ", level.code as level_code ";
+  	$sql .= "FROM lesson l ";
+  	$sql .= "JOIN languageSeries ls on l.fkLanguageSeries=ls.id ";
+  	$sql .= "JOIN series s on ls.fkSeries=s.id ";
+  	$sql .= "JOIN language lang on ls.fkLanguage = lang.id ";
+  	$sql .= "JOIN level on ls.fkLevel=level.id ";
+  	//$sql .= "WHERE NOT l.checkedLanguage = 1 ";
+  	$sql .= "AND NOT l.filesMoved = 1 ";
+  	
+  	$result = static::find_by_sql($sql);
+  	return $result;
+	}
+	
+	//
+	//
+	//
+	
+	// ILL TV Functions
+	
+		public static function find_all_lessons_that_need_upload_to_ill_tv() {
+		$sql  = "SELECT ";
+		foreach (self::$db_view_fields as $k => $v) {
+			$sql .= $k." AS ".$v;
+			$i++;
+			$i <= count(self::$db_view_fields) - 1 ? $sql .= ", " : $sql .= " ";
+		}
+		$sql .= "FROM ".self::$table_name." ";
+		foreach (self::$db_join_fields as $k => $v) {
+			$sql .= "LEFT JOIN ".$k." ON ".$v." ";
+		}
+		$sql .= "WHERE lesson.filesMoved = 1 ";
+		$sql .= "AND NOT lesson.isUploadedForIllTv = 1 ";
+		$sql .= "AND languageSeries.onIllTv = 1 ";
+		$sql .= "GROUP BY lesson.id ";
+		$sql .= "ORDER BY series_name, language_name, level.code, lesson.number ASC ";
+		return static::find_by_sql($sql);
+	}
+	
+	public static function find_all_lessons_that_need_testing_on_ill_tv() {
+		$sql  = "SELECT ";
+		foreach (self::$db_view_fields as $k => $v) {
+			$sql .= $k." AS ".$v;
+			$i++;
+			$i <= count(self::$db_view_fields) - 1 ? $sql .= ", " : $sql .= " ";
+		}
+		$sql .= "FROM ".self::$table_name." ";
+		foreach (self::$db_join_fields as $k => $v) {
+			$sql .= "LEFT JOIN ".$k." ON ".$v." ";
+		}
+		$sql .= "WHERE lesson.isUploadedForIllTv = 1 ";
+		$sql .= "AND NOT lesson.illtvIsTested = 1 ";
+		$sql .= "GROUP BY lesson.id ";
+		$sql .= "ORDER BY series_name, language_name, level.code, lesson.number ASC ";
+		return static::find_by_sql($sql);
+	}
+	
+	public static function find_all_ready_for_ill_tv_lessons_for_langauge_series($language_series_id) {
+		$sql  = "SELECT ";		
+		foreach (self::$db_view_fields as $k => $v) {
+			$sql .= $k." AS ".$v;
+			$i++;
+			$i <= count(self::$db_view_fields) - 1 ? $sql .= ", " : $sql .= " ";
+		}
+		$sql .= "FROM ".self::$table_name." ";
+		foreach (self::$db_join_fields as $k => $v) {
+			$sql .= "LEFT JOIN ".$k." ON ".$v." ";
+			}
+		$sql .= "WHERE lesson.filesMoved = 1 ";
+		$sql .= "AND lesson.isUploadedForIllTv = 1 ";		
+		$sql .= "AND lesson.fkLanguageSeries = {$language_series_id} ";
+		$sql .= "GROUP BY lesson.id ";
+		$sql .= "ORDER BY lesson.number ASC ";
+		return static::find_by_sql($sql);
+	}
+	
+	//
+	//
+	//
+	
+	
 	
 	public static function find_all_lessons_for_language_series($language_series_id) {
 		$child_table_name = "lesson";
 		$parent_table_name = "LanguageSeries";
 		$group_by_sql = "GROUP BY lesson.id ORDER BY lesson.number ASC";
 		return self::find_all_child_for_parent($language_series_id, $child_table_name, $parent_table_name, $group_by_sql);
+	}
+	
+	public function pending_issues() {
+  	$sql  = "SELECT taskComment.id FROM taskComment ";
+  	$sql .= "JOIN task ON taskComment.fkTask=task.id ";
+  	$sql .= "WHERE task.fkLesson = {$this->id} ";
+  	$sql .= "AND taskComment.isCompleted = 0 ";
+  	$result = static::find_by_sql($sql);
+  	return count($result);
+	}
+	
+	public function past_exportable_threshold() {
+  	$series = Series::find_by_id($this->series_id);
+  	
+  	if($this->comp_value >= $series->checkable_at) {
+    	return true;
+  	} else {
+    	return false;
+  	}
+	}
+	
+	public function past_shot_threshold() {
+  	$series = Series::find_by_id($this->series_id);
+  	
+  	if($this->comp_value >= $series->shot_at) {
+    	return true;
+  	} else {
+    	return false;
+  	}
 	}
 	
 	public static function find_all_lessons_for_series($series_id) {
@@ -288,7 +423,7 @@ class Lesson extends DatabaseObject {
 				
 		return static::find_by_sql($sql);
   }
-	
+	/*
 	public static function find_all_qa_lessons() {
 		$sql  = "SELECT ";		
 		foreach (self::$db_view_fields as $k => $v) {
@@ -303,12 +438,12 @@ class Lesson extends DatabaseObject {
 		$sql .= "WHERE NOT lesson.checkedLanguage = 1 ";
 		// is_checkable
 		$sql .= "AND IF ((SELECT SUM(taskGlobal.completionValue) FROM task JOIN taskGlobal ON task.fkTaskGlobal=taskGlobal.id WHERE task.fkLesson=lesson.id AND task.isCompleted=1) >= (SELECT series.checkableAt FROM series WHERE lesson.fkLanguageSeries=languageSeries.id AND languageSeries.fkSeries=series.id), 1, 0) = 1 ";
-		$sql .= "AND LENGTH(lesson.qa_url) > 0 ";
+		//$sql .= "AND LENGTH(lesson.qa_url) > 0 ";
 		$sql .= "GROUP BY lesson.id ";
 		$sql .= "ORDER BY language.name ASC, series.title ASC ";
 		return static::find_by_sql($sql);
 	}
-	
+	*/
 	public function add_to_dropbox() {
 		global $database;
 		$current_time = new DateTime(null, new DateTimeZone('UTC'));
@@ -333,12 +468,6 @@ class Lesson extends DatabaseObject {
 			$i++;
 			$i <= count(self::$db_view_fields) - 1 ? $sql .= ", " : $sql .= " ";
 		}
-		$sql .= ', (SELECT task.id FROM task WHERE task.fkLesson = lesson.id ORDER BY task.timeCompleted DESC LIMIT 1) AS last_task_id';
-    $sql .= ', (SELECT MAX(task.timeCompleted) FROM task WHERE task.fkLesson = lesson.id) AS last_task_time ';
-    $sql .= ', (SELECT MAX(taskComment.timeCompleted) FROM taskComment JOIN task ON taskComment.fkTask=task.id WHERE task.fkLesson = lesson.id) AS last_issue_time ';
-    $sql .= ', (SELECT taskComment.id FROM taskComment JOIN task ON task.id = taskComment.fkTask WHERE task.fkLesson = lesson.id ORDER BY taskComment.timeCompleted DESC LIMIT 1) AS last_issue_id ';
-    $sql .= ', IF(IFNULL((SELECT MAX(task.timeCompleted) FROM task WHERE task.fkLesson = lesson.id),0) > IFNULL((SELECT MAX(taskComment.timeCompleted) FROM taskComment JOIN task ON taskComment.fkTask=task.id WHERE task.fkLesson = lesson.id),0), "task", "issue") AS last_action ';
-		
 		$sql .= "FROM ".self::$table_name." ";
 		foreach (self::$db_join_fields as $k => $v) {
 			$sql .= "JOIN ".$k." ON ".$v." ";
@@ -347,49 +476,6 @@ class Lesson extends DatabaseObject {
 		$sql .= "LEFT JOIN taskComment ON taskComment.fkTask=task.id ";
 		$sql .= "WHERE NOT lesson.filesMoved=1 ";
 		$sql .= "AND NOT lesson.isQueued=1 ";
-		$sql .= "GROUP BY lesson.id ";
-		
-		// All issues for this lesson have been fixed, or there were never any issues
-		$sql .= "HAVING ((Count(taskComment.id) - Sum(taskComment.isCompleted) = 0) ";
-		$sql .= "        OR Count(taskComment.id) < 1) ";
-		
-		// Current lesson completion value is greater than or equal to series' "checkable at" value 
-		$sql .= "     AND ((SELECT Sum(taskGlobal.completionValue) ";
-		$sql .= "          FROM   lesson sub_lesson ";
-		$sql .= "                 JOIN task ";
-		$sql .= "                   ON task.fkLesson = sub_lesson.id ";
-		$sql .= "                 JOIN taskGlobal ";
-		$sql .= "                   ON task.fkTaskGlobal = taskGlobal.id ";
-		$sql .= "          WHERE  task.isCompleted = 1 ";
-		$sql .= "                 AND sub_lesson.id = lesson.id) >= ";
-		$sql .= "         (SELECT series.checkableAt ";
-		$sql .= "           FROM  lesson sub_lesson ";
-		$sql .= "                 JOIN languageSeries ";
-		$sql .= "                   ON sub_lesson.fkLanguageSeries = languageSeries.id ";
-		$sql .= "             	  JOIN series ";
-		$sql .= "                   ON languageSeries.fkSeries = series.id ";
-		$sql .= "			WHERE  lesson.id = sub_lesson.id)) ";
-		
-		// Last issue fixed time OR last task finished time is greater than last exported time
-		$sql .= "	AND (( ";
-		$sql .= "		lesson.exportedTime < ";
-		$sql .= "			(SELECT MAX(task.timeCompleted) ";
-		$sql .= "				FROM lesson sub_lesson ";
-		$sql .= "					JOIN task ";
-		$sql .= "					  ON sub_lesson.id=task.fkLesson ";
-		$sql .= "				WHERE sub_lesson.id=lesson.id) ";
-		$sql .= "  		) OR ( ";
-		$sql .= "		lesson.exportedTime < ";
-		$sql .= "			(SELECT MAX(taskComment.timeCompleted) ";
-		$sql .= "				FROM lesson sub_lesson ";
-		$sql .= "					JOIN task ";
-		$sql .= "					  ON sub_lesson.id=task.fkLesson ";
-		$sql .= "					JOIN taskComment ";
-		$sql .= "					  ON task.id=taskComment.fkTask ";
-		$sql .= "				WHERE sub_lesson.id=lesson.id) ";
-		$sql .= "  		) OR ( ";
-		$sql .= "		lesson.exportedTime < 1 )) ";
-		//$sql .= "ORDER BY lesson.publishDateSite DASC ";
 		
 		return static::find_by_sql($sql);
 	}
@@ -484,7 +570,7 @@ class Lesson extends DatabaseObject {
 			$sql .= "JOIN ".$k." ON ".$v." ";
 			}
 		$sql .= "JOIN task ON task.fkLesson=lesson.id ";
-		$sql .= "JOIN taskComment ON taskComment.fkTask=task.id ";
+		$sql .= "LEFT JOIN taskComment ON taskComment.fkTask=task.id ";
 		$sql .= "WHERE NOT lesson.checkedVideo = 1 ";
 		$sql .= "AND lesson.checkedLanguage = 1 ";
 		$sql .= "AND NOT lesson.filesMoved = 1 ";
@@ -553,7 +639,7 @@ class Lesson extends DatabaseObject {
 			$sql .= "JOIN ".$k." ON ".$v." ";
 			}
 		$sql .= "JOIN task ON task.fkLesson=lesson.id ";
-		$sql .= "JOIN taskComment ON taskComment.fkTask=task.id ";
+		$sql .= "LEFT JOIN taskComment ON taskComment.fkTask=task.id ";
 		$sql .= "WHERE NOT lesson.checkedLanguage = 1 ";
 		$sql .= "AND NOT lesson.filesMoved=1 ";
 		//$sql .= "AND NOT lesson.qa_url='' ";
@@ -562,12 +648,7 @@ class Lesson extends DatabaseObject {
 		$sql .= "GROUP BY lesson.id ";
 		$sql .= "HAVING (Count(taskComment.id) - Sum(taskComment.isCompleted) = 0 ";
 		$sql .= "        OR Count(taskComment.id) < 1) ";
-		$sql .= "		AND lesson.exportedTime > ";
-		$sql .= "			(SELECT MAX(task.timeCompleted) ";
-		$sql .= "				FROM lesson sub_lesson ";
-		$sql .= "					JOIN task ";
-		$sql .= "					  ON sub_lesson.id=task.fkLesson ";
-		$sql .= "				WHERE sub_lesson.id=lesson.id) ";
+
 		
 		// Exported after last issue
 		$sql .= "		AND (lesson.exportedTime > ";
@@ -624,7 +705,7 @@ class Lesson extends DatabaseObject {
 			$sql .= "JOIN ".$k." ON ".$v." ";
 			}
 		$sql .= "JOIN task ON task.fkLesson=lesson.id ";
-		$sql .= "JOIN taskComment ON taskComment.fkTask=task.id ";
+		$sql .= "LEFT JOIN taskComment ON taskComment.fkTask=task.id ";
 		$sql .= "WHERE NOT lesson.checkedLanguage = 1 ";
 		$sql .= "AND NOT lesson.filesMoved=1 ";
 		$sql .= "AND NOT lesson.qa_url='' ";
@@ -721,6 +802,15 @@ class Lesson extends DatabaseObject {
 		echo $this->language_name . " - " . $this->series_name . " (" . $this->level_code . ") #" . $this->number;
 	}
 	
+	public function display_full_lesson_with_link() {
+  	$output  = "<a href='lesson.php?id=";
+  	$output .= $this->id;
+  	$output .= "'>";
+  	$output .= $this->language_name . " - " . $this->series_name . " (" . $this->level_code . ") #" . $this->number;
+  	$output .= "</a>";
+  	return $output;
+	}
+	
 	public function display_list_of_issues_with_link() {
 		$issues = Issue::get_unfinished_issues_for_lesson($this->id);
 		echo "<a href='issues-for-lesson.php?id=".$this->id."'>Issues: ".count($issues)."</a>";
@@ -755,20 +845,21 @@ class Lesson extends DatabaseObject {
 	}
 	
 	public function display_lesson_status_bar() {
+  	$issues = $this->pending_issues();
+  	
 	  echo "<div class='lesson-production'>";
 	  echo "  <div class='lesson-issues'>";
-  	$issues = Issue::get_unfinished_issues_for_lesson($this->id);
-  	echo "    <a class='issues-bar' href='#'>Issues: ".count($issues)."</a>";
+  	echo "    <a class='issues-bar' href='#'>Issues: ".$issues."</a>";
   	echo "  </div>";
 	  echo "  <div class='lesson-status'>";
     echo "	  <p class='lesson-status-item'>";
   	echo "      <img src='";
-  	echo $this->is_shot ? 'img/lesson-status-yes-shot.png' : 'img/lesson-status-not-shot.png';
+  	echo $this->past_shot_threshold() ? 'img/lesson-status-yes-shot.png' : 'img/lesson-status-not-shot.png';
   	echo "'>";
   	echo "    </p>";
   	echo "    <p class='lesson-status-item'>";
   	echo "      <img src='";
-  	echo $this->is_checkable ? 'img/lesson-status-yes-checkable.png' : 'img/lesson-status-not-checkable.png';
+  	echo $this->past_exportable_threshold() ? 'img/lesson-status-yes-checkable.png' : 'img/lesson-status-not-checkable.png';
   	echo "'>";
   	echo "    </p>";
   	echo "	  <p class='lesson-status-item'>";

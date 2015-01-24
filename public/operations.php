@@ -36,8 +36,8 @@
 		$lesson->add_to_dropbox();
 	}
 	
-	$exportable_lessons = count(Lesson::find_all_exportable_lessons());
-	$queued_lessons = count(Lesson::find_all_queued_lessons());
+	//$exportable_lessons = count(Lesson::find_all_exportable_lessons());
+	//$queued_lessons = count(Lesson::find_all_queued_lessons());
 	
 	$moveable_lessons = count(Lesson::find_all_moveable_lessons());
 	$language_checked_lessons = count(Lesson::find_all_ready_to_video_check_lessons());
@@ -74,8 +74,8 @@
 	<div class="small-12 medium-8 medium-centered columns">
 	<div id="panels" class="row">	
 		<div id="export-queue" class="panel small-12 medium-6 columns">
-			<p>Ready to Render: <strong><?php echo $exportable_lessons; ?></strong></p>
-			<p>Currently in Queue: <strong><?php echo $queued_lessons; ?></strong></p>
+  		<p>I load too slowly if</p>
+  		<p>I calculate these numbers :(</p>
 			<p><a href="render-queue.php">Go to Render Page</a></p>
 		</div>
 		<div id="video-checking" class="panel small-12 medium-6 columns">

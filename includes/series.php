@@ -36,5 +36,21 @@ class Series extends DatabaseObject {
 		$series = Series::find_by_id($series_id);
 		return $series->title;
 	}
+	
+	public static function generate_render_threshold_array() {
+  	$output = [];
+  	
+  	$sql  = "SELECT ";		
+		$sql .= "series.id as id, ";
+		$sql .= "series.checkableAt as checkable_at ";
+		$sql .= "FROM ".self::$table_name." ";
+		$result = static::find_by_sql($sql);
+		foreach($result as $row) {
+  		$output[$row->id] = $row->checkable_at;
+		}
+		
+		return $output;
+	}
+	
 }
 ?>
