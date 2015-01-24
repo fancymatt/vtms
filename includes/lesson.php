@@ -48,7 +48,10 @@ class Lesson extends DatabaseObject {
 										'lesson.detectedTime' => 'detected_time',
 										'lesson.timeUploadedDropbox' => 'dropbox_time',
 										'lesson.ytIneligible' => 'yt_ineligible',
-										'series.checkableAt' => 'checkable_at'
+										'series.checkableAt' => 'checkable_at',
+										'lesson.isUploadedForIllTv' => 'is_uploaded_ill_tv',
+                    'lesson.illtvTestDate' => 'ill_tv_test_date',
+                    'lesson.illtvIsTested' => 'ill_tv_is_tested'
 										);
 										
 	protected static $db_edit_fields = array('lesson.fkLanguageSeries' => 'language_series_id',
@@ -75,7 +78,10 @@ class Lesson extends DatabaseObject {
 											'lesson.detectedTime' => 'detected_time',
 											'lesson.publishDateSite' => 'publish_date_site',
 											'lesson.publishDateYouTube' => 'publish_date_yt',
-											'lesson.timeUploadedDropbox' => 'dropbox_time'
+											'lesson.timeUploadedDropbox' => 'dropbox_time',
+											'lesson.isUploadedForIllTv' => 'is_uploaded_ill_tv',
+                      'lesson.illtvTestDate' => 'ill_tv_test_date',
+                      'lesson.illtvIsTested' => 'ill_tv_is_tested'
 											);
 										
 	protected static $db_join_fields = array('languageSeries' => 'languageSeries.id=lesson.fkLanguageSeries',
@@ -134,6 +140,9 @@ class Lesson extends DatabaseObject {
 	public $checked_video_time;
 	public $files_moved_time;
 	public $checkable_at;
+	public $is_uploaded_ill_tv;
+	public $ill_tv_test_date;
+  public $ill_tv_is_tested;
 	
 	// Yannick Inspired Functions
 	// Functions meant to query for a basic subset of entries
