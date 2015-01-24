@@ -80,5 +80,47 @@ class LanguageSeries extends DatabaseObject {
 		echo "</a>";
 	}
 	
-}
+		public function generate_ill_tv_code() {
+  	
+    	$language = Language::find_by_id($this->language_id);
+    	$language_name = strtolower($language->name);
+    	$url = $language->site_url_short;
+    		
+    	$output  = "";
+    	$output .= "<rss xmlns:media=\"http://search.yahoo.com/mrss/\" xmlns:creativeCommons=\"http://backend.userland.com/creativeCommonsRssModule\" version=\"2.0\">\n";
+    	$output .= "<channel>\n";
+    	$output .= "<title>{$this->language_series_title}</title>\n";
+    	$output .= "<link/>\n";
+    	$output .= "<description></description>\n";
+    	
+    	$lessons = Lesson::find_all_ready_for_ill_tv_lessons_for_langauge_series($this->id);
+    	foreach($lessons as $lesson) {
+      	
+      	$code = $lesson->lesson_code();
+      	
+      	$output .= "<item>\n";
+      	$output .= "<title>{$lesson->title}</title>\n";
+      	$output .= "<guid isPermaLink=\"false\">";
+      	$output .= $code;
+      	$output .= "</guid>\n";
+      	$output .= "<description></description>\n";
+      	$output .= "<media:group>\n";
+      	$output .= "<media:content url=\"http://media.libsyn.com/media/{$url}/{$code}-h.mp4\" bitrate=\"1200\" ";
+      	$output .= "duration=\"{$lesson->trt}\" medium=\"video\" type=\"video/quicktime\"/>\n";
+      	$output .= "<media:content url=\"http://media.libsyn.com/media/{$url}/{$code}-m.mp4\" bitrate=\"800\" ";
+      	$output .= "duration=\"{$lesson->trt}\" medium=\"video\" type=\"video/quicktime\"/>\n";
+      	$output .= "<media:content url=\"http://media.libsyn.com/media/{$url}/{$code}-l.mp4\" bitrate=\"500\" ";
+      	$output .= "duration=\"{$lesson->trt}\" medium=\"video\" type=\"video/quicktime\"/>\n";
+      	$output .= "</media:group>\n";
+      	$output .= "<media:thumbnail url=\"http://assets.languagepod101.com/roku/images/thumbs/{$language_name}/{$code}-thumb.png\"/>\n";
+      	$output .= "</item>\n";
+    	}
+      $output .= "</channel>\n";
+      $output .= "</rss>";
+    	
+    	return $output;
+
+	  }
+	
+  }
 ?>

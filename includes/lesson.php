@@ -233,6 +233,25 @@ class Lesson extends DatabaseObject {
 		return static::find_by_sql($sql);
 	}
 	
+	public function lesson_code() {
+  	
+  	$series = Series::find_by_id($this->series_id);
+  	
+  	$output  = "";
+  	$output .= strtolower(substr($this->language_name,0,3));
+  	$output .= "_";
+  	$output .= $series->code;
+  	if($series->level_significant) {
+    	$output .= "-";
+    	$output .= $this->level_code;
+  	}
+  	$output .= "_";
+  	if($this->number < 10) { $output .= "0"; }
+  	$output .= $this->number;
+  	
+  	return $output;
+	}
+	
 	//
 	//
 	//

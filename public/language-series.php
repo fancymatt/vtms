@@ -7,7 +7,7 @@
 	$language = Language::find_by_id($language_series->language_id);
 	$language_series_lessons = Lesson::find_all_lessons_for_language_series($language_series_id);
 
-	//$ill_tv_code = $language_series->generate_ill_tv_code();
+	$ill_tv_code = $language_series->generate_ill_tv_code();
 ?>
 <?php $page_title = ucwords($language->code)." ".ucwords($series->code); ?>
 
