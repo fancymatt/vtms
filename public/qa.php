@@ -37,7 +37,13 @@
       <ol class="group">
       <?php
 					foreach($render_queue_lessons as $lesson) : ?>
-					<div class="group-item<?php if (strtotime($lesson->publish_date) < time()) { 
+					<?php 
+      				$yt_date = $lesson->publish_date_yt > 0 ? $lesson->publish_date_yt : INF;
+      				$site_date = $lesson->publish_date_site > 0 ? $lesson->publish_date_site : INF;
+      				$no_date = $lesson->publish_date_yt < 1 && $lesson->publish_date_site < 1 ? true : false;
+      				$due_date = min([$yt_date, $site_date])
+      		  ?>
+					<div class="group-item<?php if (strtotime($due_date) < time()) { 
                                       echo " overdue"; 
                                       } else if (strpos(strtolower($lesson->qa_log), "approved") !== false) {
                                       echo " ready";
@@ -55,19 +61,14 @@
                 <input type="text" name="qa_url" size=40 value="<?php echo $lesson->qa_url; ?>">
     				  </div>
     				</div>
-    				<?php 
-      				$yt_date = $lesson->publish_date_yt > 0 ? $lesson->publish_date_yt : INF;
-      				$site_date = $lesson->publish_date_site > 0 ? $lesson->publish_date_site : INF;
-      				$no_date = $lesson->publish_date_yt < 1 && $lesson->publish_date_site < 1 ? true : false;
-      		?>
-    				
+    				   				
     				<p class="date">
       				<?php 
         				echo "Due ";
         				if($no_date) { 
           				echo "No date"; 
           		  } else {
-            		  echo min([$yt_date, $site_date]);
+            		  echo $due_date;
             		} 
               ?>
             </p>
