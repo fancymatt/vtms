@@ -23,51 +23,77 @@
 	</div>
 	<?php } ?>
 	
-	<div id="shifts" class="small-12 columns">
-		<h3 class="group-heading">QA Lessons</h3>
-    <ol class="group">
-    <?php
-    foreach($render_queue_lessons as $lesson) : ?>
-      <div class="qa-group-item">
-				<div class="lesson-info">
-  				<p class="lesson-title">
-          <?php 
-    				echo $lesson->language_name . " ";
-    				echo $lesson->series_name . " (" . $lesson->level_code . ") ";
-    				echo " - #" . $lesson->number; 
-  				?>
-  				</p>
-				</div>
-				<div class="qa-input">
-  				<div class="row collapse">
-            <div class="small-6 medium-5 columns">
-              <form action="qa.php" method="post">
-              <input type="text" name="qa_log" class="qa" placeholder="The current status of this video" value="<?php echo $lesson->qa_log; ?>">
-            </div>
-            <div class="small-6 medium-3 columns">
-              <input type="text" name="qa_url" class="qa" placeholder="The URL of the checkable video" value="<?php echo $lesson->qa_url; ?>">
-            </div>
-            <div class="small-12 medium-4 columns">
-              <ul class="button-group">
-                <li>
-                  <input type="hidden" name="qa_lesson_id" value="<?php echo $lesson->id; ?>">
-                  <input type="submit" name="changed_qa" class="button" value="Update QA Log">
-                  </form>
-                </li>
-                <li>
-                  <a href="issues-for-lesson.php?id=<?php echo $lesson->id; ?>" class="button alert">Add Issue</a>
-                </li>
-              </ul>
-              
-            </div>
-            <div class="small-6 medium-10 columns">
-              
-            </div>
+  <div id="page-header" class="row">
+		<div class="small-12 columns">
+			<h3>QA Lessons</h3>
+		</div>
+	</div>
+	
+	<div class="row">
+    <div id="admin-qa" class="small-12 columns">
+  		<h3 class="group-heading">Waiting for Language Check</h3>
+      <?php
+      if($render_queue_lessons) { ?>
+      <ol class="group">
+      <?php
+					foreach($render_queue_lessons as $lesson) : ?>
+					<div class="group-item<?php if (strtotime($lesson->publish_date) < time()) { 
+                                      echo " overdue"; 
+                                      } else if (strpos(strtolower($lesson->qa_log), "approved") !== false) {
+                                      echo " ready";
+                                      } ?>">
+  		    <div class="lesson-info">
+    				<a class="lesson-title" href="lesson.php?id=<?php echo $lesson->id; ?>"><?php echo $lesson->display_full_lesson(); ?></a>
+    				<div class="qa-status">
+    				  <div class="small-2 columns">
+    				    <form action='qa.php' method='post'>
+      				  <label for="qa-log" class="inline">QA Log: </label>
+      				  <label for="qa-url" class="inline">QA URL: </label>
+    				  </div>
+    				  <div class="small-10 columns">
+      				  <input type="text" name="qa_log" size=40 value="<?php echo $lesson->qa_log; ?>">
+                <input type="text" name="qa_url" size=40 value="<?php echo $lesson->qa_url; ?>">
+    				  </div>
+    				</div>
+    				<?php 
+      				$yt_date = $lesson->publish_date_yt > 0 ? $lesson->publish_date_yt : INF;
+      				$site_date = $lesson->publish_date_site > 0 ? $lesson->publish_date_site : INF;
+      				$no_date = $lesson->publish_date_yt < 1 && $lesson->publish_date_site < 1 ? true : false;
+      		?>
+    				
+    				<p class="date">
+      				<?php 
+        				echo "Due ";
+        				if($no_date) { 
+          				echo "No date"; 
+          		  } else {
+            		  echo min([$yt_date, $site_date]);
+            		} 
+              ?>
+            </p>
+    				<p class="date"><?php echo "Exported ".$lesson->exported_time; ?></p>
+  				</div>
+  				<div class="actions">
+  				  <li class="action-item">
+  				    <a href="issues-for-lesson.php?id=<?php echo $lesson->id; ?>">Add Issue</a>
+  				  </li>
+  					<li class="action-item">
+							<input type='hidden' name='qa_lesson_id' value='<?php echo $lesson->id; ?>'>
+              <input type="submit" value="Update QA" class="no-format" name="changed_qa" data-tooltip class="has-tip" title="Update QA Log">
+  						</form>
+  					</li>
+    			</div>
+        </div>
+      <?php endforeach; ?>
+      </ol>
+      <?php } else { ?>
+        <div class="group-item">
+          <div class="lesson-info">
+            <a class="lesson-title" href="#">No QA Lessons at the moment.</a>
           </div>
-  		  </div>
-  		</div>
-    <?php endforeach; ?>
-    </ol>
-  </div>
-
+        </div>
+      <?php } ?>
+    </div>
+	</div>
+					
 <?php include_layout_template('footer.php'); ?>

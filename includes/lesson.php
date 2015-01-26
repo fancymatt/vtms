@@ -189,6 +189,9 @@ class Lesson extends DatabaseObject {
   	$sql .= ", l.qa_log as qa_log ";
   	$sql .= ", l.qa_url as qa_url ";
   	$sql .= ", level.code as level_code ";
+  	$sql .= ", l.publishDateSite as publish_date_site ";
+  	$sql .= ", l.publishDateYouTube as publish_date_yt ";
+  	$sql .= ", l.exportedTime as exported_time ";
   	$sql .= "FROM lesson l ";
   	$sql .= "JOIN languageSeries ls on l.fkLanguageSeries=ls.id ";
   	$sql .= "JOIN series s on ls.fkSeries=s.id ";
