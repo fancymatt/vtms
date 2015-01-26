@@ -6133,20 +6133,15 @@ div.qa-group-item div.qa-input div {
 
 div.qa-group-item div.qa-input div div input {
   float: left;
-  font-size: 11px;
-  height: 25px;
+  font-size: 15px;
   padding-left: 6px;
+  height: 51px;
 }
 
 div.qa-group-item div.qa-input div div span {
   float: left;
-  font-size: 11px;
-  height: 25px;
-}
-
-input.qa {
-  font-size: 11px;
-  height: 25px;
+  font-size: 13px;
+  height: 30px;
 }
 
 div.lesson-info p.lesson-title {
