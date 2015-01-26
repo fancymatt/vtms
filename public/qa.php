@@ -11,12 +11,8 @@
 		redirect_to('qa.php');
 	}
 	
-	if(!isset($_GET['sort'])) {
-  	$sort_by = "abc";
-	} else {
-  	$sort_by = $db->escape_value($_GET['sort']);
-	}
-	$qa_lessons = Lesson::find_all_checkable_lessons($sort_by);
+	$render_queue_lessons = Lesson::get_lessons_for_qa($sort_by);
+	
 ?>
 
 <?php include_layout_template('header.php'); ?>
@@ -28,11 +24,44 @@
 	</div>
 	<?php } ?>
 	
-  <div id="page-header" class="row">
-		<div class="small-12 columns">
-			<h3>QA Lessons</h3>
-		</div>
-	</div>
+	<div id="shifts" class="small-12 columns">
+		<h3 class="group-heading">QA Lessons</h3>
+    <ol class="group qa-group">
+    <?php
+    foreach($render_queue_lessons as $lesson) : ?>
+      <div class="group-item">
+        <div class="member">
+				</div>
+				<div class="issue-info">
+  				<p class="lesson-title">
+          <?php 
+    				echo $lesson->language_name . " ";
+    				echo $lesson->series_name . " (" . $lesson->level_code . ") ";
+    				echo " - #" . $lesson->number; 
+  				?>
+  				</p>
+				</div>
+				<div class="activity-list">
+    		  <div class="large-5 column">
+    		    <label>QA Log: 
+    		      <input type="text" name="qa_log">
+    		    </label>
+    		  </div>
+    		  <div class="large-5 column">
+      		  <label>QA URL: 
+      		    <input type="text" name="qa_url">  
+      		  </label> 		  
+      		</div>
+  		  </div>
+  		</div>
+    <?php endforeach; ?>
+    </ol>
+  </div>
+  
+    
+	<?php /*
+	
+	
 	
 	<div class="row">
     <div id="admin-qa" class="small-12 columns">
@@ -86,4 +115,6 @@
     </div>
 	</div>
 					
+*/ ?>
+
 <?php include_layout_template('footer.php'); ?>

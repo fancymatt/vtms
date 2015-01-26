@@ -180,6 +180,30 @@ class Lesson extends DatabaseObject {
   	return $result;
 	}
 	
+	public static function get_lessons_for_qa($sort_by) {
+  	
+  	$sql  = "SELECT l.id AS id ";
+  	$sql .= ", lang.name as language_name ";
+  	$sql .= ", s.title as series_name ";
+  	$sql .= ", l.number as number ";
+  	$sql .= ", l.qa_log as qa_log ";
+  	$sql .= ", l.qa_url as qa_url ";
+  	$sql .= ", level.code as level_code ";
+  	$sql .= "FROM lesson l ";
+  	$sql .= "JOIN languageSeries ls on l.fkLanguageSeries=ls.id ";
+  	$sql .= "JOIN series s on ls.fkSeries=s.id ";
+  	$sql .= "JOIN language lang on ls.fkLanguage = lang.id ";
+  	$sql .= "JOIN level on ls.fkLevel=level.id ";
+  	$sql .= "WHERE NOT l.checkedLanguage = 1 ";
+  	$sql .= "AND l.exportedTime > 0 ";
+    $sql .= "ORDER BY lang.name ASC, s.title ASC, level.code ASC, l.number ASC ";
+  	
+  	$result = static::find_by_sql($sql);
+  	return $result;
+  	
+	}
+	
+	
 	//
 	//
 	//
