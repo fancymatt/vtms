@@ -6115,6 +6115,124 @@ div.group-header {
     margin: 7px; }
     div.group-header div.group-item-sort-options a {
       margin-right: 5px; }
+      
+      
+div.qa-group-item {
+  border-bottom: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  background: #f7fbfc;
+  border-collapse: collapse;
+  overflow: hidden; }
+  
+div.qa-group-item div.qa-input div {
+  float: left;
+  font-size: 11px;
+  padding: 3px;
+}
+
+div.qa-group-item div.qa-input div div input {
+  float: left;
+  font-size: 11px;
+  height: 25px;
+  padding-left: 6px;
+}
+
+div.qa-group-item div.qa-input div div span {
+  float: left;
+  font-size: 11px;
+  height: 25px;
+}
+
+input.qa {
+  font-size: 11px;
+  height: 25px;
+}
+
+div.lesson-info p.lesson-title {
+  margin-bottom: 0em;
+  background: #ddd;
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: left;
+  color: black;
+  padding-left: 5px;
+  width: 100%; 
+}
+
+  div.qa-group-item div.member {
+    margin: 3px;
+    border: 1px solid #ddd;
+    float: left; }
+    div.qa-group-item div.member div.member-image {
+      background: #fff;
+      height: 40px;
+      text-align: center; }
+    div.qa-group-item div.member p.member-name {
+      background: #ddd;
+      text-align: center;
+      height: 20px;
+      margin-bottom: 0em;
+      font-size: 10px;
+      text-transform: uppercase;
+      padding-top: 2px; }
+      div.qa-group-item div.member p.member-name a {
+        color: black; }
+  div.qa-group-item div.group-item-body div.group-item-header {
+    margin: 3px;
+    border: 1px solid #ddd;
+    background: #f4f4f4;
+    overflow: hidden; }
+    div.qa-group-item div.group-item-body div.group-item-header h3.group-item-title {
+      display: block;
+      font-size: 14px;
+      font-weight: bold;
+      text-align: left;
+      color: black;
+      padding-left: 5px; }
+  div.qa-group-item div.group-item-body p.status-prompt {
+    padding-top: 5px;
+    font-size: 1.5em;
+    text-align: center;
+    font-family: serif; }
+  div.qa-group-item div.group-item-body input[type=text] {
+    font-size: 1em;
+    font-family: sans-serif; }
+  div.qa-group-item div.group-item-body div.group-item-content div.group-item-metadata {
+    min-width: 150px;
+    vertical-align: top;
+    display: table-cell;
+    padding: 7px;
+    margin: 10px; }
+    div.qa-group-item div.group-item-body div.group-item-content div.group-item-metadata p {
+      font-size: 12px;
+      line-height: 1em;
+      margin-bottom: .75em; }
+  div.qa-group-item div.group-item-body div.group-item-content div.group-item-text {
+    display: table-cell;
+    width: 100%; }
+    div.qa-group-item div.group-item-body div.group-item-content div.group-item-text p {
+      background: white;
+      padding: 5px;
+      font-size: 12px;
+      border: dotted 1px #ddd;
+      word-break: break-word; }
+  div.qa-group-item div.group-item-body div.group-item-content div.group-item-actions {
+    vertical-align: top;
+    text-align: right;
+    margin: 10px;
+    margin-top: 0px; }
+  div.qa-group-item div.group-item-body div.group-item-content div.group-item-log {
+    margin: 10px;
+    font-size: 12px;
+    font-family: sans-serif; }
+    div.qa-group-item div.group-item-body div.group-item-content div.group-item-log label {
+      margin: 0px; }
+    div.qa-group-item div.group-item-body div.group-item-content div.group-item-log input[type=text] {
+      margin: 0px; }
+
+
 
 div.group-item {
   border-bottom: 1px solid #ccc;
