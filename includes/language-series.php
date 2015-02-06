@@ -112,7 +112,7 @@ class LanguageSeries extends DatabaseObject {
       	$output .= "<media:content url=\"http://media.libsyn.com/media/{$url}/{$code}-l.mp4\" bitrate=\"500\" ";
       	$output .= "duration=\"{$lesson->trt}\" medium=\"video\" type=\"video/quicktime\"/>\n";
       	$output .= "</media:group>\n";
-      	$output .= "<media:thumbnail url=\"http://assets.languagepod101.com/roku/images/thumbs/{$language_name}/{$code}-thumb.png\"/>\n";
+      	$output .= "<media:thumbnail url=\"http://products.innovativelanguage.com/roku/images/thumbs/{$language_name}/{$code}-thumb.png\"/>\n";
       	$output .= "</item>\n";
     	}
       $output .= "</channel>\n";
