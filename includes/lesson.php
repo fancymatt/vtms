@@ -206,6 +206,19 @@ class Lesson extends DatabaseObject {
   	
 	}
 	
+	public static function get_comp_value($lesson_id) {
+  	global $db;
+  	$sql  = "(SELECT SUM(taskGlobal.completionValue)";
+  	$sql .= " FROM task ";
+  	$sql .= " JOIN taskGlobal ON task.fkTaskGlobal=taskGlobal.id";
+  	$sql .= " WHERE task.fkLesson={$lesson_id}";
+  	$sql .= " AND IF(taskGlobal.isAsset=1, task.isDelivered=1, task.isCompleted=1))";
+  	
+  	$result = $db->query($sql);
+  	
+  	return mysql_fetch_row($result)[0];
+	}
+	
 	
 	//
 	//
@@ -308,6 +321,32 @@ class Lesson extends DatabaseObject {
   	$sql .= "AND taskComment.isCompleted = 0 ";
   	$result = static::find_by_sql($sql);
   	return count($result);
+	}
+	
+	public static function all_tasks_complete($lesson_id) {
+  	global $db;
+  	$sql  = "SELECT task.isCompleted AS is_completed";
+  	$sql .= ", task.isDelivered AS is_delivered";
+  	$sql .= ", taskGlobal.isAsset AS is_asset";
+  	$sql .= " FROM task";
+  	$sql .= " JOIN lesson ON lesson.id = task.fkLesson ";
+  	$sql .= " JOIN taskGlobal ON task.fkTaskGlobal = taskGlobal.id";
+  	$sql .= " WHERE task.fkLesson = {$lesson_id}";
+  	
+  	$result = $db->query($sql);
+  	  	  	
+  	while($row = mysql_fetch_object($result)) {
+    	if($row->is_asset) {
+      	if(!$row->is_delivered) {
+        	return false;
+      	}
+    	} else {
+      	if(!$row->is_completed) {
+        	return false;
+      	}
+    	}
+  	}
+  	return true;
 	}
 	
 	public function past_exportable_threshold() {
@@ -609,6 +648,41 @@ class Lesson extends DatabaseObject {
 		$sql .= "ORDER BY lesson.detectedTime DESC ";
 		
 		return static::find_by_sql($sql);
+	}
+	
+	public static function find_all_video_check_page_lessons() {
+  	// All lessons relevant to admin_video_check.php
+  	// checked language and not files moved
+  	$sql  = "SELECT ";
+  	$sql .= "l.id AS id";
+  	$sql .= ", l.fkLanguageSeries AS language_series_id";
+  	$sql .= ", Least(Coalesce(Nullif(l.publishDateSite, 0),
+              Nullif(l.publishDateYouTube, 0)
+              ), Coalesce(Nullif(l.publishDateYouTube, 0),
+                Nullif(l.publishDateSite, 0))) AS publish_date";
+    $sql .= ", l.exportedTime AS exported_time";
+  	$sql .= ", l.queuedTime AS queued_time";
+  	$sql .= ", l.number AS number";
+  	$sql .= ", l.title AS title";
+  	$sql .= ", l.checkedLanguage AS checked_language";
+  	$sql .= ", l.checkedVideo AS checked_video";
+  	$sql .= ", l.filesMoved AS files_moved";
+  	$sql .= ", ls.seriesTitle AS language_series_title";
+  	$sql .= ", lang.id AS language_id";
+  	$sql .= ", lang.name AS language_name";
+  	$sql .= ", level.code AS level_code";
+  	$sql .= ", s.id AS series_id";
+  	$sql .= ", s.title AS series_name";
+  	$sql .= " FROM lesson l ";
+  	$sql .= "JOIN languageSeries ls on l.fkLanguageSeries=ls.id ";
+  	$sql .= "JOIN language lang on ls.fkLanguage = lang.id ";
+  	$sql .= "JOIN level on ls.fkLevel=level.id ";
+    $sql .= "JOIN series s on ls.fkSeries=s.id ";
+  	$sql .= "WHERE l.checkedLanguage = 1 ";
+  	$sql .= "AND NOT l.filesMoved = 1 ";
+    $sql .= "ORDER BY lang.name ASC, s.title ASC, level.code ASC, l.number ASC ";
+    
+    return static::find_by_sql($sql);
 	}
 	
 	public static function find_all_ready_to_video_check_lessons($sort_by='abc') {

@@ -37,6 +37,15 @@ class Series extends DatabaseObject {
 		return $series->title;
 	}
 	
+	public static function get_series_total_completion_value($series_id) {
+  	global $db;
+  	$sql  = "SELECT SUM(taskGlobal.completionValue) FROM series";
+  	$sql .= " JOIN taskGlobal ON series.id = taskGlobal.fkSeries";
+  	$sql .= " WHERE series.id = " . $series_id;
+  	$result = $db->query($sql);
+  	return mysql_fetch_row($result)[0];
+	}
+	
 	public static function generate_render_threshold_array() {
   	$output = [];
   	
