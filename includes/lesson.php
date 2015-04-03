@@ -922,7 +922,7 @@ class Lesson extends DatabaseObject {
 			}
 		$sql .= "WHERE lesson.filesMoved = 1 ";
 		$sql .= "AND lesson.trt < 1 ";
-		$sql .= "ORDER BY lesson.publishDateSite ASC ";
+		$sql .= "ORDER BY series.title ASC, language.name ASC, level.number ASC, lesson.number ASC ";
 		
 		return static::find_by_sql($sql);
 	}
